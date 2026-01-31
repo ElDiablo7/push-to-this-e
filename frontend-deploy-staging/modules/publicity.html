@@ -1,0 +1,150 @@
+<section class="module-section publicity-container">
+  <div class="module-header">
+    <div class="module-logo-slot"><span class="module-logo-text">📰</span></div>
+    <div class="module-header-text">
+      <h1 class="module-title">Publicity & Marketing</h1>
+      <p class="module-subtitle">EPK + Social + Unit Publicist - still pulls, approvals, release schedule</p>
+    </div>
+  </div>
+
+  <div class="builder-card" id="publicity-brain-card">
+    <h2>🧠 Publicity AI</h2>
+    <p class="hint">Ask about press releases, social media, or EPK planning.</p>
+    <div class="module-brain" id="publicity-brain-panel">
+      <div id="publicity-brain-output" class="brain-output">
+        <div class="brain-message brain-message-system">I'm your Publicity AI. I manage EPK, social media, and press materials. What do you need?</div>
+      </div>
+      <div class="brain-input-row">
+        <button type="button" class="brain-mic-btn" id="publicity-brain-mic" title="Voice input">🎙️</button>
+        <input id="publicity-brain-input" type="text" placeholder="e.g. 'Schedule EPK interviews for next week'"/>
+        <button id="publicity-brain-send">Ask</button>
+        <button type="button" class="brain-context-btn" title="Read placeholders and current values so the brain can calculate">📋 Use page context</button>
+      </div>
+      <div class="brain-actions"><button class="builder-btn" id="publicity-brain-clear">Clear conversation</button></div>
+    </div>
+  </div>
+
+  <div class="builder-card">
+    <h2>📸 Still Photo Gallery</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Shoot Date<input type="date" id="pub-still-date"></label>
+      <label>Scene<input type="text" id="pub-still-scene" placeholder="Scene number"></label>
+      <label>Photographer<input type="text" id="pub-still-photographer" placeholder="Photographer name"></label>
+      <label>Category<select id="pub-still-category">
+        <option value="bts">Behind the Scenes</option>
+        <option value="unit">Unit Stills</option>
+        <option value="cast">Cast Portraits</option>
+        <option value="key_art">Key Art</option>
+      </select></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Upload Photos<input type="file" id="pub-still-upload" multiple accept="image/*"></label>
+    <label style="display: block; margin-bottom: 8px;">Caption/Notes<textarea id="pub-still-caption" rows="2" placeholder="Photo descriptions..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="pub-upload-stills">Upload Stills</button>
+    <button class="builder-btn" id="pub-view-gallery">View Gallery</button>
+    <div id="pub-stills-gallery" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>✅ Approval Queue</h2>
+    <p class="hint">Track approvals for press materials</p>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Material Type<select id="pub-approval-type">
+        <option value="photo">Photo</option>
+        <option value="video">Video Clip</option>
+        <option value="interview">Interview</option>
+        <option value="press_release">Press Release</option>
+        <option value="social_post">Social Media Post</option>
+      </select></label>
+      <label>Approver<select id="pub-approval-approver">
+        <option value="producer">Producer</option>
+        <option value="director">Director</option>
+        <option value="studio">Studio</option>
+        <option value="talent">Talent Approval</option>
+      </select></label>
+      <label>Status<select id="pub-approval-status">
+        <option value="pending">Pending</option>
+        <option value="approved">Approved</option>
+        <option value="rejected">Rejected</option>
+        <option value="changes">Changes Requested</option>
+      </select></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Description<textarea id="pub-approval-desc" rows="2" placeholder="What needs approval..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="pub-request-approval">Request Approval</button>
+    <div id="pub-approval-queue" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>📅 Release Schedule</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Asset<input type="text" id="pub-release-asset" placeholder="e.g. Teaser Trailer"></label>
+      <label>Release Date<input type="datetime-local" id="pub-release-date"></label>
+      <label>Platform<select id="pub-release-platform">
+        <option value="all">All Platforms</option>
+        <option value="instagram">Instagram</option>
+        <option value="twitter">Twitter/X</option>
+        <option value="facebook">Facebook</option>
+        <option value="youtube">YouTube</option>
+        <option value="press">Press Only</option>
+      </select></label>
+      <label>Status<select id="pub-release-status">
+        <option value="scheduled">Scheduled</option>
+        <option value="released">Released</option>
+        <option value="delayed">Delayed</option>
+      </select></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Caption/Copy<textarea id="pub-release-copy" rows="3" placeholder="Social media caption or press release text..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="pub-schedule-release">Schedule Release</button>
+    <div id="pub-release-schedule" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>📱 Social Media Calendar</h2>
+    <p class="hint">Plan social media content</p>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Post Date<input type="date" id="pub-social-date"></label>
+      <label>Platform<select id="pub-social-platform">
+        <option value="instagram">Instagram</option>
+        <option value="twitter">Twitter/X</option>
+        <option value="facebook">Facebook</option>
+        <option value="tiktok">TikTok</option>
+        <option value="youtube">YouTube</option>
+      </select></label>
+      <label>Post Type<select id="pub-social-type">
+        <option value="photo">Photo</option>
+        <option value="video">Video</option>
+        <option value="carousel">Carousel</option>
+        <option value="story">Story</option>
+        <option value="reel">Reel/Short</option>
+      </select></label>
+      <label>Status<select id="pub-social-status">
+        <option value="draft">Draft</option>
+        <option value="scheduled">Scheduled</option>
+        <option value="posted">Posted</option>
+      </select></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Content<textarea id="pub-social-content" rows="3" placeholder="Post caption and description..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="pub-add-social">Add to Calendar</button>
+    <button class="builder-btn" id="pub-view-calendar">View Calendar</button>
+    <div id="pub-social-calendar" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>🎥 EPK Planning</h2>
+    <p class="hint">Electronic Press Kit schedule</p>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Shoot Date<input type="date" id="pub-epk-date"></label>
+      <label>Type<select id="pub-epk-type">
+        <option value="interview">Interview</option>
+        <option value="broll">B-Roll</option>
+        <option value="featurette">Featurette</option>
+        <option value="making_of">Making Of</option>
+      </select></label>
+      <label>Subject<input type="text" id="pub-epk-subject" placeholder="Who/what is being filmed"></label>
+      <label>Duration<input type="text" id="pub-epk-duration" placeholder="e.g. 30 mins"></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Interview Questions/Notes<textarea id="pub-epk-notes" rows="3" placeholder="Questions to ask, topics to cover..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="pub-schedule-epk">Schedule EPK</button>
+    <div id="pub-epk-schedule" style="margin-top: 16px;"></div>
+  </div>
+
+</section>

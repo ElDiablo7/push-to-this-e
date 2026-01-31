@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>GRACE-X AI™ FILM EDITION</title>
+
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="assets/img/gracex_main_logo.png">
+
+    <!-- MAIN CSS - Complete GRACE-X styling -->
+    <link rel="stylesheet" href="assets/assets/css/gracex-v6.css?v=TITAN">
+    <link rel="stylesheet" href="assets/assets/css/core.css?v=TITAN">
+    <link rel="stylesheet" href="assets/assets/css/forge.css?v=TITAN">
+    <link rel="stylesheet" href="assets/assets/css/laser.css?v=TITAN">
+    <link rel="stylesheet" href="assets/assets/css/guardian-alerts.css?v=TITAN">
+    <link rel="stylesheet" href="assets/assets/css/polish-enhancements.css?v=TITAN">
+    <link rel="stylesheet" href="assets/assets/css/accounting.css?v=TITAN">
+    <link rel="stylesheet" href="assets/assets/css/osint.css?v=TITAN">
+    <!-- THEME SYSTEM - Loaded last to override -->
+    <link rel="stylesheet" href="assets/assets/css/gracex-themes.css?v=TITAN">
+    <!-- BOOT SCREEN - Enterprise Startup -->
+    <link rel="stylesheet" href="assets/assets/css/boot-screen.css?v=TITAN">
+    <!-- CORE DASHBOARD - Live UI Styles -->
+    <link rel="stylesheet" href="assets/assets/css/core-dashboard.css?v=FILM">
+    <!-- FILM DEPARTMENTS - Color-coded department styling -->
+    <link rel="stylesheet" href="assets/assets/css/film-departments.css?v=FILM">
+</head>
+
+<body>
+  <!-- ENTERPRISE BOOT SCREEN (Loads first via boot-screen.js) -->
+  <script src="assets/js/boot-screen.js?v=TITAN"></script>
+  
+  <!-- Build tag - FILM EDITION v7.0 -->
+  <div style="position:fixed;bottom:8px;left:8px;font-size:11px;opacity:0.7;z-index:9999;font-weight:600;color:#10b981;">🎬 GRACE-X v7.0 FILM EDITION</div>
+
+    <!-- Legacy #boot removed — boot is 100% handled by boot-screen.js (two-clip video + crossfade) -->
+
+    <!-- Main App Shell -->
+    <div id="app" style="display:none;">
+
+        <!-- Left Sidebar -->
+        <aside class="aside">
+            <div class="brand">
+                <img src="assets/img/gracex_main_logo.png" alt="GRACE-X logo">
+                <div>
+                    <h1>GRACE-X AI™</h1>
+                    <div class="small">Anchored Workflow Build</div>
+                </div>
+            </div>
+
+            <div class="section-title">Core Control</div>
+            <nav class="module-nav">
+              <button class="module-btn" data-module="core" style="background: linear-gradient(135deg, #00d4ff 0%, #0066aa 50%, #003366 100%); box-shadow: 0 0 30px rgba(0,212,255,0.5); border: 2px solid #00d4ff;">🎬 Master Control</button>
+            </nav>
+
+            <div class="section-title">Production Office</div>
+            <nav class="module-nav">
+              <button class="module-btn" data-module="production">📋 Production Management</button>
+              <button class="module-btn" data-module="assistant_directors">📢 1st AD / Call Sheets</button>
+              <button class="module-btn" data-module="safety" style="background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);">🛡️ Safety & Compliance</button>
+              <button class="module-btn" data-module="finance">💰 Finance & Accounting</button>
+            </nav>
+
+            <div class="section-title">Pre-Production</div>
+            <nav class="module-nav">
+              <button class="module-btn" data-module="locations">📍 Locations</button>
+              <button class="module-btn" data-module="casting">🎭 Casting</button>
+              <button class="module-btn" data-module="creative">🎨 Creative Direction</button>
+            </nav>
+
+            <div class="section-title">Art Department</div>
+            <nav class="module-nav">
+              <button class="module-btn" data-module="art">🏛️ Art & Set Design</button>
+              <button class="module-btn" data-module="costume">👔 Costume & Wardrobe</button>
+              <button class="module-btn" data-module="hmu">💄 Hair & Makeup</button>
+            </nav>
+
+            <div class="section-title">Camera & Lighting</div>
+            <nav class="module-nav">
+              <button class="module-btn" data-module="camera">📷 Camera Department</button>
+              <button class="module-btn" data-module="lighting">💡 Lighting & Electric</button>
+              <button class="module-btn" data-module="grip">🔧 Grip Department</button>
+            </nav>
+
+            <div class="section-title">Sound & Special</div>
+            <nav class="module-nav">
+              <button class="module-btn" data-module="sound">🎙️ Sound Department</button>
+              <button class="module-btn" data-module="sfx">💥 Special Effects</button>
+              <button class="module-btn" data-module="stunts">🤸 Stunts</button>
+            </nav>
+
+            <div class="section-title">Post & Marketing</div>
+            <nav class="module-nav">
+              <button class="module-btn" data-module="post">🎞️ Post Production</button>
+              <button class="module-btn" data-module="publicity">📰 Publicity & Marketing</button>
+              <button class="module-btn" data-module="vault" style="background: linear-gradient(135deg, #00d4ff 0%, #0066aa 100%);">🗄️ Asset Vault</button>
+            </nav>
+
+            <!-- Voice Settings Button -->
+            <button id="gracex-voice-toggle" style="position: fixed; bottom: 20px; right: 20px; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; color: white; font-size: 24px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 9998; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'" title="Click: Toggle Voice | Right-click: Settings">🔊</button>
+            
+            <script>
+              // Wire up voice settings button
+              document.addEventListener('DOMContentLoaded', () => {
+                const voiceBtn = document.getElementById('gracex-voice-toggle');
+                if (voiceBtn) {
+                  // Update button based on TTS state
+                  function updateVoiceBtn() {
+                    if (window.GRACEX_TTS) {
+                      const enabled = GRACEX_TTS.isEnabled();
+                      voiceBtn.textContent = enabled ? '🔊' : '🔇';
+                      voiceBtn.style.background = enabled 
+                        ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                        : 'linear-gradient(135deg, #4b5563 0%, #374151 100%)';
+                      voiceBtn.title = enabled 
+                        ? 'Voice ON - Click to toggle, Right-click for settings'
+                        : 'Voice OFF - Click to enable';
+                    }
+                  }
+                  
+                  // Left click: Toggle TTS on/off
+                  voiceBtn.addEventListener('click', () => {
+                    if (window.GRACEX_TTS) {
+                      GRACEX_TTS.toggle();
+                      updateVoiceBtn();
+                      // Speak confirmation if just enabled
+                      if (GRACEX_TTS.isEnabled()) {
+                        GRACEX_TTS.preview('Voice enabled.');
+                      }
+                    }
+                  });
+                  
+                  // Right click: Open settings
+                  voiceBtn.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                    if (window.GRACEX_TTS) {
+                      GRACEX_TTS.showSettings();
+                    }
+                  });
+                  
+                  // Update button state after TTS loads
+                  setTimeout(updateVoiceBtn, 1000);
+                  setTimeout(updateVoiceBtn, 3000);
+                }
+              });
+            </script>
+        </aside>
+
+        <!-- Main Content Window -->
+        <main id="content">
+  <div id="view" class="module-view"></div>
+</main>
+
+    </div>
+
+    <!-- Main JS -->
+    <!-- GALVANIZED RECOVERY LAYER - Ultimate Error Handling -->
+    <script src="assets/js/galvanized-recovery.js?v=GALVANIZED"></script>
+    <!-- Level 5 API Configuration - ENABLED -->
+    <script>
+      // Level 5 Brain API - PRODUCTION READY
+      // FIXED: Point to backend server on port 3000
+      window.GRACEX_BRAIN_API = 'http://localhost:3000/api/brain';
+      window.GRACEX_SPORT_API = 'http://localhost:3000/api/sport';
+      // Version tracking for cache-busting
+      window.GRACEX_VERSION = 'FILM_v7.0';
+      // Enable dev tools on localhost
+      window.GRACEX_DEV_MODE = window.location.hostname === 'localhost';
+      
+      // Log configuration for debugging
+      console.log('%c═══════════════════════════════════════════════════════════', 'color: #00d4ff');
+      console.log('%c🎬 GRACE-X FILM EDITION v7.0', 'color: #00d4ff; font-weight: bold; font-size: 20px');
+      console.log('%c   AI PRO FILM PRODUCTION SUITE', 'color: #10b981; font-weight: bold;');
+      console.log('%c   Core Control Panel - Master System', 'color: #00d4ff; font-weight: bold;');
+      console.log('%c═══════════════════════════════════════════════════════════', 'color: #00d4ff');
+      console.log('   Backend API:', window.GRACEX_BRAIN_API);
+      console.log('   Sport API:', window.GRACEX_SPORT_API);
+      console.log('   Version:', window.GRACEX_VERSION);
+      console.log('   🎬 FILM EDITION ACTIVE');
+    </script>
+    <!-- CORE NETWORK MANAGER - Internet access through Core -->
+    <script src="assets/js/core-network.js?v=TITAN"></script>
+    <!-- UI CONTROLS - Sidebar & Theme System -->
+    <script src="assets/js/gracex-ui-controls.js?v=TITAN"></script>
+    <!-- TITAN EDITION - Production-grade enhancements -->
+    <script src="assets/js/utils-enhanced.js?v=TITAN"></script>
+    <!-- PATCH: Performance.js now conditionally loaded via dev-tools.js -->
+    <script src="assets/js/dev-tools.js?v=TITAN"></script>
+    <!-- PATCH: Removed laser.js redundancy - using laser-ultra.js only -->
+    <!-- Core System -->
+    <script src="assets/js/utils.js?v=TITAN"></script>
+    <script src="assets/js/gracex-v6-utils.js?v=TITAN"></script>
+    <script src="assets/js/speechQueue.js?v=TITAN"></script>
+    <script src="assets/js/audioManager.js?v=TITAN"></script>
+    <script src="assets/js/voiceTTS.js?v=TITAN"></script>
+    <script src="assets/js/voiceAssistant.js?v=TITAN"></script>
+    <script src="assets/js/firewall.js?v=TITAN"></script>
+    <!-- Brain System - PATCHED: Added RAM + Analytics -->
+    <script src="assets/js/brain/gracex.state.js?v=TITAN"></script>
+    <script src="assets/js/brain/gracex.router.js?v=TITAN"></script>
+    <script src="assets/js/brain/gracex.ram.js?v=TITAN"></script>
+    <script src="assets/js/brain/gracex.analytics.js?v=TITAN"></script>
+    <script src="assets/js/brain/gracex.brain.js?v=TITAN"></script>
+    <!-- MASTER CONTROL - Enterprise Orchestration -->
+    <script src="assets/js/gracex-master-control.js?v=TITAN"></script>
+    <!-- Enterprise Systems -->
+    <script src="assets/js/callsheets.js?v=TITAN"></script>
+    <script src="assets/js/risk-safety.js?v=TITAN"></script>
+    <!-- Film Production Department Scripts -->
+    <script src="assets/js/production.js?v=FILM"></script>
+    <script src="assets/js/assistant_directors.js?v=FILM"></script>
+    <script src="assets/js/safety.js?v=FILM"></script>
+    <script src="assets/js/locations.js?v=FILM"></script>
+    <script src="assets/js/casting.js?v=FILM"></script>
+    <script src="assets/js/creative.js?v=FILM"></script>
+    <script src="assets/js/art.js?v=FILM"></script>
+    <script src="assets/js/costume.js?v=FILM"></script>
+    <script src="assets/js/hmu.js?v=FILM"></script>
+    <script src="assets/js/camera.js?v=FILM"></script>
+    <script src="assets/js/lighting.js?v=FILM"></script>
+    <script src="assets/js/grip.js?v=FILM"></script>
+    <script src="assets/js/sound.js?v=FILM"></script>
+    <script src="assets/js/sfx.js?v=FILM"></script>
+    <script src="assets/js/stunts.js?v=FILM"></script>
+    <script src="assets/js/post.js?v=FILM"></script>
+    <script src="assets/js/publicity.js?v=FILM"></script>
+    <script src="assets/js/finance.js?v=FILM"></script>
+    <script src="assets/js/vault.js?v=FILM"></script>
+    <!-- Module Scripts -->
+    <script src="assets/js/core.js?v=TITAN"></script>
+    <!-- Core Dashboard Live Data System -->
+    <script src="assets/js/core-dashboard-live.js?v=FILM"></script>
+    <script src="assets/js/brainLevel5.js?v=TITAN"></script>
+    <script src="assets/js/brainV5Helper.js?v=TITAN"></script>
+    <script src="assets/js/gracex-page-context.js?v=TITAN"></script>
+    <script src="assets/js/GRACEX_LIVE_DATA_INTEGRATION_v1.js?v=TITAN"></script>
+    <script src="assets/js/sport.js?v=TITAN"></script>
+    <script src="assets/js/guardian-alert-system.js?v=TITAN"></script>
+    <script src="assets/js/guardian.js?v=TITAN"></script>
+    <script src="assets/js/osint_engine.js?v=TITAN"></script>
+    <script src="assets/js/osint_sources.js?v=TITAN"></script>
+    <script src="assets/js/osint_report.js?v=TITAN"></script>
+    <script src="assets/js/osint.js?v=TITAN"></script>
+    <script src="assets/js/accounting_engine.js?v=TITAN"></script>
+    <script src="assets/js/accounting_reports.js?v=TITAN"></script>
+    <script src="assets/js/accounting.js?v=TITAN"></script>
+    <script src="assets/js/coreDashboard.js?v=TITAN"></script>
+    <script src="assets/js/forge.js?v=TITAN"></script>
+    <!-- LASER Inspector - Ultra version only -->
+    <script src="assets/js/laser-ultra.js?v=TITAN"></script>
+    <!-- App Entry Point -->
+    <script type="module" src="assets/js/app.js?v=TITAN"></script>
+</body>
+</html>

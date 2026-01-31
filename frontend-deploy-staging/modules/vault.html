@@ -1,0 +1,157 @@
+<section class="module-section vault-container">
+  <div class="module-header">
+    <div class="module-logo-slot"><span class="module-logo-text">🗄️</span></div>
+    <div class="module-header-text">
+      <h1 class="module-title">Asset Vault</h1>
+      <p class="module-subtitle">Single Source of Storage Truth - versions, checksums, permissions, retrieval</p>
+    </div>
+  </div>
+
+  <div class="builder-card" id="vault-brain-card">
+    <h2>🧠 Vault AI</h2>
+    <p class="hint">Ask about file versioning, asset retrieval, or storage management.</p>
+    <div class="module-brain" id="vault-brain-panel">
+      <div id="vault-brain-output" class="brain-output">
+        <div class="brain-message brain-message-system">I'm your Asset Vault AI. I manage file versions, checksums, and asset retrieval. What do you need?</div>
+      </div>
+      <div class="brain-input-row">
+        <button type="button" class="brain-mic-btn" id="vault-brain-mic" title="Voice input">🎙️</button>
+        <input id="vault-brain-input" type="text" placeholder="e.g. 'Find latest version of episode 2'"/>
+        <button id="vault-brain-send">Ask</button>
+        <button type="button" class="brain-context-btn" title="Read placeholders and current values so the brain can calculate">📋 Use page context</button>
+      </div>
+      <div class="brain-actions"><button class="builder-btn" id="vault-brain-clear">Clear conversation</button></div>
+    </div>
+  </div>
+
+  <div class="builder-card">
+    <h2>📂 Asset Library</h2>
+    <p class="hint">Central repository for all production assets</p>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Asset Name<input type="text" id="vault-name" placeholder="e.g. Episode_02_Master"></label>
+      <label>Category<select id="vault-category">
+        <option value="video">Video</option>
+        <option value="audio">Audio</option>
+        <option value="image">Image/Still</option>
+        <option value="document">Document</option>
+        <option value="3d">3D Asset</option>
+        <option value="vfx">VFX Element</option>
+      </select></label>
+      <label>Department<select id="vault-dept">
+        <option value="camera">Camera</option>
+        <option value="sound">Sound</option>
+        <option value="post">Post Production</option>
+        <option value="vfx">VFX</option>
+        <option value="art">Art</option>
+        <option value="publicity">Publicity</option>
+      </select></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Upload Asset<input type="file" id="vault-upload" multiple></label>
+    <label style="display: block; margin-bottom: 8px;">Description<textarea id="vault-desc" rows="2" placeholder="Asset description..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="vault-upload-asset">Upload to Vault</button>
+    <button class="builder-btn" id="vault-search">Search Assets</button>
+    <div id="vault-assets" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>📋 Version Control</h2>
+    <p class="hint">Track file versions and changes</p>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Asset<input type="text" id="vault-version-asset" placeholder="Asset name"></label>
+      <label>Version<input type="text" id="vault-version-num" placeholder="e.g. v1.0, v2.3"></label>
+      <label>Changed By<input type="text" id="vault-version-author" placeholder="Who made changes"></label>
+      <label>Date<input type="datetime-local" id="vault-version-date"></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Change Log<textarea id="vault-version-changes" rows="3" placeholder="What changed in this version..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="vault-save-version">Save Version</button>
+    <button class="builder-btn" id="vault-compare-versions">Compare Versions</button>
+    <div id="vault-versions" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>✅ Checksum Verification</h2>
+    <p class="hint">Verify file integrity with checksums</p>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Asset<input type="text" id="vault-check-asset" placeholder="Asset name"></label>
+      <label>Checksum Type<select id="vault-check-type">
+        <option value="md5">MD5</option>
+        <option value="sha1">SHA-1</option>
+        <option value="sha256">SHA-256</option>
+      </select></label>
+      <label>Checksum<input type="text" id="vault-check-sum" placeholder="Generated checksum"></label>
+      <label>Status<select id="vault-check-status">
+        <option value="verified">Verified</option>
+        <option value="failed">Failed</option>
+        <option value="pending">Pending</option>
+      </select></label>
+    </div>
+    <button class="builder-btn gx-btn-primary" id="vault-generate-checksum">Generate Checksum</button>
+    <button class="builder-btn" id="vault-verify">Verify Integrity</button>
+    <div id="vault-checksums" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>🔐 Permission Management</h2>
+    <p class="hint">Control who can access assets</p>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Asset/Folder<input type="text" id="vault-perm-asset" placeholder="Asset or folder name"></label>
+      <label>User/Role<input type="text" id="vault-perm-user" placeholder="User or department"></label>
+      <label>Permission<select id="vault-perm-level">
+        <option value="view">View Only</option>
+        <option value="download">Download</option>
+        <option value="edit">Edit</option>
+        <option value="admin">Admin</option>
+      </select></label>
+      <label>Expiry<input type="date" id="vault-perm-expiry" placeholder="Optional expiry date"></label>
+    </div>
+    <button class="builder-btn gx-btn-primary" id="vault-set-perm">Set Permission</button>
+    <button class="builder-btn" id="vault-view-perms">View All Permissions</button>
+    <div id="vault-permissions" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>🔍 Asset Retrieval</h2>
+    <p class="hint">Quick search and retrieval tools</p>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Search Query<input type="text" id="vault-search-query" placeholder="Search by name, type, department..."></label>
+      <label>Filter by Type<select id="vault-search-type">
+        <option value="">All Types</option>
+        <option value="video">Video</option>
+        <option value="audio">Audio</option>
+        <option value="image">Images</option>
+        <option value="document">Documents</option>
+      </select></label>
+      <label>Date From<input type="date" id="vault-search-from"></label>
+      <label>Date To<input type="date" id="vault-search-to"></label>
+    </div>
+    <button class="builder-btn gx-btn-primary" id="vault-search-btn">Search Vault</button>
+    <button class="builder-btn" id="vault-advanced-search">Advanced Search</button>
+    <div id="vault-search-results" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>📊 Storage Analytics</h2>
+    <p class="hint">Monitor storage usage and health</p>
+    <div style="padding: 16px; background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 16px;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+        <span><strong>Total Storage Used:</strong></span>
+        <span id="vault-storage-used">0 GB</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+        <span><strong>Total Assets:</strong></span>
+        <span id="vault-total-assets">0</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+        <span><strong>Latest Upload:</strong></span>
+        <span id="vault-latest-upload">--:--:--</span>
+      </div>
+      <div style="display: flex; justify-content: space-between;">
+        <span><strong>Integrity Check Status:</strong></span>
+        <span id="vault-integrity-status" style="color: #10b981;">All verified ✓</span>
+      </div>
+    </div>
+    <button class="builder-btn gx-btn-primary" id="vault-run-integrity">Run Full Integrity Check</button>
+    <button class="builder-btn" id="vault-export-report">Export Storage Report</button>
+  </div>
+
+</section>

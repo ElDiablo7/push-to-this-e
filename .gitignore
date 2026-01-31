@@ -1,0 +1,40 @@
+# GRACE-X Film Edition - Git Ignore
+
+# Environment variables (IMPORTANT - Contains API keys!)
+.env
+server/.env
+
+# Node modules
+node_modules/
+server/node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+temp/
+
+# Local storage
+localStorage/
+
+# Build artifacts
+dist/
+build/
+
+# User data (if added)
+data/
+user_data/

@@ -1,0 +1,122 @@
+<section class="module-section casting-container">
+  <!-- Module Header -->
+  <div class="module-header">
+    <div class="module-logo-slot">
+      <span class="module-logo-text">🎭</span>
+    </div>
+    <div class="module-header-text">
+      <h1 class="module-title">Casting Department</h1>
+      <p class="module-subtitle">
+        Casting + Talent Logistics - availability, contracts status, call times, chaperones
+      </p>
+    </div>
+  </div>
+
+  <!-- AI Assistant -->
+  <div class="builder-card" id="casting-brain-card">
+    <h2>🧠 Casting AI Assistant</h2>
+    <p class="hint">Ask about talent availability, contracts, or casting logistics.</p>
+
+    <div class="module-brain" id="casting-brain-panel">
+      <div id="casting-brain-output" class="brain-output">
+        <div class="brain-message brain-message-system">
+          I'm your Casting AI. I manage talent schedules, availability, and contracts. What do you need?
+        </div>
+      </div>
+
+      <div class="brain-input-row">
+        <button type="button" class="brain-mic-btn" id="casting-brain-mic" title="Voice input">🎙️</button>
+        <input id="casting-brain-input" type="text" placeholder="e.g. 'Check availability for lead actor next week'"/>
+        <button id="casting-brain-send">Ask</button>
+        <button type="button" class="brain-context-btn" title="Read placeholders and current values so the brain can calculate">📋 Use page context</button>
+      </div>
+
+      <div class="brain-actions">
+        <button class="builder-btn" id="casting-brain-clear">Clear conversation</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Talent Database -->
+  <div class="builder-card">
+    <h2>👤 Talent Database</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Actor Name<input type="text" id="cast-name" placeholder="Actor name"></label>
+      <label>Role<input type="text" id="cast-role" placeholder="Character name"></label>
+      <label>Agent<input type="text" id="cast-agent" placeholder="Agent name"></label>
+      <label>Contact<input type="tel" id="cast-contact" placeholder="Phone/email"></label>
+    </div>
+    <button class="builder-btn gx-btn-primary" id="cast-add-talent">Add Talent</button>
+    <div id="cast-talent-list" style="margin-top: 16px;"></div>
+  </div>
+
+  <!-- Availability Grid -->
+  <div class="builder-card">
+    <h2>📅 Availability Tracking</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Talent<select id="avail-talent"><option>Select talent...</option></select></label>
+      <label>Date Range<input type="text" id="avail-dates" placeholder="e.g. 10-15 March"></label>
+      <label>Status<select id="avail-status">
+        <option value="available">Available</option>
+        <option value="unavailable">Unavailable</option>
+        <option value="tentative">Tentative</option>
+      </select></label>
+    </div>
+    <button class="builder-btn gx-btn-primary" id="avail-update">Update Availability</button>
+    <div id="avail-grid" style="margin-top: 16px;"></div>
+  </div>
+
+  <!-- Contract Status -->
+  <div class="builder-card">
+    <h2>📜 Contract Status</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Talent<input type="text" id="contract-talent" placeholder="Actor name"></label>
+      <label>Contract Type<select id="contract-type">
+        <option value="main">Main Cast</option>
+        <option value="supporting">Supporting</option>
+        <option value="day_player">Day Player</option>
+        <option value="extra">Extra/Background</option>
+      </select></label>
+      <label>Status<select id="contract-status">
+        <option value="negotiating">Negotiating</option>
+        <option value="pending">Pending Signature</option>
+        <option value="signed">Signed</option>
+        <option value="rejected">Rejected</option>
+      </select></label>
+    </div>
+    <button class="builder-btn gx-btn-primary" id="contract-track">Track Contract</button>
+    <div id="contract-tracker" style="margin-top: 16px;"></div>
+  </div>
+
+  <!-- Call Times -->
+  <div class="builder-card">
+    <h2>⏰ Talent Call Times</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Shoot Date<input type="date" id="calltime-date"></label>
+      <label>Talent<input type="text" id="calltime-talent" placeholder="Actor name"></label>
+      <label>Call Time<input type="time" id="calltime-time"></label>
+      <label>Pickup Required<select id="calltime-pickup">
+        <option value="no">No</option>
+        <option value="yes">Yes - Arrange Transport</option>
+      </select></label>
+    </div>
+    <button class="builder-btn gx-btn-primary" id="calltime-set">Set Call Time</button>
+    <div id="calltime-list" style="margin-top: 16px;"></div>
+  </div>
+
+  <!-- Chaperone Assignment -->
+  <div class="builder-card">
+    <h2>👨‍👧 Chaperone Management</h2>
+    <p class="hint">For child actors and minors</p>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Child Actor<input type="text" id="chap-child" placeholder="Actor name"></label>
+      <label>Age<input type="number" id="chap-age" placeholder="Age"></label>
+      <label>Chaperone<input type="text" id="chap-chaperone" placeholder="Chaperone name"></label>
+      <label>License Number<input type="text" id="chap-license" placeholder="License #"></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Work Permit Details<textarea id="chap-permit" rows="2" placeholder="Work permit details..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="chap-assign">Assign Chaperone</button>
+    <div id="chap-assignments" style="margin-top: 16px;"></div>
+  </div>
+
+</section>

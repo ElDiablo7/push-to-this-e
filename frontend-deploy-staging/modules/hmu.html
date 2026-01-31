@@ -1,0 +1,95 @@
+<section class="module-section hmu-container">
+  <div class="module-header">
+    <div class="module-logo-slot"><span class="module-logo-text">💄</span></div>
+    <div class="module-header-text">
+      <h1 class="module-title">Hair & Makeup</h1>
+      <p class="module-subtitle">Hair & Make-up - looks, continuity, call timing, SFX make-up notes</p>
+    </div>
+  </div>
+
+  <div class="builder-card" id="hmu-brain-card">
+    <h2>🧠 HMU AI</h2>
+    <p class="hint">Ask about makeup looks, continuity, or SFX requirements.</p>
+    <div class="module-brain" id="hmu-brain-panel">
+      <div id="hmu-brain-output" class="brain-output">
+        <div class="brain-message brain-message-system">I'm your Hair & Makeup AI. I manage looks, continuity, and SFX makeup. What do you need?</div>
+      </div>
+      <div class="brain-input-row">
+        <button type="button" class="brain-mic-btn" id="hmu-brain-mic" title="Voice input">🎙️</button>
+        <input id="hmu-brain-input" type="text" placeholder="e.g. 'Track makeup for action scene'"/>
+        <button id="hmu-brain-send">Ask</button>
+        <button type="button" class="brain-context-btn" title="Read placeholders and current values so the brain can calculate">📋 Use page context</button>
+      </div>
+      <div class="brain-actions"><button class="builder-btn" id="hmu-brain-clear">Clear conversation</button></div>
+    </div>
+  </div>
+
+  <div class="builder-card">
+    <h2>💅 Look Reference Photos</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Actor<input type="text" id="hmu-actor" placeholder="Actor name"></label>
+      <label>Scene/Look<input type="text" id="hmu-look" placeholder="e.g. Natural day look"></label>
+      <label>Type<select id="hmu-type">
+        <option value="hair">Hair</option>
+        <option value="makeup">Makeup</option>
+        <option value="sfx">SFX/Prosthetics</option>
+        <option value="combined">Hair + Makeup</option>
+      </select></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Upload Look Photos<input type="file" id="hmu-photos" multiple accept="image/*"></label>
+    <label style="display: block; margin-bottom: 8px;">Products Used<textarea id="hmu-products" rows="2" placeholder="List products, shades, techniques..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="hmu-save-look">Save Look</button>
+    <div id="hmu-looks" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>📸 Continuity Tracker</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Actor<input type="text" id="hmu-cont-actor" placeholder="Actor name"></label>
+      <label>Scene<input type="text" id="hmu-cont-scene" placeholder="Scene number"></label>
+      <label>Script Day<input type="text" id="hmu-cont-day" placeholder="e.g. Day 1"></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Continuity Photos<input type="file" id="hmu-cont-photos" multiple accept="image/*"></label>
+    <label style="display: block; margin-bottom: 8px;">Notes<textarea id="hmu-cont-notes" rows="3" placeholder="Hair style, makeup details, any changes..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="hmu-save-continuity">Save Continuity</button>
+    <div id="hmu-continuity" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>⏰ Call Timing Calculator</h2>
+    <p class="hint">Calculate HMU chair times based on complexity</p>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Actor<input type="text" id="hmu-time-actor" placeholder="Actor name"></label>
+      <label>Shooting Call<input type="time" id="hmu-time-shoot"></label>
+      <label>Complexity<select id="hmu-time-complexity">
+        <option value="30">Simple (30 min)</option>
+        <option value="60">Standard (1 hour)</option>
+        <option value="90">Complex (1.5 hours)</option>
+        <option value="120">SFX/Prosthetics (2 hours)</option>
+        <option value="180">Heavy SFX (3 hours)</option>
+      </select></label>
+    </div>
+    <button class="builder-btn gx-btn-primary" id="hmu-calc-time">Calculate Call Time</button>
+    <div id="hmu-call-times" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>🎭 SFX Makeup Notes</h2>
+    <p class="hint">Special effects makeup requirements and techniques</p>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Scene<input type="text" id="hmu-sfx-scene" placeholder="Scene number"></label>
+      <label>Effect Type<select id="hmu-sfx-type">
+        <option value="wound">Wound/Injury</option>
+        <option value="aging">Aging</option>
+        <option value="prosthetic">Prosthetics</option>
+        <option value="blood">Blood Effects</option>
+        <option value="creature">Creature/Fantasy</option>
+      </select></label>
+      <label>Application Time<input type="number" id="hmu-sfx-time" placeholder="Minutes"></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Method & Materials<textarea id="hmu-sfx-method" rows="4" placeholder="Application method, materials, removal process..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="hmu-add-sfx">Add SFX Note</button>
+    <div id="hmu-sfx-notes" style="margin-top: 16px;"></div>
+  </div>
+
+</section>

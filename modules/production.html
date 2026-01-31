@@ -1,0 +1,240 @@
+<section class="module-section production-container">
+  <!-- Module Header -->
+  <div class="module-header">
+    <div class="module-logo-slot">
+      <span class="module-logo-text">📋</span>
+    </div>
+    <div class="module-header-text">
+      <h1 class="module-title">Production Management</h1>
+      <p class="module-subtitle">
+        Production Office / Line Producing Control Room - budgets, schedules, approvals, change control
+      </p>
+    </div>
+  </div>
+
+  <!-- AI Assistant (Priority #1) -->
+  <div class="builder-card" id="production-brain-card">
+    <h2>🧠 Production AI Assistant</h2>
+    <p class="hint">
+      Ask about budgets, scheduling, approvals, change orders, or production logistics.
+    </p>
+
+    <div class="module-brain" id="production-brain-panel">
+      <div id="production-brain-output" class="brain-output">
+        <div class="brain-message brain-message-system">
+          I'm your Production Management AI. I can help with budgeting, scheduling, approvals, and change control. What do you need?
+        </div>
+      </div>
+
+      <div class="brain-input-row">
+        <button type="button" class="brain-mic-btn" id="production-brain-mic" title="Voice input">
+          🎙️
+        </button>
+        <input
+          id="production-brain-input"
+          type="text"
+          placeholder="e.g. 'Show budget breakdown for camera department' or 'Track change order #42'"
+        />
+        <button id="production-brain-send">Ask</button>
+        <button type="button" class="brain-context-btn" title="Read placeholders and current values so the brain can calculate">📋 Use page context</button>
+      </div>
+
+      <div class="brain-actions">
+        <button class="builder-btn" id="production-brain-clear">Clear conversation</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Budget Tracking -->
+  <div class="builder-card">
+    <h2>💰 Budget Tracking</h2>
+    <p class="hint">Track project budget lines with estimate vs actual costs</p>
+    
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>
+        Department
+        <select id="production-budget-dept">
+          <option value="">Select department...</option>
+          <option value="camera">Camera</option>
+          <option value="lighting">Lighting & Electric</option>
+          <option value="grip">Grip</option>
+          <option value="sound">Sound</option>
+          <option value="art">Art Department</option>
+          <option value="costume">Costume</option>
+          <option value="hmu">Hair & Makeup</option>
+          <option value="locations">Locations</option>
+          <option value="cast">Cast</option>
+          <option value="crew">Crew</option>
+        </select>
+      </label>
+      <label>
+        Budget Line
+        <input type="text" id="production-budget-line" placeholder="e.g. Camera Rental Week 1">
+      </label>
+      <label>
+        Estimate
+        <input type="number" id="production-budget-estimate" placeholder="0.00" step="0.01">
+      </label>
+      <label>
+        Actual
+        <input type="number" id="production-budget-actual" placeholder="0.00" step="0.01">
+      </label>
+    </div>
+    
+    <button class="builder-btn gx-btn-primary" id="production-add-budget">Add Budget Line</button>
+    
+    <div id="production-budget-list" style="margin-top: 16px;">
+      <!-- Budget lines will be added here -->
+    </div>
+  </div>
+
+  <!-- Schedule & Timeline -->
+  <div class="builder-card">
+    <h2>📅 Production Schedule</h2>
+    <p class="hint">Track shoot days, prep days, and wrap timeline</p>
+    
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>
+        Phase
+        <select id="production-schedule-phase">
+          <option value="prep">Prep</option>
+          <option value="shoot">Principal Photography</option>
+          <option value="pickup">Pickups</option>
+          <option value="wrap">Wrap</option>
+          <option value="post">Post Production</option>
+        </select>
+      </label>
+      <label>
+        Start Date
+        <input type="date" id="production-schedule-start">
+      </label>
+      <label>
+        End Date
+        <input type="date" id="production-schedule-end">
+      </label>
+      <label>
+        Status
+        <select id="production-schedule-status">
+          <option value="planned">Planned</option>
+          <option value="active">Active</option>
+          <option value="completed">Completed</option>
+          <option value="delayed">Delayed</option>
+        </select>
+      </label>
+    </div>
+    
+    <button class="builder-btn gx-btn-primary" id="production-add-schedule">Add Schedule Phase</button>
+    
+    <div id="production-schedule-timeline" style="margin-top: 16px;">
+      <!-- Timeline will be rendered here -->
+    </div>
+  </div>
+
+  <!-- Approval Workflows -->
+  <div class="builder-card">
+    <h2>✅ Approval Workflows</h2>
+    <p class="hint">Manage production approvals and sign-offs</p>
+    
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>
+        Approval Type
+        <select id="production-approval-type">
+          <option value="budget">Budget Variance</option>
+          <option value="schedule">Schedule Change</option>
+          <option value="cast">Cast Change</option>
+          <option value="location">Location Swap</option>
+          <option value="equipment">Equipment Purchase</option>
+          <option value="overtime">Overtime Authorization</option>
+        </select>
+      </label>
+      <label>
+        Amount/Details
+        <input type="text" id="production-approval-details" placeholder="e.g. £2,500 equipment rental">
+      </label>
+      <label>
+        Approver
+        <select id="production-approval-approver">
+          <option value="">Select approver...</option>
+          <option value="producer">Producer</option>
+          <option value="line_producer">Line Producer</option>
+          <option value="production_manager">Production Manager</option>
+          <option value="director">Director</option>
+          <option value="ep">Executive Producer</option>
+        </select>
+      </label>
+      <label>
+        Priority
+        <select id="production-approval-priority">
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+          <option value="urgent">Urgent</option>
+        </select>
+      </label>
+    </div>
+    
+    <button class="builder-btn gx-btn-primary" id="production-request-approval">Request Approval</button>
+    
+    <div id="production-approval-queue" style="margin-top: 16px;">
+      <!-- Approval requests will be listed here -->
+    </div>
+  </div>
+
+  <!-- Change Control Log -->
+  <div class="builder-card">
+    <h2>📝 Change Control Log</h2>
+    <p class="hint">Track all production changes for audit trail</p>
+    
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>
+        Change Type
+        <select id="production-change-type">
+          <option value="script">Script Change</option>
+          <option value="schedule">Schedule Change</option>
+          <option value="location">Location Change</option>
+          <option value="cast">Cast Change</option>
+          <option value="crew">Crew Change</option>
+          <option value="equipment">Equipment Change</option>
+        </select>
+      </label>
+      <label>
+        Description
+        <input type="text" id="production-change-desc" placeholder="What changed?">
+      </label>
+      <label>
+        Impact
+        <select id="production-change-impact">
+          <option value="none">None</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+          <option value="critical">Critical</option>
+        </select>
+      </label>
+      <label>
+        Budget Impact
+        <input type="number" id="production-change-budget" placeholder="0.00" step="0.01">
+      </label>
+    </div>
+    
+    <button class="builder-btn gx-btn-primary" id="production-log-change">Log Change</button>
+    
+    <div id="production-change-log" style="margin-top: 16px;">
+      <!-- Change log entries will be listed here -->
+    </div>
+  </div>
+
+  <!-- Task Management -->
+  <div class="builder-card">
+    <h2>✅ Production Tasks</h2>
+    <p class="hint">Department-specific task tracking for production office</p>
+    
+    <button class="builder-btn gx-btn-primary" id="production-add-task">Add Task</button>
+    <button class="builder-btn" id="production-sync-tasks">Sync with Master</button>
+    
+    <div id="production-task-list" style="margin-top: 16px;">
+      <!-- Tasks will be listed here -->
+    </div>
+  </div>
+
+</section>

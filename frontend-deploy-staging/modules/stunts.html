@@ -1,0 +1,146 @@
+<section class="module-section stunts-container">
+  <div class="module-header">
+    <div class="module-logo-slot"><span class="module-logo-text">🤸</span></div>
+    <div class="module-header-text">
+      <h1 class="module-title">Stunts Department</h1>
+      <p class="module-subtitle">Stunts - rehearsals, risk controls, performer notes, shot constraints</p>
+    </div>
+  </div>
+
+  <div class="builder-card" id="stunts-brain-card">
+    <h2>🧠 Stunts AI</h2>
+    <p class="hint">Ask about stunt choreography, safety protocols, or performer requirements.</p>
+    <div class="module-brain" id="stunts-brain-panel">
+      <div id="stunts-brain-output" class="brain-output">
+        <div class="brain-message brain-message-system">I'm your Stunts AI. I manage stunt coordination, rehearsals, and safety protocols. What do you need?</div>
+      </div>
+      <div class="brain-input-row">
+        <button type="button" class="brain-mic-btn" id="stunts-brain-mic" title="Voice input">🎙️</button>
+        <input id="stunts-brain-input" type="text" placeholder="e.g. 'Plan fight choreography for scene 12'"/>
+        <button id="stunts-brain-send">Ask</button>
+        <button type="button" class="brain-context-btn" title="Read placeholders and current values so the brain can calculate">📋 Use page context</button>
+      </div>
+      <div class="brain-actions"><button class="builder-btn" id="stunts-brain-clear">Clear conversation</button></div>
+    </div>
+  </div>
+
+  <div class="builder-card" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.05) 100%); border: 2px solid rgba(239, 68, 68, 0.3);">
+    <h2>🛡️ Safety & Risk Assessment</h2>
+    <p class="hint">Link to full Risk & Safety system for stunt risk assessments</p>
+    <button class="builder-btn gx-btn-primary" id="stunts-open-safety" style="background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);">Open Risk & Safety System</button>
+  </div>
+
+  <div class="builder-card">
+    <h2>🎬 Rehearsal Schedule</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Scene<input type="text" id="stunt-rehearsal-scene" placeholder="Scene number"></label>
+      <label>Stunt Type<select id="stunt-rehearsal-type">
+        <option value="fight">Fight Choreography</option>
+        <option value="fall">Falls</option>
+        <option value="vehicle">Vehicle</option>
+        <option value="fire">Fire Work</option>
+        <option value="wire">Wire Work</option>
+        <option value="rigging">Rigging/Heights</option>
+      </select></label>
+      <label>Rehearsal Date<input type="datetime-local" id="stunt-rehearsal-date"></label>
+      <label>Location<input type="text" id="stunt-rehearsal-location" placeholder="Rehearsal location"></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Performers<input type="text" id="stunt-rehearsal-performers" placeholder="Stunt performers involved"></label>
+    <label style="display: block; margin-bottom: 8px;">Notes<textarea id="stunt-rehearsal-notes" rows="3" placeholder="Rehearsal requirements, equipment needed..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="stunt-add-rehearsal">Schedule Rehearsal</button>
+    <div id="stunt-rehearsals" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>🎯 Risk Controls</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Stunt<input type="text" id="stunt-risk-stunt" placeholder="Stunt description"></label>
+      <label>Risk Level<select id="stunt-risk-level">
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+        <option value="extreme">Extreme</option>
+      </select></label>
+      <label>Safety Officer<input type="text" id="stunt-risk-officer" placeholder="Safety officer name"></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Control Measures<textarea id="stunt-risk-controls" rows="4" placeholder="Safety equipment, crash mats, medical standby, etc..."></textarea></label>
+    <label style="display: block; margin-bottom: 8px;">Emergency Procedures<textarea id="stunt-risk-emergency" rows="3" placeholder="Emergency response plan..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="stunt-save-risk">Save Risk Controls</button>
+    <div id="stunt-risk-controls" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>👤 Performer Notes</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Performer<input type="text" id="stunt-perf-name" placeholder="Performer name"></label>
+      <label>Doubling For<input type="text" id="stunt-perf-doubling" placeholder="Actor they're doubling"></label>
+      <label>Specialties<input type="text" id="stunt-perf-specialties" placeholder="e.g. High falls, wire work"></label>
+      <label>Medical Cert<select id="stunt-perf-medical">
+        <option value="valid">Valid</option>
+        <option value="expiring">Expiring Soon</option>
+        <option value="expired">Expired</option>
+      </select></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Notes<textarea id="stunt-perf-notes" rows="2" placeholder="Any restrictions, preferences, or special requirements..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="stunt-add-performer">Add Performer</button>
+    <div id="stunt-performers" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>📐 Shot Constraints</h2>
+    <p class="hint">Technical constraints for stunt photography</p>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Scene/Stunt<input type="text" id="stunt-shot-scene" placeholder="Scene number"></label>
+      <label>Camera Position<input type="text" id="stunt-shot-camera" placeholder="Camera placement"></label>
+      <label>Frame Rate<input type="text" id="stunt-shot-fps" placeholder="e.g. 120fps"></label>
+      <label>Lens<input type="text" id="stunt-shot-lens" placeholder="Recommended lens"></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Constraints<textarea id="stunt-shot-constraints" rows="3" placeholder="Safe camera positions, exclusion zones, timing requirements..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="stunt-save-constraints">Save Constraints</button>
+    <div id="stunt-shot-constraints" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>📋 Pre-Shoot Checklist</h2>
+    <p class="hint">Mandatory checks before executing stunts</p>
+    <div style="margin-bottom: 16px;">
+      <label style="display: flex; align-items: center; padding: 8px; background: rgba(0,0,0,0.2); border-radius: 6px; margin-bottom: 8px;">
+        <input type="checkbox" id="check-rehearsal" style="margin-right: 12px;">
+        <span>Rehearsal completed and approved</span>
+      </label>
+      <label style="display: flex; align-items: center; padding: 8px; background: rgba(0,0,0,0.2); border-radius: 6px; margin-bottom: 8px;">
+        <input type="checkbox" id="check-equipment" style="margin-right: 12px;">
+        <span>All safety equipment checked and in place</span>
+      </label>
+      <label style="display: flex; align-items: center; padding: 8px; background: rgba(0,0,0,0.2); border-radius: 6px; margin-bottom: 8px;">
+        <input type="checkbox" id="check-medical" style="margin-right: 12px;">
+        <span>Medical/paramedic standby confirmed</span>
+      </label>
+      <label style="display: flex; align-items: center; padding: 8px; background: rgba(0,0,0,0.2); border-radius: 6px; margin-bottom: 8px;">
+        <input type="checkbox" id="check-comms" style="margin-right: 12px;">
+        <span>Communications established (all parties)</span>
+      </label>
+      <label style="display: flex; align-items: center; padding: 8px; background: rgba(0,0,0,0.2); border-radius: 6px; margin-bottom: 8px;">
+        <input type="checkbox" id="check-clearance" style="margin-right: 12px;">
+        <span>Set cleared and locked off</span>
+      </label>
+      <label style="display: flex; align-items: center; padding: 8px; background: rgba(0,0,0,0.2); border-radius: 6px; margin-bottom: 8px;">
+        <input type="checkbox" id="check-coordinator" style="margin-right: 12px;">
+        <span>Stunt coordinator final approval</span>
+      </label>
+    </div>
+    <button class="builder-btn gx-btn-primary" id="stunt-log-checklist">Log Completed Checklist</button>
+  </div>
+
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const openSafetyBtn = document.getElementById('stunts-open-safety');
+  if (openSafetyBtn) {
+    openSafetyBtn.addEventListener('click', function() {
+      window.location.hash = '#/risk-safety';
+    });
+  }
+});
+</script>

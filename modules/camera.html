@@ -1,0 +1,91 @@
+<section class="module-section camera-container">
+  <div class="module-header">
+    <div class="module-logo-slot"><span class="module-logo-text">📷</span></div>
+    <div class="module-header-text">
+      <h1 class="module-title">Camera Department</h1>
+      <p class="module-subtitle">Camera Dept + Camera Reports - camera setups, lensing, shot logs, tech notes</p>
+    </div>
+  </div>
+
+  <div class="builder-card" id="camera-brain-card">
+    <h2>🧠 Camera AI</h2>
+    <p class="hint">Ask about camera setups, shot logs, or technical specifications.</p>
+    <div class="module-brain" id="camera-brain-panel">
+      <div id="camera-brain-output" class="brain-output">
+        <div class="brain-message brain-message-system">I'm your Camera AI. I manage camera reports, shot logs, and technical specs. What do you need?</div>
+      </div>
+      <div class="brain-input-row">
+        <button type="button" class="brain-mic-btn" id="camera-brain-mic" title="Voice input">🎙️</button>
+        <input id="camera-brain-input" type="text" placeholder="e.g. 'Log shot for scene 12A'"/>
+        <button id="camera-brain-send">Ask</button>
+        <button type="button" class="brain-context-btn" title="Read placeholders and current values so the brain can calculate">📋 Use page context</button>
+      </div>
+      <div class="brain-actions"><button class="builder-btn" id="camera-brain-clear">Clear conversation</button></div>
+    </div>
+  </div>
+
+  <div class="builder-card">
+    <h2>📹 Camera Setup Cards</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Scene<input type="text" id="cam-scene" placeholder="Scene number"></label>
+      <label>Shot<input type="text" id="cam-shot" placeholder="e.g. Master, CU"></label>
+      <label>Camera<select id="cam-camera">
+        <option value="A">Camera A</option>
+        <option value="B">Camera B</option>
+        <option value="C">Camera C</option>
+      </select></label>
+      <label>Lens<input type="text" id="cam-lens" placeholder="e.g. 35mm, 85mm"></label>
+    </div>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Frame Rate<input type="text" id="cam-fps" placeholder="e.g. 24fps, 120fps"></label>
+      <label>ISO<input type="text" id="cam-iso" placeholder="e.g. 800"></label>
+      <label>T-Stop<input type="text" id="cam-tstop" placeholder="e.g. T2.8"></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Setup Notes<textarea id="cam-notes" rows="3" placeholder="Camera position, movement, filters..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="cam-save-setup">Save Setup</button>
+    <div id="cam-setups" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>🎬 Shot Logs</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Scene<input type="text" id="log-scene" placeholder="Scene number"></label>
+      <label>Take<input type="number" id="log-take" placeholder="Take number"></label>
+      <label>Timecode<input type="text" id="log-timecode" placeholder="e.g. 01:23:45:12"></label>
+      <label>Status<select id="log-status">
+        <option value="good">Good</option>
+        <option value="ng">NG (No Good)</option>
+        <option value="print">Print</option>
+        <option value="vfx">VFX Plate</option>
+      </select></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Notes<textarea id="log-notes" rows="2" placeholder="Performance notes, technical issues..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="log-add">Add Shot Log</button>
+    <button class="builder-btn" id="log-export">Export Daily Report</button>
+    <div id="cam-shot-logs" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>📦 Lens Tracking</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Lens<input type="text" id="lens-name" placeholder="e.g. Cooke 35mm"></label>
+      <label>Serial<input type="text" id="lens-serial" placeholder="Serial number"></label>
+      <label>Status<select id="lens-status">
+        <option value="available">Available</option>
+        <option value="on_camera">On Camera</option>
+        <option value="case">In Case</option>
+      </select></label>
+    </div>
+    <button class="builder-btn gx-btn-primary" id="lens-track">Track Lens</button>
+    <div id="cam-lens-tracker" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>📝 Technical Notes</h2>
+    <label style="display: block; margin-bottom: 8px;">Date<input type="date" id="tech-date"></label>
+    <label style="display: block; margin-bottom: 8px;">Technical Notes<textarea id="tech-notes" rows="5" placeholder="Any technical issues, camera maintenance, special requirements..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="tech-save">Save Tech Notes</button>
+    <div id="cam-tech-notes" style="margin-top: 16px;"></div>
+  </div>
+
+</section>

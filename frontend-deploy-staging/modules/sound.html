@@ -1,0 +1,107 @@
+<section class="module-section sound-container">
+  <div class="module-header">
+    <div class="module-logo-slot"><span class="module-logo-text">🎙️</span></div>
+    <div class="module-header-text">
+      <h1 class="module-title">Sound Department</h1>
+      <p class="module-subtitle">Sound - sound reports, issues, wild tracks, mic notes</p>
+    </div>
+  </div>
+
+  <div class="builder-card" id="sound-brain-card">
+    <h2>🧠 Sound AI</h2>
+    <p class="hint">Ask about sound reports, wild tracks, or audio issues.</p>
+    <div class="module-brain" id="sound-brain-panel">
+      <div id="sound-brain-output" class="brain-output">
+        <div class="brain-message brain-message-system">I'm your Sound AI. I manage sound reports, wild tracks, and audio notes. What do you need?</div>
+      </div>
+      <div class="brain-input-row">
+        <button type="button" class="brain-mic-btn" id="sound-brain-mic" title="Voice input">🎙️</button>
+        <input id="sound-brain-input" type="text" placeholder="e.g. 'Log sound issue for scene 12'"/>
+        <button id="sound-brain-send">Ask</button>
+        <button type="button" class="brain-context-btn" title="Read placeholders and current values so the brain can calculate">📋 Use page context</button>
+      </div>
+      <div class="brain-actions"><button class="builder-btn" id="sound-brain-clear">Clear conversation</button></div>
+    </div>
+  </div>
+
+  <div class="builder-card">
+    <h2>📋 Sound Reports</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Scene<input type="text" id="sound-scene" placeholder="Scene number"></label>
+      <label>Take<input type="number" id="sound-take" placeholder="Take number"></label>
+      <label>Timecode<input type="text" id="sound-timecode" placeholder="Timecode"></label>
+      <label>Quality<select id="sound-quality">
+        <option value="excellent">Excellent</option>
+        <option value="good">Good</option>
+        <option value="acceptable">Acceptable</option>
+        <option value="unusable">Unusable</option>
+      </select></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Notes<textarea id="sound-notes" rows="3" placeholder="Performance notes, technical issues, background noise..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="sound-add-report">Add Sound Report</button>
+    <button class="builder-btn" id="sound-export-report">Export Daily Report</button>
+    <div id="sound-reports" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>⚠️ Issue Log</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Scene/Take<input type="text" id="issue-scene" placeholder="e.g. 12A/T3"></label>
+      <label>Issue Type<select id="issue-type">
+        <option value="aircraft">Aircraft Noise</option>
+        <option value="traffic">Traffic</option>
+        <option value="construction">Construction</option>
+        <option value="wind">Wind</option>
+        <option value="echo">Echo/Reverb</option>
+        <option value="equipment">Equipment Noise</option>
+        <option value="other">Other</option>
+      </select></label>
+      <label>Severity<select id="issue-severity">
+        <option value="minor">Minor</option>
+        <option value="moderate">Moderate</option>
+        <option value="major">Major - Needs ADR</option>
+      </select></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Description<textarea id="issue-desc" rows="2" placeholder="Describe the audio issue..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="issue-log">Log Issue</button>
+    <div id="sound-issues" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>🎵 Wild Track List</h2>
+    <p class="hint">Record wild tracks and ambiences</p>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Location<input type="text" id="wild-location" placeholder="Location name"></label>
+      <label>Track Type<select id="wild-type">
+        <option value="ambience">Ambience/Atmos</option>
+        <option value="room_tone">Room Tone</option>
+        <option value="foley">Foley</option>
+        <option value="effects">Sound Effects</option>
+      </select></label>
+      <label>Duration<input type="text" id="wild-duration" placeholder="e.g. 2 min"></label>
+      <label>Timecode<input type="text" id="wild-timecode" placeholder="Timecode"></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Description<textarea id="wild-desc" rows="2" placeholder="What was recorded..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="wild-add">Add Wild Track</button>
+    <div id="sound-wild-tracks" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>🎤 Mic Placement Notes</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Scene<input type="text" id="mic-scene" placeholder="Scene number"></label>
+      <label>Shot<input type="text" id="mic-shot" placeholder="Shot description"></label>
+      <label>Mic Type<select id="mic-type">
+        <option value="boom">Boom</option>
+        <option value="lav">Lavalier</option>
+        <option value="plant">Plant Mic</option>
+        <option value="radio">Radio Mic</option>
+      </select></label>
+      <label>Actor<input type="text" id="mic-actor" placeholder="Actor name"></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Placement Notes<textarea id="mic-notes" rows="3" placeholder="Mic position, boom operator notes, any issues..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="mic-save">Save Mic Notes</button>
+    <div id="sound-mic-notes" style="margin-top: 16px;"></div>
+  </div>
+
+</section>

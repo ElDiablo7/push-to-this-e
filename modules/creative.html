@@ -1,0 +1,99 @@
+<section class="module-section creative-container">
+  <div class="module-header">
+    <div class="module-logo-slot"><span class="module-logo-text">🎨</span></div>
+    <div class="module-header-text">
+      <h1 class="module-title">Creative Direction</h1>
+      <p class="module-subtitle">Director / Creative Bible + Look Control - tone boards, shot intent, notes pipeline to departments</p>
+    </div>
+  </div>
+
+  <div class="builder-card" id="creative-brain-card">
+    <h2>🧠 Creative AI Assistant</h2>
+    <p class="hint">Ask about creative vision, director's notes, or visual references.</p>
+    <div class="module-brain" id="creative-brain-panel">
+      <div id="creative-brain-output" class="brain-output">
+        <div class="brain-message brain-message-system">I'm your Creative Direction AI. I help organize the director's vision and creative references. What do you need?</div>
+      </div>
+      <div class="brain-input-row">
+        <button type="button" class="brain-mic-btn" id="creative-brain-mic" title="Voice input">🎙️</button>
+        <input id="creative-brain-input" type="text" placeholder="e.g. 'Add tone board for warehouse scene'"/>
+        <button id="creative-brain-send">Ask</button>
+        <button type="button" class="brain-context-btn" title="Read placeholders and current values so the brain can calculate">📋 Use page context</button>
+      </div>
+      <div class="brain-actions"><button class="builder-btn" id="creative-brain-clear">Clear conversation</button></div>
+    </div>
+  </div>
+
+  <div class="builder-card">
+    <h2>📖 Creative Bible</h2>
+    <p class="hint">Central document for creative vision and tone</p>
+    <label style="display: block; margin-bottom: 8px;">Project Vision<textarea id="creative-vision" rows="4" placeholder="Overall creative vision and tone..."></textarea></label>
+    <label style="display: block; margin-bottom: 8px;">Color Palette<input type="text" id="creative-palette" placeholder="e.g. Desaturated blues, warm oranges"></label>
+    <label style="display: block; margin-bottom: 8px;">Visual Style<textarea id="creative-style" rows="3" placeholder="Cinematography style, framing, movement..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="creative-save-bible">Save Creative Bible</button>
+    <div id="creative-bible-display" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>🖼️ Tone Boards Gallery</h2>
+    <p class="hint">Visual reference boards for mood and atmosphere</p>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Scene/Sequence<input type="text" id="tone-scene" placeholder="e.g. Opening sequence"></label>
+      <label>Mood<input type="text" id="tone-mood" placeholder="e.g. Tense, ominous"></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Reference Images<input type="file" id="tone-images" multiple accept="image/*"></label>
+    <label style="display: block; margin-bottom: 8px;">Notes<textarea id="tone-notes" rows="2" placeholder="Reference notes..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="tone-add-board">Add Tone Board</button>
+    <div id="tone-boards" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>🎬 Shot Intent Notes</h2>
+    <p class="hint">Director's specific shot intentions per scene</p>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Scene Number<input type="text" id="intent-scene" placeholder="e.g. 12A"></label>
+      <label>Shot Number<input type="text" id="intent-shot" placeholder="e.g. Master, CU"></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Director's Intent<textarea id="intent-notes" rows="4" placeholder="What this shot needs to achieve, feeling, framing..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="intent-add">Add Shot Intent</button>
+    <div id="intent-list" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>📤 Department Briefing Pipeline</h2>
+    <p class="hint">Distribute creative notes to all departments</p>
+    <label style="display: block; margin-bottom: 8px;">Briefing Title<input type="text" id="brief-title" placeholder="e.g. Episode 2 Look"></label>
+    <label style="display: block; margin-bottom: 8px;">Target Departments<select id="brief-depts" multiple style="height: 100px;">
+      <option value="camera">Camera</option>
+      <option value="lighting">Lighting</option>
+      <option value="grip">Grip</option>
+      <option value="art">Art Department</option>
+      <option value="costume">Costume</option>
+      <option value="hmu">Hair & Makeup</option>
+      <option value="sound">Sound</option>
+    </select></label>
+    <label style="display: block; margin-bottom: 8px;">Briefing Notes<textarea id="brief-notes" rows="4" placeholder="Creative direction for departments..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="brief-send">Send Briefing</button>
+    <div id="brief-history" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>📚 Reference Library</h2>
+    <p class="hint">Organized collection of visual references</p>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Category<select id="ref-category">
+        <option value="films">Film References</option>
+        <option value="photography">Photography</option>
+        <option value="art">Art/Paintings</option>
+        <option value="architecture">Architecture</option>
+        <option value="fashion">Fashion/Costume</option>
+      </select></label>
+      <label>Tags<input type="text" id="ref-tags" placeholder="e.g. noir, urban, gritty"></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Upload Reference<input type="file" id="ref-upload" accept="image/*,video/*"></label>
+    <label style="display: block; margin-bottom: 8px;">Notes<textarea id="ref-notes" rows="2" placeholder="Why this reference is relevant..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="ref-add">Add to Library</button>
+    <div id="ref-library" style="margin-top: 16px;"></div>
+  </div>
+
+</section>

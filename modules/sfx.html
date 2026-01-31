@@ -1,0 +1,105 @@
+<section class="module-section sfx-container">
+  <div class="module-header">
+    <div class="module-logo-slot"><span class="module-logo-text">💥</span></div>
+    <div class="module-header-text">
+      <h1 class="module-title">Special Effects</h1>
+      <p class="module-subtitle">Practical SFX - method steps, safety constraints, reset time, materials</p>
+    </div>
+  </div>
+
+  <div class="builder-card" id="sfx-brain-card">
+    <h2>🧠 SFX AI</h2>
+    <p class="hint">Ask about effects setup, safety requirements, or method statements.</p>
+    <div class="module-brain" id="sfx-brain-panel">
+      <div id="sfx-brain-output" class="brain-output">
+        <div class="brain-message brain-message-system">I'm your SFX AI. I manage practical effects, safety protocols, and method statements. What do you need?</div>
+      </div>
+      <div class="brain-input-row">
+        <button type="button" class="brain-mic-btn" id="sfx-brain-mic" title="Voice input">🎙️</button>
+        <input id="sfx-brain-input" type="text" placeholder="e.g. 'Plan explosion effect for scene 12'"/>
+        <button id="sfx-brain-send">Ask</button>
+        <button type="button" class="brain-context-btn" title="Read placeholders and current values so the brain can calculate">📋 Use page context</button>
+      </div>
+      <div class="brain-actions"><button class="builder-btn" id="sfx-brain-clear">Clear conversation</button></div>
+    </div>
+  </div>
+
+  <div class="builder-card" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.05) 100%); border: 2px solid rgba(239, 68, 68, 0.3);">
+    <h2>🛡️ Safety & Risk Assessment</h2>
+    <p class="hint">Link to full Risk & Safety system for SFX risk assessments</p>
+    <button class="builder-btn gx-btn-primary" id="sfx-open-safety" style="background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);">Open Risk & Safety System</button>
+  </div>
+
+  <div class="builder-card">
+    <h2>📋 Method Statement Builder</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Scene<input type="text" id="sfx-method-scene" placeholder="Scene number"></label>
+      <label>Effect Type<select id="sfx-method-type">
+        <option value="pyro">Pyrotechnics</option>
+        <option value="explosion">Explosion</option>
+        <option value="smoke">Smoke/Atmosphere</option>
+        <option value="rain">Rain/Weather</option>
+        <option value="blood">Blood Effects</option>
+        <option value="breakaway">Breakaway/Destruction</option>
+        <option value="mechanical">Mechanical</option>
+      </select></label>
+      <label>Setup Time<input type="text" id="sfx-method-setup" placeholder="e.g. 2 hours"></label>
+      <label>Reset Time<input type="text" id="sfx-method-reset" placeholder="e.g. 30 mins"></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Step-by-Step Method<textarea id="sfx-method-steps" rows="5" placeholder="1. Setup...\n2. Test...\n3. Execute...\n4. Reset..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="sfx-save-method">Save Method Statement</button>
+    <div id="sfx-methods" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>⚠️ Safety Constraints</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Effect<input type="text" id="sfx-safety-effect" placeholder="Effect name"></label>
+      <label>Safety Zone<input type="text" id="sfx-safety-zone" placeholder="e.g. 50m radius"></label>
+      <label>Personnel Limit<input type="number" id="sfx-safety-personnel" placeholder="Max people on set"></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Safety Requirements<textarea id="sfx-safety-req" rows="4" placeholder="PPE required, evacuation procedures, fire safety..."></textarea></label>
+    <label style="display: block; margin-bottom: 8px;">Emergency Procedures<textarea id="sfx-safety-emergency" rows="3" placeholder="What to do if something goes wrong..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="sfx-save-safety">Save Safety Constraints</button>
+    <div id="sfx-safety-constraints" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>⏱️ Reset Time Tracking</h2>
+    <p class="hint">Track effect reset times for scheduling</p>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Effect<input type="text" id="sfx-reset-effect" placeholder="Effect name"></label>
+      <label>Takes Possible<input type="number" id="sfx-reset-takes" placeholder="Number of takes"></label>
+      <label>Reset Duration<input type="text" id="sfx-reset-duration" placeholder="e.g. 30 mins"></label>
+      <label>Crew Required<input type="number" id="sfx-reset-crew" placeholder="Number of crew"></label>
+    </div>
+    <button class="builder-btn gx-btn-primary" id="sfx-track-reset">Track Reset</button>
+    <div id="sfx-reset-tracking" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>🧪 Materials List</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Effect<input type="text" id="sfx-mat-effect" placeholder="Effect name"></label>
+      <label>Material<input type="text" id="sfx-mat-item" placeholder="Material/chemical name"></label>
+      <label>Quantity<input type="text" id="sfx-mat-qty" placeholder="Amount needed"></label>
+      <label>Source<input type="text" id="sfx-mat-source" placeholder="Supplier"></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Safety Data<textarea id="sfx-mat-safety" rows="2" placeholder="COSHH data, handling requirements..."></textarea></label>
+    <button class="builder-btn" id="sfx-mat-add">Add Material</button>
+    <button class="builder-btn gx-btn-primary" id="sfx-mat-save-list">Save Materials List</button>
+    <div id="sfx-materials" style="margin-top: 16px;"></div>
+  </div>
+
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const openSafetyBtn = document.getElementById('sfx-open-safety');
+  if (openSafetyBtn) {
+    openSafetyBtn.addEventListener('click', function() {
+      window.location.hash = '#/risk-safety';
+    });
+  }
+});
+</script>

@@ -1,0 +1,178 @@
+<section class="module-section finance-container">
+  <div class="module-header">
+    <div class="module-logo-slot"><span class="module-logo-text">💰</span></div>
+    <div class="module-header-text">
+      <h1 class="module-title">Finance & Accounting</h1>
+      <p class="module-subtitle">Cost Tracking + Payroll Windows + PO Status - estimate vs actual, approvals queue</p>
+    </div>
+  </div>
+
+  <div class="builder-card" id="finance-brain-card">
+    <h2>🧠 Finance AI</h2>
+    <p class="hint">Ask about budget tracking, purchase orders, or cost reporting.</p>
+    <div class="module-brain" id="finance-brain-panel">
+      <div id="finance-brain-output" class="brain-output">
+        <div class="brain-message brain-message-system">I'm your Finance AI. I manage budgets, POs, and cost tracking. What do you need?</div>
+      </div>
+      <div class="brain-input-row">
+        <button type="button" class="brain-mic-btn" id="finance-brain-mic" title="Voice input">🎙️</button>
+        <input id="finance-brain-input" type="text" placeholder="e.g. 'Show camera department spend vs budget'"/>
+        <button id="finance-brain-send">Ask</button>
+        <button type="button" class="brain-context-btn" title="Read placeholders and current values so the brain can calculate">📋 Use page context</button>
+      </div>
+      <div class="brain-actions"><button class="builder-btn" id="finance-brain-clear">Clear conversation</button></div>
+    </div>
+  </div>
+
+  <div class="builder-card">
+    <h2>📊 Cost Tracking (Estimate vs Actual)</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Department<select id="fin-cost-dept">
+        <option value="">Select department...</option>
+        <option value="camera">Camera</option>
+        <option value="lighting">Lighting & Electric</option>
+        <option value="grip">Grip</option>
+        <option value="sound">Sound</option>
+        <option value="art">Art Department</option>
+        <option value="costume">Costume</option>
+        <option value="hmu">Hair & Makeup</option>
+        <option value="locations">Locations</option>
+        <option value="cast">Cast</option>
+        <option value="crew">Crew</option>
+        <option value="production">Production Office</option>
+        <option value="post">Post Production</option>
+      </select></label>
+      <label>Line Item<input type="text" id="fin-cost-line" placeholder="e.g. Camera rental Week 1"></label>
+      <label>Estimated<input type="number" id="fin-cost-estimate" placeholder="0.00" step="0.01"></label>
+      <label>Actual<input type="number" id="fin-cost-actual" placeholder="0.00" step="0.01"></label>
+    </div>
+    <button class="builder-btn gx-btn-primary" id="fin-add-cost">Add Cost Line</button>
+    <button class="builder-btn" id="fin-export-report">Export Report</button>
+    <div id="fin-cost-tracker" style="margin-top: 16px;">
+      <div style="padding: 12px; background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 12px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+          <span><strong>Total Budget:</strong></span>
+          <span id="fin-total-budget">£0.00</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+          <span><strong>Total Spent:</strong></span>
+          <span id="fin-total-spent">£0.00</span>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span><strong>Variance:</strong></span>
+          <span id="fin-variance" style="font-weight: 600;">£0.00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="builder-card">
+    <h2>📋 Purchase Order (PO) Status</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>PO Number<input type="text" id="fin-po-number" placeholder="PO-001"></label>
+      <label>Supplier<input type="text" id="fin-po-supplier" placeholder="Supplier name"></label>
+      <label>Department<input type="text" id="fin-po-dept" placeholder="Department"></label>
+      <label>Amount<input type="number" id="fin-po-amount" placeholder="0.00" step="0.01"></label>
+    </div>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Status<select id="fin-po-status">
+        <option value="pending">Pending Approval</option>
+        <option value="approved">Approved</option>
+        <option value="ordered">Ordered</option>
+        <option value="received">Received</option>
+        <option value="paid">Paid</option>
+      </select></label>
+      <label>Order Date<input type="date" id="fin-po-date"></label>
+      <label>Due Date<input type="date" id="fin-po-due"></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Description<textarea id="fin-po-desc" rows="2" placeholder="What's being purchased..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="fin-add-po">Create PO</button>
+    <button class="builder-btn" id="fin-view-pos">View All POs</button>
+    <div id="fin-po-tracker" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>💼 Payroll Windows</h2>
+    <p class="hint">Track crew payroll periods and submissions</p>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Payroll Period<select id="fin-payroll-period">
+        <option value="weekly">Weekly</option>
+        <option value="biweekly">Bi-weekly</option>
+        <option value="monthly">Monthly</option>
+      </select></label>
+      <label>Period Start<input type="date" id="fin-payroll-start"></label>
+      <label>Period End<input type="date" id="fin-payroll-end"></label>
+      <label>Submission Deadline<input type="date" id="fin-payroll-deadline"></label>
+    </div>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Status<select id="fin-payroll-status">
+        <option value="open">Open</option>
+        <option value="submitted">Timesheets Submitted</option>
+        <option value="processing">Processing</option>
+        <option value="paid">Paid</option>
+      </select></label>
+      <label>Total Amount<input type="number" id="fin-payroll-amount" placeholder="0.00" step="0.01"></label>
+    </div>
+    <button class="builder-btn gx-btn-primary" id="fin-add-payroll">Add Payroll Period</button>
+    <button class="builder-btn" id="fin-remind-timesheets">Send Reminder</button>
+    <div id="fin-payroll-tracker" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>✅ Approvals Queue</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Request Type<select id="fin-approval-type">
+        <option value="po">Purchase Order</option>
+        <option value="expense">Expense Claim</option>
+        <option value="invoice">Invoice Payment</option>
+        <option value="overtime">Overtime Authorization</option>
+        <option value="hire">Equipment Hire</option>
+      </select></label>
+      <label>Requester<input type="text" id="fin-approval-requester" placeholder="Who requested"></label>
+      <label>Amount<input type="number" id="fin-approval-amount" placeholder="0.00" step="0.01"></label>
+      <label>Status<select id="fin-approval-status">
+        <option value="pending">Pending Review</option>
+        <option value="approved">Approved</option>
+        <option value="rejected">Rejected</option>
+        <option value="info_needed">Info Needed</option>
+      </select></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Details<textarea id="fin-approval-details" rows="2" placeholder="What needs approval..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="fin-add-approval">Add to Queue</button>
+    <button class="builder-btn" id="fin-approve-all">Batch Approve</button>
+    <div id="fin-approval-queue" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>💳 Petty Cash Tracking</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Date<input type="date" id="fin-petty-date"></label>
+      <label>Recipient<input type="text" id="fin-petty-recipient" placeholder="Who received cash"></label>
+      <label>Amount<input type="number" id="fin-petty-amount" placeholder="0.00" step="0.01"></label>
+      <label>Purpose<input type="text" id="fin-petty-purpose" placeholder="What it's for"></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Receipt<input type="file" id="fin-petty-receipt" accept="image/*,.pdf"></label>
+    <button class="builder-btn gx-btn-primary" id="fin-log-petty">Log Petty Cash</button>
+    <div id="fin-petty-tracker" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>📊 Financial Reports</h2>
+    <p class="hint">Generate production financial reports</p>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Report Type<select id="fin-report-type">
+        <option value="cost_summary">Cost Summary by Department</option>
+        <option value="weekly">Weekly Spend Report</option>
+        <option value="variance">Budget Variance Report</option>
+        <option value="po_summary">PO Status Summary</option>
+        <option value="payroll">Payroll Summary</option>
+      </select></label>
+      <label>Date From<input type="date" id="fin-report-from"></label>
+      <label>Date To<input type="date" id="fin-report-to"></label>
+    </div>
+    <button class="builder-btn gx-btn-primary" id="fin-generate-report">Generate Report</button>
+    <button class="builder-btn" id="fin-email-report">Email Report</button>
+    <div id="fin-reports" style="margin-top: 16px;"></div>
+  </div>
+
+</section>

@@ -1,0 +1,243 @@
+<section class="module-section safety-container">
+  <!-- Module Header -->
+  <div class="module-header">
+    <div class="module-logo-slot">
+      <span class="module-logo-text">🛡️</span>
+    </div>
+    <div class="module-header-text">
+      <h1 class="module-title">Safety & Compliance</h1>
+      <p class="module-subtitle">
+        H&S / RAMS / On-set Compliance - risk packs per day, sign-offs, incident logs, stop-work routing
+      </p>
+    </div>
+  </div>
+
+  <!-- AI Assistant (Priority #1) -->
+  <div class="builder-card" id="safety-brain-card">
+    <h2>🧠 Safety AI Assistant</h2>
+    <p class="hint">
+      Ask about risk assessments, safety protocols, incident reporting, or compliance requirements.
+    </p>
+
+    <div class="module-brain" id="safety-brain-panel">
+      <div id="safety-brain-output" class="brain-output">
+        <div class="brain-message brain-message-system">
+          I'm your Safety & Compliance AI. I help with RAMS, risk assessments, and incident management. What do you need?
+        </div>
+      </div>
+
+      <div class="brain-input-row">
+        <button type="button" class="brain-mic-btn" id="safety-brain-mic" title="Voice input">
+          🎙️
+        </button>
+        <input
+          id="safety-brain-input"
+          type="text"
+          placeholder="e.g. 'Generate RAMS for stunt scene' or 'Report near miss incident'"
+        />
+        <button id="safety-brain-send">Ask</button>
+        <button type="button" class="brain-context-btn" title="Read placeholders and current values so the brain can calculate">📋 Use page context</button>
+      </div>
+
+      <div class="brain-actions">
+        <button class="builder-btn" id="safety-brain-clear">Clear conversation</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Link to Full Risk & Safety System -->
+  <div class="builder-card" style="background: linear-gradient(135deg, rgba(220, 38, 38, 0.1) 0%, rgba(153, 27, 27, 0.05) 100%); border: 2px solid rgba(220, 38, 38, 0.3);">
+    <h2>🎯 Full Risk & Safety Management System</h2>
+    <p class="hint">Access the complete Risk & Safety module with all features</p>
+    
+    <button class="builder-btn gx-btn-primary" id="safety-open-full-system" style="background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); margin-top: 12px;">
+      Open Full Risk & Safety System
+    </button>
+    
+    <div style="margin-top: 16px; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 8px;">
+      <p style="margin: 0; font-size: 14px; color: #cbd5e1;">
+        The full system includes: Incident Reporting, Safety Checklists, Risk Register, Safety Inductions, Compliance Tracking, and Emergency Protocols.
+      </p>
+    </div>
+  </div>
+
+  <!-- RAMS per Shoot Day -->
+  <div class="builder-card">
+    <h2>📋 RAMS (Risk Assessment Method Statement)</h2>
+    <p class="hint">Create risk assessments for each shoot day</p>
+    
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>
+        Shoot Day
+        <input type="date" id="safety-rams-date">
+      </label>
+      <label>
+        Activity/Scene
+        <input type="text" id="safety-rams-activity" placeholder="e.g. Scene 14 - Car Stunt">
+      </label>
+      <label>
+        Risk Level
+        <select id="safety-rams-risk">
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+          <option value="critical">Critical</option>
+        </select>
+      </label>
+      <label>
+        Control Measures
+        <input type="text" id="safety-rams-controls" placeholder="Safety controls in place">
+      </label>
+    </div>
+    
+    <label style="display: block; margin-bottom: 8px;">
+      Hazards Identified
+      <textarea id="safety-rams-hazards" rows="3" placeholder="List all identified hazards..."></textarea>
+    </label>
+    
+    <button class="builder-btn gx-btn-primary" id="safety-create-rams">Create RAMS</button>
+    <button class="builder-btn" id="safety-view-rams">View All RAMS</button>
+    
+    <div id="safety-rams-list" style="margin-top: 16px;">
+      <!-- RAMS will be listed here -->
+    </div>
+  </div>
+
+  <!-- Sign-off Tracking -->
+  <div class="builder-card">
+    <h2>✍️ Safety Sign-offs</h2>
+    <p class="hint">Track mandatory safety briefings and acknowledgments</p>
+    
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>
+        Sign-off Type
+        <select id="safety-signoff-type">
+          <option value="daily_briefing">Daily Safety Briefing</option>
+          <option value="hot_work">Hot Work Permit</option>
+          <option value="height_work">Work at Height</option>
+          <option value="confined_space">Confined Space</option>
+          <option value="stunt_briefing">Stunt Briefing</option>
+          <option value="pyro_briefing">Pyro/SFX Briefing</option>
+        </select>
+      </label>
+      <label>
+        Crew Member
+        <input type="text" id="safety-signoff-crew" placeholder="Name">
+      </label>
+      <label>
+        Department
+        <input type="text" id="safety-signoff-dept" placeholder="Department">
+      </label>
+    </div>
+    
+    <button class="builder-btn gx-btn-primary" id="safety-record-signoff">Record Sign-off</button>
+    <button class="builder-btn" id="safety-pending-signoffs">View Pending</button>
+    
+    <div id="safety-signoff-tracker" style="margin-top: 16px;">
+      <!-- Sign-offs will be tracked here -->
+    </div>
+  </div>
+
+  <!-- Incident Logs -->
+  <div class="builder-card" style="border: 2px solid rgba(239, 68, 68, 0.5);">
+    <h2>⚠️ Incident Reporting</h2>
+    <p class="hint">Report and track all safety incidents and near misses</p>
+    
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>
+        Incident Type
+        <select id="safety-incident-type">
+          <option value="near_miss">Near Miss</option>
+          <option value="first_aid">First Aid</option>
+          <option value="injury">Injury</option>
+          <option value="equipment_damage">Equipment Damage</option>
+          <option value="environmental">Environmental</option>
+          <option value="security">Security</option>
+        </select>
+      </label>
+      <label>
+        Severity
+        <select id="safety-incident-severity">
+          <option value="minor">Minor</option>
+          <option value="moderate">Moderate</option>
+          <option value="serious">Serious</option>
+          <option value="critical">Critical</option>
+        </select>
+      </label>
+      <label>
+        Date/Time
+        <input type="datetime-local" id="safety-incident-datetime">
+      </label>
+      <label>
+        Location
+        <input type="text" id="safety-incident-location" placeholder="Where did it happen?">
+      </label>
+    </div>
+    
+    <label style="display: block; margin-bottom: 8px;">
+      Incident Description
+      <textarea id="safety-incident-desc" rows="4" placeholder="Describe what happened in detail..."></textarea>
+    </label>
+    
+    <button class="builder-btn gx-btn-primary" id="safety-report-incident" style="background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);">
+      Report Incident
+    </button>
+    <button class="builder-btn" id="safety-view-incidents">View Incident Log</button>
+    
+    <div id="safety-incident-log" style="margin-top: 16px;">
+      <!-- Incidents will be logged here -->
+    </div>
+  </div>
+
+  <!-- Stop-Work Authority -->
+  <div class="builder-card" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(185, 28, 28, 0.05) 100%); border: 2px solid rgba(239, 68, 68, 0.5);">
+    <h2>🛑 Stop-Work Authority</h2>
+    <p class="hint">Halt production for immediate safety concerns</p>
+    
+    <div style="padding: 16px; background: rgba(239, 68, 68, 0.1); border-radius: 8px; margin-bottom: 16px;">
+      <p style="margin: 0; font-weight: 600; color: #ef4444;">
+        Any crew member has the authority to stop work if they identify an immediate safety risk.
+      </p>
+    </div>
+    
+    <label style="display: block; margin-bottom: 8px;">
+      Reason for Stop-Work
+      <textarea id="safety-stopwork-reason" rows="4" placeholder="Describe the immediate safety concern..."></textarea>
+    </label>
+    
+    <button class="builder-btn gx-btn-primary" id="safety-initiate-stopwork" style="background: linear-gradient(135deg, #dc2626 0%, #7f1d1d 100%); font-weight: 700;">
+      ⚠️ INITIATE STOP-WORK
+    </button>
+    
+    <div id="safety-stopwork-log" style="margin-top: 16px;">
+      <!-- Stop-work events will be logged here -->
+    </div>
+  </div>
+
+  <!-- Safety Tasks -->
+  <div class="builder-card">
+    <h2>✅ Safety Department Tasks</h2>
+    <p class="hint">Track safety-related tasks and compliance actions</p>
+    
+    <button class="builder-btn gx-btn-primary" id="safety-add-task">Add Task</button>
+    <button class="builder-btn" id="safety-sync-tasks">Sync with Master</button>
+    
+    <div id="safety-task-list" style="margin-top: 16px;">
+      <!-- Tasks will be listed here -->
+    </div>
+  </div>
+
+</section>
+
+<script>
+// Link to full Risk & Safety system
+document.addEventListener('DOMContentLoaded', function() {
+  const openFullSystemBtn = document.getElementById('safety-open-full-system');
+  if (openFullSystemBtn) {
+    openFullSystemBtn.addEventListener('click', function() {
+      // Navigate to the full risk-safety module
+      window.location.hash = '#/risk-safety';
+    });
+  }
+});
+</script>

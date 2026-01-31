@@ -1,0 +1,89 @@
+<section class="module-section art-container">
+  <div class="module-header">
+    <div class="module-logo-slot"><span class="module-logo-text">🏛️</span></div>
+    <div class="module-header-text">
+      <h1 class="module-title">Art & Set Design</h1>
+      <p class="module-subtitle">Art Dept / PD + Set Dec - set builds, props, dressing, continuity photos</p>
+    </div>
+  </div>
+
+  <div class="builder-card" id="art-brain-card">
+    <h2>🧠 Art Department AI</h2>
+    <p class="hint">Ask about set design, props, dressing, or build schedules.</p>
+    <div class="module-brain" id="art-brain-panel">
+      <div id="art-brain-output" class="brain-output">
+        <div class="brain-message brain-message-system">I'm your Art Department AI. I manage sets, props, and dressing. What do you need?</div>
+      </div>
+      <div class="brain-input-row">
+        <button type="button" class="brain-mic-btn" id="art-brain-mic" title="Voice input">🎙️</button>
+        <input id="art-brain-input" type="text" placeholder="e.g. 'Track props for kitchen scene'"/>
+        <button id="art-brain-send">Ask</button>
+        <button type="button" class="brain-context-btn" title="Read placeholders and current values so the brain can calculate">📋 Use page context</button>
+      </div>
+      <div class="brain-actions"><button class="builder-btn" id="art-brain-clear">Clear conversation</button></div>
+    </div>
+  </div>
+
+  <div class="builder-card">
+    <h2>🏗️ Set Build Schedule</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Set Name<input type="text" id="art-set-name" placeholder="e.g. Living Room Int"></label>
+      <label>Build Start<input type="date" id="art-build-start"></label>
+      <label>Ready Date<input type="date" id="art-build-ready"></label>
+      <label>Status<select id="art-build-status">
+        <option value="planning">Planning</option>
+        <option value="building">Building</option>
+        <option value="dressing">Dressing</option>
+        <option value="ready">Ready</option>
+      </select></label>
+    </div>
+    <button class="builder-btn gx-btn-primary" id="art-add-build">Add Build</button>
+    <div id="art-builds" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>🎭 Props Inventory</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Prop Name<input type="text" id="art-prop-name" placeholder="e.g. Vintage telephone"></label>
+      <label>Scene<input type="text" id="art-prop-scene" placeholder="Scene number"></label>
+      <label>Source<select id="art-prop-source">
+        <option value="owned">Owned</option>
+        <option value="rented">Rented</option>
+        <option value="purchased">Purchased</option>
+        <option value="borrowed">Borrowed</option>
+      </select></label>
+      <label>Status<select id="art-prop-status">
+        <option value="sourcing">Sourcing</option>
+        <option value="confirmed">Confirmed</option>
+        <option value="onhand">On Hand</option>
+      </select></label>
+    </div>
+    <button class="builder-btn gx-btn-primary" id="art-add-prop">Add Prop</button>
+    <div id="art-props" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>🎨 Dressing Checklist</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Set/Location<input type="text" id="art-dress-set" placeholder="Location name"></label>
+      <label>Scene<input type="text" id="art-dress-scene" placeholder="Scene numbers"></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Dressing Items<textarea id="art-dress-items" rows="4" placeholder="List all dressing items required..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="art-add-dressing">Create Checklist</button>
+    <div id="art-dressing-lists" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>📸 Continuity Photo Library</h2>
+    <p class="hint">Set continuity photos for matching</p>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Set Name<input type="text" id="art-cont-set" placeholder="Set name"></label>
+      <label>Scene<input type="text" id="art-cont-scene" placeholder="Scene number"></label>
+      <label>Shoot Date<input type="date" id="art-cont-date"></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Upload Photos<input type="file" id="art-cont-photos" multiple accept="image/*"></label>
+    <button class="builder-btn gx-btn-primary" id="art-upload-continuity">Upload Continuity</button>
+    <div id="art-continuity-gallery" style="margin-top: 16px;"></div>
+  </div>
+
+</section>

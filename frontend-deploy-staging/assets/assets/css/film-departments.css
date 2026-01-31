@@ -1,0 +1,325 @@
+/* ============================================
+   GRACE-X FILM DEPARTMENTS STYLING
+   Film Edition v7.0 - Color-Coded Departments
+   ============================================ */
+
+/* Use page context button — next to Ask so brain can read placeholders and calculate */
+.brain-context-btn {
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-size: 0.9em;
+}
+
+/* Production Office - Blue tones */
+.production-container {
+  --dept-color: #3b82f6;
+  --dept-color-light: #60a5fa;
+  --dept-color-dark: #2563eb;
+}
+
+.assistant_directors-container {
+  --dept-color: #2563eb;
+  --dept-color-light: #3b82f6;
+  --dept-color-dark: #1d4ed8;
+}
+
+.safety-container {
+  --dept-color: #dc2626;
+  --dept-color-light: #ef4444;
+  --dept-color-dark: #991b1b;
+}
+
+.finance-container {
+  --dept-color: #14b8a6;
+  --dept-color-light: #2dd4bf;
+  --dept-color-dark: #0f766e;
+}
+
+/* Pre-Production - Purple tones */
+.locations-container {
+  --dept-color: #8b5cf6;
+  --dept-color-light: #a78bfa;
+  --dept-color-dark: #7c3aed;
+}
+
+.casting-container {
+  --dept-color: #a855f7;
+  --dept-color-light: #c084fc;
+  --dept-color-dark: #9333ea;
+}
+
+.creative-container {
+  --dept-color: #ec4899;
+  --dept-color-light: #f472b6;
+  --dept-color-dark: #db2777;
+}
+
+/* Art Department - Orange/Yellow tones */
+.art-container {
+  --dept-color: #f59e0b;
+  --dept-color-light: #fbbf24;
+  --dept-color-dark: #d97706;
+}
+
+.costume-container {
+  --dept-color: #f97316;
+  --dept-color-light: #fb923c;
+  --dept-color-dark: #ea580c;
+}
+
+.hmu-container {
+  --dept-color: #fb923c;
+  --dept-color-light: #fdba74;
+  --dept-color-dark: #f97316;
+}
+
+/* Camera & Lighting - Cyan tones */
+.camera-container {
+  --dept-color: #06b6d4;
+  --dept-color-light: #22d3ee;
+  --dept-color-dark: #0891b2;
+}
+
+.lighting-container {
+  --dept-color: #0ea5e9;
+  --dept-color-light: #38bdf8;
+  --dept-color-dark: #0284c7;
+}
+
+.grip-container {
+  --dept-color: #0284c7;
+  --dept-color-light: #0ea5e9;
+  --dept-color-dark: #0369a1;
+}
+
+/* Sound & Special - Green/Red tones */
+.sound-container {
+  --dept-color: #10b981;
+  --dept-color-light: #34d399;
+  --dept-color-dark: #059669;
+}
+
+.sfx-container {
+  --dept-color: #ef4444;
+  --dept-color-light: #f87171;
+  --dept-color-dark: #dc2626;
+}
+
+.stunts-container {
+  --dept-color: #dc2626;
+  --dept-color-light: #ef4444;
+  --dept-color-dark: #b91c1c;
+}
+
+/* Post & Marketing - Purple/Pink tones */
+.post-container {
+  --dept-color: #6366f1;
+  --dept-color-light: #818cf8;
+  --dept-color-dark: #4f46e5;
+}
+
+.publicity-container {
+  --dept-color: #d946ef;
+  --dept-color-light: #e879f9;
+  --dept-color-dark: #c026d3;
+}
+
+.vault-container {
+  --dept-color: #00d4ff;
+  --dept-color-light: #33ddff;
+  --dept-color-dark: #0099cc;
+}
+
+/* ============================================
+   DEPARTMENT MODULE HEADER STYLING
+   ============================================ */
+
+/* Apply color accent to module headers */
+[class$="-container"] .module-header {
+  border-left: 4px solid var(--dept-color);
+}
+
+[class$="-container"] .module-logo-slot {
+  background: linear-gradient(135deg, var(--dept-color) 0%, var(--dept-color-dark) 100%);
+}
+
+[class$="-container"] .module-title {
+  color: var(--dept-color-light);
+}
+
+/* ============================================
+   DEPARTMENT CARDS & BUTTONS
+   ============================================ */
+
+/* Primary buttons in each department */
+[class$="-container"] .gx-btn-primary {
+  background: linear-gradient(135deg, var(--dept-color) 0%, var(--dept-color-dark) 100%);
+  border-color: var(--dept-color);
+}
+
+[class$="-container"] .gx-btn-primary:hover {
+  background: linear-gradient(135deg, var(--dept-color-light) 0%, var(--dept-color) 100%);
+  box-shadow: 0 0 20px var(--dept-color);
+}
+
+/* Builder cards in each department */
+[class$="-container"] .builder-card {
+  border-color: rgba(var(--dept-color), 0.2);
+}
+
+[class$="-container"] .builder-card h2 {
+  color: var(--dept-color-light);
+}
+
+/* ============================================
+   BRAIN PANEL ACCENTS
+   ============================================ */
+
+[class$="-container"] .module-brain {
+  border-left: 3px solid var(--dept-color);
+}
+
+[class$="-container"] .brain-message-assistant {
+  border-left-color: var(--dept-color);
+  background: linear-gradient(90deg, rgba(var(--dept-color), 0.1) 0%, transparent 100%);
+}
+
+/* ============================================
+   STATUS INDICATORS
+   ============================================ */
+
+[class$="-container"] .status-active {
+  background: var(--dept-color);
+}
+
+[class$="-container"] .status-indicator {
+  border-color: var(--dept-color);
+  box-shadow: 0 0 10px var(--dept-color);
+}
+
+/* ============================================
+   NAVIGATION SECTION TITLES
+   ============================================ */
+
+.section-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #94a3b8;
+  padding: 16px 16px 8px 16px;
+  margin-top: 12px;
+  border-top: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.section-title:first-of-type {
+  margin-top: 0;
+  border-top: none;
+}
+
+/* ============================================
+   RESPONSIVE DEPARTMENT STYLING
+   ============================================ */
+
+@media (max-width: 768px) {
+  [class$="-container"] .summary-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  [class$="-container"] .module-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ============================================
+   DEPARTMENT-SPECIFIC OVERRIDES
+   ============================================ */
+
+/* Safety department - red accent for critical items */
+.safety-container .stop-work-btn,
+.safety-container .incident-btn {
+  background: linear-gradient(135deg, #dc2626 0%, #7f1d1d 100%);
+  border: 2px solid #ef4444;
+}
+
+/* Finance department - green for positive, red for negative */
+.finance-container .variance-positive {
+  color: #10b981;
+  font-weight: 700;
+}
+
+.finance-container .variance-negative {
+  color: #ef4444;
+  font-weight: 700;
+}
+
+/* Vault - secure lock indicators */
+.vault-container .locked-indicator {
+  color: #10b981;
+}
+
+.vault-container .unlocked-indicator {
+  color: #f59e0b;
+}
+
+/* ============================================
+   FILM PRODUCTION THEME ENHANCEMENTS
+   ============================================ */
+
+/* Clapperboard-style accents */
+.module-nav .module-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, currentColor 50%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.module-nav .module-btn:hover::before {
+  opacity: 0.5;
+}
+
+/* Film reel loading animation */
+@keyframes filmReel {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-film {
+  animation: filmReel 2s linear infinite;
+}
+
+/* ============================================
+   ACCESSIBILITY & HIGH CONTRAST
+   ============================================ */
+
+@media (prefers-contrast: high) {
+  [class$="-container"] .module-header {
+    border-left-width: 6px;
+  }
+  
+  [class$="-container"] .builder-card {
+    border-width: 2px;
+  }
+}
+
+/* ============================================
+   PRINT STYLES FOR DEPARTMENTS
+   ============================================ */
+
+@media print {
+  [class$="-container"] .module-header {
+    border-left-color: #000;
+    color: #000;
+  }
+  
+  [class$="-container"] .builder-card {
+    border: 1px solid #000;
+    page-break-inside: avoid;
+  }
+}

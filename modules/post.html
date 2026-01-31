@@ -1,0 +1,119 @@
+<section class="module-section post-container">
+  <div class="module-header">
+    <div class="module-logo-slot"><span class="module-logo-text">🎞️</span></div>
+    <div class="module-header-text">
+      <h1 class="module-title">Post Production</h1>
+      <p class="module-subtitle">Post Pipeline - dailies intake, edit versions, turnovers, deliverables checklist</p>
+    </div>
+  </div>
+
+  <div class="builder-card" id="post-brain-card">
+    <h2>🧠 Post Production AI</h2>
+    <p class="hint">Ask about edit timelines, turnovers, or deliverables.</p>
+    <div class="module-brain" id="post-brain-panel">
+      <div id="post-brain-output" class="brain-output">
+        <div class="brain-message brain-message-system">I'm your Post Production AI. I manage edit versions, turnovers, and deliverables. What do you need?</div>
+      </div>
+      <div class="brain-input-row">
+        <button type="button" class="brain-mic-btn" id="post-brain-mic" title="Voice input">🎙️</button>
+        <input id="post-brain-input" type="text" placeholder="e.g. 'Track VFX turnover for episode 2'"/>
+        <button id="post-brain-send">Ask</button>
+        <button type="button" class="brain-context-btn" title="Read placeholders and current values so the brain can calculate">📋 Use page context</button>
+      </div>
+      <div class="brain-actions"><button class="builder-btn" id="post-brain-clear">Clear conversation</button></div>
+    </div>
+  </div>
+
+  <div class="builder-card">
+    <h2>📥 Dailies Intake Log</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Shoot Date<input type="date" id="post-dailies-date"></label>
+      <label>Scene Numbers<input type="text" id="post-dailies-scenes" placeholder="e.g. 12A, 14, 15B"></label>
+      <label>Timecode Range<input type="text" id="post-dailies-tc" placeholder="Start - End"></label>
+      <label>Status<select id="post-dailies-status">
+        <option value="transcoding">Transcoding</option>
+        <option value="syncing">Syncing Audio</option>
+        <option value="ready">Ready for Review</option>
+        <option value="reviewed">Reviewed</option>
+      </select></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Notes<textarea id="post-dailies-notes" rows="2" placeholder="Technical notes, issues..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="post-log-dailies">Log Dailies</button>
+    <button class="builder-btn" id="post-view-dailies">View All Dailies</button>
+    <div id="post-dailies-log" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>✂️ Edit Version Tracker</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Episode/Scene<input type="text" id="post-version-ep" placeholder="e.g. Ep 2"></label>
+      <label>Version<input type="text" id="post-version-num" placeholder="e.g. V05"></label>
+      <label>Editor<input type="text" id="post-version-editor" placeholder="Editor name"></label>
+      <label>Status<select id="post-version-status">
+        <option value="rough">Rough Cut</option>
+        <option value="fine">Fine Cut</option>
+        <option value="locked">Picture Lock</option>
+        <option value="final">Final</option>
+      </select></label>
+    </div>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Duration<input type="text" id="post-version-duration" placeholder="e.g. 48:30"></label>
+      <label>Date<input type="date" id="post-version-date"></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Change Notes<textarea id="post-version-notes" rows="3" placeholder="What changed in this version..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="post-save-version">Save Version</button>
+    <div id="post-versions" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>📤 Turnover Checklist</h2>
+    <p class="hint">Track turnovers to VFX, Sound, Color, etc.</p>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Department<select id="post-turnover-dept">
+        <option value="vfx">VFX</option>
+        <option value="sound">Sound/Mix</option>
+        <option value="color">Color Grade</option>
+        <option value="titles">Titles/Graphics</option>
+        <option value="music">Music</option>
+      </select></label>
+      <label>Episode/Reel<input type="text" id="post-turnover-ep" placeholder="e.g. Ep 2"></label>
+      <label>Turnover Date<input type="date" id="post-turnover-date"></label>
+      <label>Status<select id="post-turnover-status">
+        <option value="preparing">Preparing</option>
+        <option value="sent">Sent</option>
+        <option value="in_progress">In Progress</option>
+        <option value="delivered">Delivered</option>
+      </select></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Turnover Contents<textarea id="post-turnover-contents" rows="3" placeholder="What's included in this turnover..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="post-add-turnover">Add Turnover</button>
+    <div id="post-turnovers" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>✅ Deliverables Checklist</h2>
+    <p class="hint">Track final deliverables and technical specs</p>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Deliverable Type<select id="post-deliv-type">
+        <option value="master">Master File</option>
+        <option value="textless">Textless</option>
+        <option value="stereo_mix">Stereo Mix</option>
+        <option value="5.1_mix">5.1 Mix</option>
+        <option value="subtitles">Subtitles/Captions</option>
+        <option value="promo">Promo/Trailer</option>
+      </select></label>
+      <label>Format<input type="text" id="post-deliv-format" placeholder="e.g. ProRes 422HQ"></label>
+      <label>Resolution<input type="text" id="post-deliv-res" placeholder="e.g. 1920x1080"></label>
+      <label>Status<select id="post-deliv-status">
+        <option value="pending">Pending</option>
+        <option value="in_progress">In Progress</option>
+        <option value="qc">QC</option>
+        <option value="delivered">Delivered</option>
+      </select></label>
+    </div>
+    <button class="builder-btn gx-btn-primary" id="post-add-deliverable">Add Deliverable</button>
+    <button class="builder-btn" id="post-export-checklist">Export Checklist</button>
+    <div id="post-deliverables" style="margin-top: 16px;"></div>
+  </div>
+
+</section>

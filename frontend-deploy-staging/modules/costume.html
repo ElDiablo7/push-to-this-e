@@ -1,0 +1,85 @@
+<section class="module-section costume-container">
+  <div class="module-header">
+    <div class="module-logo-slot"><span class="module-logo-text">👔</span></div>
+    <div class="module-header-text">
+      <h1 class="module-title">Costume & Wardrobe</h1>
+      <p class="module-subtitle">Wardrobe - fittings, continuity, laundry, standbys, tracking</p>
+    </div>
+  </div>
+
+  <div class="builder-card" id="costume-brain-card">
+    <h2>🧠 Costume AI</h2>
+    <p class="hint">Ask about fittings, continuity, or wardrobe tracking.</p>
+    <div class="module-brain" id="costume-brain-panel">
+      <div id="costume-brain-output" class="brain-output">
+        <div class="brain-message brain-message-system">I'm your Costume AI. I manage fittings, continuity, and wardrobe tracking. What do you need?</div>
+      </div>
+      <div class="brain-input-row">
+        <button type="button" class="brain-mic-btn" id="costume-brain-mic" title="Voice input">🎙️</button>
+        <input id="costume-brain-input" type="text" placeholder="e.g. 'Schedule fitting for lead actor'"/>
+        <button id="costume-brain-send">Ask</button>
+        <button type="button" class="brain-context-btn" title="Read placeholders and current values so the brain can calculate">📋 Use page context</button>
+      </div>
+      <div class="brain-actions"><button class="builder-btn" id="costume-brain-clear">Clear conversation</button></div>
+    </div>
+  </div>
+
+  <div class="builder-card">
+    <h2>📏 Fitting Schedule</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Actor<input type="text" id="cost-actor" placeholder="Actor name"></label>
+      <label>Fitting Date<input type="datetime-local" id="cost-fitting-date"></label>
+      <label>Costume Type<input type="text" id="cost-type" placeholder="e.g. Period dress"></label>
+      <label>Status<select id="cost-fitting-status">
+        <option value="scheduled">Scheduled</option>
+        <option value="completed">Completed</option>
+        <option value="alterations">Needs Alterations</option>
+        <option value="approved">Approved</option>
+      </select></label>
+    </div>
+    <button class="builder-btn gx-btn-primary" id="cost-add-fitting">Schedule Fitting</button>
+    <div id="cost-fittings" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>📸 Continuity Tracker</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Actor<input type="text" id="cost-cont-actor" placeholder="Actor name"></label>
+      <label>Scene<input type="text" id="cost-cont-scene" placeholder="Scene number"></label>
+      <label>Costume Pieces<input type="text" id="cost-cont-pieces" placeholder="e.g. Blue shirt, jeans"></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Continuity Photos<input type="file" id="cost-cont-photos" multiple accept="image/*"></label>
+    <label style="display: block; margin-bottom: 8px;">Notes<textarea id="cost-cont-notes" rows="2" placeholder="Continuity notes..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="cost-save-continuity">Save Continuity</button>
+    <div id="cost-continuity" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>🧺 Laundry Log</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Costume ID<input type="text" id="cost-laundry-id" placeholder="Costume identifier"></label>
+      <label>Sent to Laundry<input type="date" id="cost-laundry-sent"></label>
+      <label>Return Date<input type="date" id="cost-laundry-return"></label>
+      <label>Status<select id="cost-laundry-status">
+        <option value="out">At Laundry</option>
+        <option value="ready">Ready for Pickup</option>
+        <option value="returned">Returned</option>
+      </select></label>
+    </div>
+    <button class="builder-btn gx-btn-primary" id="cost-log-laundry">Log Laundry</button>
+    <div id="cost-laundry-log" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>🎽 Standby Assignments</h2>
+    <p class="hint">Standby wardrobe team for set</p>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Shoot Date<input type="date" id="cost-standby-date"></label>
+      <label>Standby Person<input type="text" id="cost-standby-person" placeholder="Standby name"></label>
+      <label>Assigned To<input type="text" id="cost-standby-assigned" placeholder="Actor/department"></label>
+    </div>
+    <button class="builder-btn gx-btn-primary" id="cost-assign-standby">Assign Standby</button>
+    <div id="cost-standby-list" style="margin-top: 16px;"></div>
+  </div>
+
+</section>

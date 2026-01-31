@@ -1,0 +1,91 @@
+<section class="module-section grip-container">
+  <div class="module-header">
+    <div class="module-logo-slot"><span class="module-logo-text">🔧</span></div>
+    <div class="module-header-text">
+      <h1 class="module-title">Grip Department</h1>
+      <p class="module-subtitle">Grip - rigging requests, safety tie-ins, movement rigs, kit lists</p>
+    </div>
+  </div>
+
+  <div class="builder-card" id="grip-brain-card">
+    <h2>🧠 Grip AI</h2>
+    <p class="hint">Ask about rigging, camera support, or equipment needs.</p>
+    <div class="module-brain" id="grip-brain-panel">
+      <div id="grip-brain-output" class="brain-output">
+        <div class="brain-message brain-message-system">I'm your Grip AI. I manage rigging, camera support, and grip equipment. What do you need?</div>
+      </div>
+      <div class="brain-input-row">
+        <button type="button" class="brain-mic-btn" id="grip-brain-mic" title="Voice input">🎙️</button>
+        <input id="grip-brain-input" type="text" placeholder="e.g. 'Plan dolly track for scene 12'"/>
+        <button id="grip-brain-send">Ask</button>
+        <button type="button" class="brain-context-btn" title="Read placeholders and current values so the brain can calculate">📋 Use page context</button>
+      </div>
+      <div class="brain-actions"><button class="builder-btn" id="grip-brain-clear">Clear conversation</button></div>
+    </div>
+  </div>
+
+  <div class="builder-card">
+    <h2>🏗️ Rigging Requests</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Scene<input type="text" id="grip-rig-scene" placeholder="Scene number"></label>
+      <label>Rig Type<select id="grip-rig-type">
+        <option value="dolly">Dolly Track</option>
+        <option value="crane">Crane/Jib</option>
+        <option value="stabilizer">Steadicam/Stabilizer</option>
+        <option value="overhead">Overhead Rig</option>
+        <option value="car_mount">Car Mount</option>
+        <option value="wire">Wire Work</option>
+      </select></label>
+      <label>Setup Time<input type="text" id="grip-rig-time" placeholder="e.g. 2 hours"></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Rig Details<textarea id="grip-rig-details" rows="3" placeholder="Describe rigging requirements..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="grip-add-rig">Add Rig Request</button>
+    <div id="grip-rig-requests" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>🔗 Safety Tie-in Tracker</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Location<input type="text" id="grip-safety-location" placeholder="Location"></label>
+      <label>Equipment<input type="text" id="grip-safety-equipment" placeholder="What's being rigged"></label>
+      <label>Weight Load<input type="text" id="grip-safety-weight" placeholder="e.g. 50kg"></label>
+      <label>Inspector<input type="text" id="grip-safety-inspector" placeholder="Who checked it"></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Safety Notes<textarea id="grip-safety-notes" rows="2" placeholder="Safety check details, load ratings..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="grip-log-safety">Log Safety Check</button>
+    <div id="grip-safety-log" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>🎬 Movement Rig Notes</h2>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Scene<input type="text" id="grip-move-scene" placeholder="Scene number"></label>
+      <label>Shot<input type="text" id="grip-move-shot" placeholder="Shot description"></label>
+      <label>Movement Type<select id="grip-move-type">
+        <option value="static">Static</option>
+        <option value="pan">Pan/Tilt</option>
+        <option value="track">Tracking</option>
+        <option value="crane">Crane Move</option>
+        <option value="handheld">Handheld</option>
+        <option value="steadicam">Steadicam</option>
+      </select></label>
+    </div>
+    <label style="display: block; margin-bottom: 8px;">Movement Notes<textarea id="grip-move-notes" rows="3" placeholder="Describe camera movement, speed, marks..."></textarea></label>
+    <button class="builder-btn gx-btn-primary" id="grip-add-move">Add Movement Note</button>
+    <div id="grip-move-notes" style="margin-top: 16px;"></div>
+  </div>
+
+  <div class="builder-card">
+    <h2>📦 Kit Lists</h2>
+    <p class="hint">Track grip equipment and cart configurations</p>
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>Cart/Package<input type="text" id="grip-kit-name" placeholder="e.g. A-Cart"></label>
+      <label>Item<input type="text" id="grip-kit-item" placeholder="Equipment item"></label>
+      <label>Quantity<input type="number" id="grip-kit-qty" placeholder="Qty"></label>
+    </div>
+    <button class="builder-btn" id="grip-kit-add-item">Add Item</button>
+    <button class="builder-btn gx-btn-primary" id="grip-kit-save">Save Kit List</button>
+    <div id="grip-kit-lists" style="margin-top: 16px;"></div>
+  </div>
+
+</section>

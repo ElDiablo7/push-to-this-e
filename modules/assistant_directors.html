@@ -1,0 +1,227 @@
+<section class="module-section assistant_directors-container">
+  <!-- Module Header -->
+  <div class="module-header">
+    <div class="module-logo-slot">
+      <span class="module-logo-text">📢</span>
+    </div>
+    <div class="module-header-text">
+      <h1 class="module-title">1st AD / Set Ops</h1>
+      <p class="module-subtitle">
+        Stripboard, daily schedule, call sheets, sides, walkies, wrap reports
+      </p>
+    </div>
+  </div>
+
+  <!-- AI Assistant (Priority #1) -->
+  <div class="builder-card" id="assistant_directors-brain-card">
+    <h2>🧠 1st AD AI Assistant</h2>
+    <p class="hint">
+      Ask about call times, scheduling, set logistics, or crew coordination.
+    </p>
+
+    <div class="module-brain" id="assistant_directors-brain-panel">
+      <div id="assistant_directors-brain-output" class="brain-output">
+        <div class="brain-message brain-message-system">
+          I'm your 1st AD AI. I manage the stripboard, call sheets, and set operations. What do you need?
+        </div>
+      </div>
+
+      <div class="brain-input-row">
+        <button type="button" class="brain-mic-btn" id="assistant_directors-brain-mic" title="Voice input">
+          🎙️
+        </button>
+        <input
+          id="assistant_directors-brain-input"
+          type="text"
+          placeholder="e.g. 'Generate call sheet for tomorrow' or 'What's the crew call time?'"
+        />
+        <button id="assistant_directors-brain-send">Ask</button>
+        <button type="button" class="brain-context-btn" title="Read placeholders and current values so the brain can calculate">📋 Use page context</button>
+      </div>
+
+      <div class="brain-actions">
+        <button class="builder-btn" id="assistant_directors-brain-clear">Clear conversation</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stripboard View -->
+  <div class="builder-card">
+    <h2>📋 Stripboard</h2>
+    <p class="hint">Organize scenes and shooting order</p>
+    
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>
+        Scene Number
+        <input type="text" id="ad-scene-number" placeholder="e.g. 12A">
+      </label>
+      <label>
+        Location
+        <input type="text" id="ad-scene-location" placeholder="e.g. INT. KITCHEN - DAY">
+      </label>
+      <label>
+        Pages
+        <input type="text" id="ad-scene-pages" placeholder="e.g. 2/8">
+      </label>
+      <label>
+        Cast Required
+        <input type="text" id="ad-scene-cast" placeholder="e.g. Actor 1, Actor 2">
+      </label>
+    </div>
+    
+    <button class="builder-btn gx-btn-primary" id="ad-add-scene">Add to Stripboard</button>
+    <button class="builder-btn" id="ad-reorder-scenes">Optimize Order</button>
+    
+    <div id="ad-stripboard" style="margin-top: 16px;">
+      <!-- Stripboard scenes will be listed here -->
+    </div>
+  </div>
+
+  <!-- Daily Schedule Generator -->
+  <div class="builder-card">
+    <h2>📅 Daily Schedule</h2>
+    <p class="hint">Generate day-out-of-days and shooting schedules</p>
+    
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>
+        Shoot Day
+        <input type="date" id="ad-shoot-date">
+      </label>
+      <label>
+        Crew Call
+        <input type="time" id="ad-crew-call">
+      </label>
+      <label>
+        Shooting Call
+        <input type="time" id="ad-shooting-call">
+      </label>
+      <label>
+        Estimated Wrap
+        <input type="time" id="ad-est-wrap">
+      </label>
+    </div>
+    
+    <button class="builder-btn gx-btn-primary" id="ad-generate-schedule">Generate Schedule</button>
+    
+    <div id="ad-daily-schedule" style="margin-top: 16px;">
+      <!-- Daily schedule will be rendered here -->
+    </div>
+  </div>
+
+  <!-- Call Sheet Creator -->
+  <div class="builder-card">
+    <h2>📋 Call Sheet Creator</h2>
+    <p class="hint">Full call sheet management - integrates with Call Sheets system</p>
+    
+    <button class="builder-btn gx-btn-primary" id="ad-create-callsheet">Create New Call Sheet</button>
+    <button class="builder-btn" id="ad-view-callsheets">View All Call Sheets</button>
+    <button class="builder-btn" id="ad-distribute-callsheet">Distribute Call Sheet</button>
+    
+    <div id="ad-callsheet-preview" style="margin-top: 16px;">
+      <!-- Call sheet preview will be shown here -->
+    </div>
+  </div>
+
+  <!-- Sides Distribution -->
+  <div class="builder-card">
+    <h2>📄 Sides Distribution</h2>
+    <p class="hint">Manage script sides for today's scenes</p>
+    
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>
+        Scene Numbers
+        <input type="text" id="ad-sides-scenes" placeholder="e.g. 12A, 14, 15B">
+      </label>
+      <label>
+        Script Date
+        <input type="date" id="ad-sides-date">
+      </label>
+      <label>
+        Color
+        <select id="ad-sides-color">
+          <option value="white">White (Original)</option>
+          <option value="blue">Blue</option>
+          <option value="pink">Pink</option>
+          <option value="yellow">Yellow</option>
+          <option value="green">Green</option>
+          <option value="goldenrod">Goldenrod</option>
+        </select>
+      </label>
+    </div>
+    
+    <button class="builder-btn gx-btn-primary" id="ad-generate-sides">Generate Sides</button>
+    <button class="builder-btn" id="ad-distribute-sides">Distribute to Cast</button>
+    
+    <div id="ad-sides-list" style="margin-top: 16px;">
+      <!-- Sides will be listed here -->
+    </div>
+  </div>
+
+  <!-- Walkie Assignments -->
+  <div class="builder-card">
+    <h2>📡 Walkie Channel Assignments</h2>
+    <p class="hint">Manage radio channels for crew communication</p>
+    
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>
+        Channel
+        <select id="ad-walkie-channel">
+          <option value="1">Channel 1 (1st Team)</option>
+          <option value="2">Channel 2 (2nd Team)</option>
+          <option value="3">Channel 3 (Camera)</option>
+          <option value="4">Channel 4 (Grip/Electric)</option>
+          <option value="5">Channel 5 (Sound)</option>
+          <option value="6">Channel 6 (Art Dept)</option>
+        </select>
+      </label>
+      <label>
+        Assignment
+        <input type="text" id="ad-walkie-assignment" placeholder="Who gets this channel?">
+      </label>
+    </div>
+    
+    <button class="builder-btn gx-btn-primary" id="ad-set-walkie">Assign Channel</button>
+    
+    <div id="ad-walkie-assignments" style="margin-top: 16px;">
+      <!-- Channel assignments will be listed here -->
+    </div>
+  </div>
+
+  <!-- Wrap Reports -->
+  <div class="builder-card">
+    <h2>📊 Wrap Reports</h2>
+    <p class="hint">Daily production reports and end-of-day summaries</p>
+    
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>
+        Date
+        <input type="date" id="ad-wrap-date">
+      </label>
+      <label>
+        Scenes Shot
+        <input type="text" id="ad-wrap-scenes" placeholder="e.g. 12A, 14, 15B">
+      </label>
+      <label>
+        Actual Wrap Time
+        <input type="time" id="ad-wrap-time">
+      </label>
+      <label>
+        Setups Completed
+        <input type="number" id="ad-wrap-setups" placeholder="e.g. 12">
+      </label>
+    </div>
+    
+    <label style="display: block; margin-bottom: 8px;">
+      Notes / Issues
+      <textarea id="ad-wrap-notes" rows="4" placeholder="Any issues, delays, or notes from today..."></textarea>
+    </label>
+    
+    <button class="builder-btn gx-btn-primary" id="ad-submit-wrap">Submit Wrap Report</button>
+    <button class="builder-btn" id="ad-view-wraps">View Past Reports</button>
+    
+    <div id="ad-wrap-history" style="margin-top: 16px;">
+      <!-- Wrap reports will be listed here -->
+    </div>
+  </div>
+
+</section>

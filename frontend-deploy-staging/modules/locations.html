@@ -1,0 +1,305 @@
+<section class="module-section locations-container">
+  <!-- Module Header -->
+  <div class="module-header">
+    <div class="module-logo-slot">
+      <span class="module-logo-text">📍</span>
+    </div>
+    <div class="module-header-text">
+      <h1 class="module-title">Locations Department</h1>
+      <p class="module-subtitle">
+        Locations + Permits + Unit Moves - recce packs, permits, access, parking, neighbour letters
+      </p>
+    </div>
+  </div>
+
+  <!-- AI Assistant (Priority #1) -->
+  <div class="builder-card" id="locations-brain-card">
+    <h2>🧠 Locations AI Assistant</h2>
+    <p class="hint">
+      Ask about location scouting, permits, access arrangements, or unit logistics.
+    </p>
+
+    <div class="module-brain" id="locations-brain-panel">
+      <div id="locations-brain-output" class="brain-output">
+        <div class="brain-message brain-message-system">
+          I'm your Locations AI. I help with recces, permits, parking, and unit moves. What location needs attention?
+        </div>
+      </div>
+
+      <div class="brain-input-row">
+        <button type="button" class="brain-mic-btn" id="locations-brain-mic" title="Voice input">
+          🎙️
+        </button>
+        <input
+          id="locations-brain-input"
+          type="text"
+          placeholder="e.g. 'Check permit status for warehouse location' or 'Find parking for 50 crew'"
+        />
+        <button id="locations-brain-send">Ask</button>
+        <button type="button" class="brain-context-btn" title="Read placeholders and current values so the brain can calculate">📋 Use page context</button>
+      </div>
+
+      <div class="brain-actions">
+        <button class="builder-btn" id="locations-brain-clear">Clear conversation</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Location Database -->
+  <div class="builder-card">
+    <h2>📍 Location Database</h2>
+    <p class="hint">Manage all shooting locations</p>
+    
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>
+        Location Name
+        <input type="text" id="loc-name" placeholder="e.g. Warehouse District">
+      </label>
+      <label>
+        Address
+        <input type="text" id="loc-address" placeholder="Full address">
+      </label>
+      <label>
+        Location Type
+        <select id="loc-type">
+          <option value="interior">Interior</option>
+          <option value="exterior">Exterior</option>
+          <option value="practical">Practical Location</option>
+          <option value="stage">Stage/Studio</option>
+        </select>
+      </label>
+      <label>
+        Contact Name
+        <input type="text" id="loc-contact" placeholder="Location owner/manager">
+      </label>
+    </div>
+    
+    <button class="builder-btn gx-btn-primary" id="loc-add-location">Add Location</button>
+    <button class="builder-btn" id="loc-view-map">View on Map</button>
+    
+    <div id="loc-database" style="margin-top: 16px;">
+      <!-- Locations will be listed here -->
+    </div>
+  </div>
+
+  <!-- Recce Packs -->
+  <div class="builder-card">
+    <h2>📸 Recce Packs</h2>
+    <p class="hint">Build comprehensive location recce packages</p>
+    
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>
+        Location
+        <select id="recce-location">
+          <option value="">Select location...</option>
+          <!-- Populated from database -->
+        </select>
+      </label>
+      <label>
+        Recce Date
+        <input type="date" id="recce-date">
+      </label>
+      <label>
+        Scout Team
+        <input type="text" id="recce-team" placeholder="Who attended">
+      </label>
+      <label>
+        Status
+        <select id="recce-status">
+          <option value="pending">Pending</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+          <option value="alternative">Need Alternative</option>
+        </select>
+      </label>
+    </div>
+    
+    <label style="display: block; margin-bottom: 8px;">
+      Photos Uploaded
+      <input type="file" id="recce-photos" multiple accept="image/*">
+    </label>
+    
+    <label style="display: block; margin-bottom: 8px;">
+      Recce Notes
+      <textarea id="recce-notes" rows="4" placeholder="Power access, parking, restrictions, pros/cons..."></textarea>
+    </label>
+    
+    <button class="builder-btn gx-btn-primary" id="recce-create-pack">Create Recce Pack</button>
+    <button class="builder-btn" id="recce-view-all">View All Packs</button>
+    
+    <div id="recce-packs" style="margin-top: 16px;">
+      <!-- Recce packs will be listed here -->
+    </div>
+  </div>
+
+  <!-- Permit Tracker -->
+  <div class="builder-card">
+    <h2>📜 Permit Tracker</h2>
+    <p class="hint">Track all filming permits and approvals</p>
+    
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>
+        Location
+        <input type="text" id="permit-location" placeholder="Location name">
+      </label>
+      <label>
+        Permit Type
+        <select id="permit-type">
+          <option value="council">Council Filming Permit</option>
+          <option value="road_closure">Road Closure</option>
+          <option value="parking">Parking Suspension</option>
+          <option value="noise">Noise Variance</option>
+          <option value="pyro">Pyrotechnics Permit</option>
+          <option value="drone">Drone License</option>
+        </select>
+      </label>
+      <label>
+        Application Date
+        <input type="date" id="permit-app-date">
+      </label>
+      <label>
+        Status
+        <select id="permit-status">
+          <option value="pending">Pending</option>
+          <option value="submitted">Submitted</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+        </select>
+      </label>
+    </div>
+    
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>
+        Shoot Dates
+        <input type="text" id="permit-shoot-dates" placeholder="e.g. 14-16 March">
+      </label>
+      <label>
+        Cost
+        <input type="number" id="permit-cost" placeholder="0.00" step="0.01">
+      </label>
+      <label>
+        Authority
+        <input type="text" id="permit-authority" placeholder="e.g. Lambeth Council">
+      </label>
+    </div>
+    
+    <button class="builder-btn gx-btn-primary" id="permit-add">Add Permit</button>
+    <button class="builder-btn" id="permit-check-status">Check Status</button>
+    
+    <div id="permit-tracker" style="margin-top: 16px;">
+      <!-- Permits will be tracked here -->
+    </div>
+  </div>
+
+  <!-- Parking Plans -->
+  <div class="builder-card">
+    <h2>🚗 Parking & Unit Base</h2>
+    <p class="hint">Plan parking for crew vehicles, trucks, and unit base</p>
+    
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>
+        Location
+        <input type="text" id="parking-location" placeholder="Location name">
+      </label>
+      <label>
+        Shoot Date
+        <input type="date" id="parking-date">
+      </label>
+      <label>
+        Spaces Required
+        <input type="number" id="parking-spaces" placeholder="e.g. 50">
+      </label>
+      <label>
+        Trucks/Vans
+        <input type="number" id="parking-trucks" placeholder="e.g. 8">
+      </label>
+    </div>
+    
+    <label style="display: block; margin-bottom: 8px;">
+      Parking Notes
+      <textarea id="parking-notes" rows="3" placeholder="Loading zones, restrictions, resident bays..."></textarea>
+    </label>
+    
+    <button class="builder-btn gx-btn-primary" id="parking-create-plan">Create Parking Plan</button>
+    <button class="builder-btn" id="parking-view-map">View Parking Map</button>
+    
+    <div id="parking-plans" style="margin-top: 16px;">
+      <!-- Parking plans will be listed here -->
+    </div>
+  </div>
+
+  <!-- Neighbour Notifications -->
+  <div class="builder-card">
+    <h2>📬 Neighbour Notifications</h2>
+    <p class="hint">Manage neighbour letters and community relations</p>
+    
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>
+        Location
+        <input type="text" id="neighbour-location" placeholder="Location name">
+      </label>
+      <label>
+        Notification Date
+        <input type="date" id="neighbour-notif-date">
+      </label>
+      <label>
+        Shoot Dates
+        <input type="text" id="neighbour-shoot-dates" placeholder="e.g. 14-16 March">
+      </label>
+      <label>
+        Properties Notified
+        <input type="number" id="neighbour-count" placeholder="Number of properties">
+      </label>
+    </div>
+    
+    <label style="display: block; margin-bottom: 8px;">
+      Letter Content
+      <textarea id="neighbour-letter" rows="4" placeholder="Dear Resident, we will be filming..."></textarea>
+    </label>
+    
+    <button class="builder-btn gx-btn-primary" id="neighbour-send">Generate Letters</button>
+    <button class="builder-btn" id="neighbour-track">Track Responses</button>
+    
+    <div id="neighbour-notifications" style="margin-top: 16px;">
+      <!-- Neighbour notifications will be tracked here -->
+    </div>
+  </div>
+
+  <!-- Access & Logistics -->
+  <div class="builder-card">
+    <h2>🔑 Access & Logistics</h2>
+    <p class="hint">Track keys, access codes, and arrival instructions</p>
+    
+    <div class="summary-grid" style="margin-bottom: 16px;">
+      <label>
+        Location
+        <input type="text" id="access-location" placeholder="Location name">
+      </label>
+      <label>
+        Key Holder
+        <input type="text" id="access-keyholder" placeholder="Contact name">
+      </label>
+      <label>
+        Contact Number
+        <input type="tel" id="access-phone" placeholder="Phone number">
+      </label>
+      <label>
+        Access Code
+        <input type="text" id="access-code" placeholder="Door code / gate code">
+      </label>
+    </div>
+    
+    <label style="display: block; margin-bottom: 8px;">
+      Arrival Instructions
+      <textarea id="access-instructions" rows="3" placeholder="How to find location, where to park, who to ask for..."></textarea>
+    </label>
+    
+    <button class="builder-btn gx-btn-primary" id="access-save">Save Access Info</button>
+    <button class="builder-btn" id="access-send-crew">Send to Crew</button>
+    
+    <div id="access-info" style="margin-top: 16px;">
+      <!-- Access info will be listed here -->
+    </div>
+  </div>
+
+</section>
