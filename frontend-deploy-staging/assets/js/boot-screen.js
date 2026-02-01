@@ -56,58 +56,20 @@
       const bootScreen = document.createElement('div');
       bootScreen.id = 'gracex-boot-screen';
       bootScreen.innerHTML = `
-        <!-- Full-screen boot video (two clips, crossfade) -->
+        <!-- Full-screen boot video (two clips, crossfade) - WITH SOUND -->
         <div class="boot-video-layer" id="boot-video-layer">
-          <video id="boot-video-1" class="boot-video boot-video-active" src="assets/video/boot-1.mp4" muted playsinline preload="auto"></video>
-          <video id="boot-video-2" class="boot-video" src="assets/video/boot-2.mp4" muted playsinline preload="auto"></video>
-        </div>
-        <!-- Animated Grid Background -->
-        <div class="boot-grid"></div>
-        
-        <!-- Floating Particles -->
-        <div class="boot-particles" id="boot-particles"></div>
-        
-        <!-- System Info (Top Right) -->
-        <div class="boot-system-info">
-          <div>GRACE-X AI™ ECOSYSTEM</div>
-          <div>BUILD: TITAN_v${this.getBuildVersion()}</div>
-          <div>MODULES: 18</div>
-          <div>STATUS: INITIALIZING</div>
+          <video id="boot-video-1" class="boot-video boot-video-active" src="assets/video/boot-1.mp4" playsinline preload="auto"></video>
+          <video id="boot-video-2" class="boot-video" src="assets/video/boot-2.mp4" playsinline preload="auto"></video>
         </div>
         
-        <!-- Main Logo -->
-        <div class="boot-logo-container">
-          <img src="assets/images/logo.png" alt="GRACE-X AI PRO FILM PRODUCTION SUITE">
-        </div>
-        
-        <!-- Module Loading List -->
-        <div class="boot-modules" id="boot-modules"></div>
-        
-        <!-- Status Text & Progress -->
-        <div class="boot-status">
-          <div class="boot-status-text" id="boot-status-text">
-            INITIALIZING GRACE-X ECOSYSTEM...
-          </div>
-          <div class="boot-progress-container">
-            <div class="boot-progress-bar" id="boot-progress-bar"></div>
-          </div>
-        </div>
-        
-        <!-- Skip Hint -->
+        <!-- Skip Hint (minimal, bottom corner) -->
         <div class="boot-skip-hint">
-          Press any key to skip • ESC to skip always
-        </div>
-        
-        <!-- Copyright -->
-        <div class="boot-copyright">
-          © 2026 ZAC CROCKETT • MINISTRY OF DEFENCE GRADE SYSTEM
+          Press any key to skip
         </div>
       `;
       
       document.body.insertBefore(bootScreen, document.body.firstChild);
       
-      // Generate particles
-      this.generateParticles();
       // Start boot video (two clips, crossfade); fallback to timer if video fails
       this.startBootVideo();
     },
@@ -152,85 +114,10 @@
       }
     },
 
-    generateParticles() {
-      const particlesContainer = document.getElementById('boot-particles');
-      const particleCount = 30;
-      
-      for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'boot-particle';
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.animationDelay = Math.random() * 10 + 's';
-        particle.style.animationDuration = (5 + Math.random() * 10) + 's';
-        particlesContainer.appendChild(particle);
-      }
-    },
-
     startBootSequence() {
-      const statusText = document.getElementById('boot-status-text');
-      const progressBar = document.getElementById('boot-progress-bar');
-      const systemInfo = document.querySelector('.boot-system-info');
-      
-      // Update status
-      this.updateStatus('WIRING 18 AI MODULES...');
-      
-      // Load modules progressively
-      this.loadModulesSequentially();
-      
-      // Update progress bar smoothly
-      const progressInterval = setInterval(() => {
-        const elapsed = Date.now() - this.startTime;
-        const progress = Math.min((elapsed / this.bootDuration) * 100, 100);
-        progressBar.style.width = progress + '%';
-        
-        if (progress >= 100 || this.skipRequested) {
-          clearInterval(progressInterval);
-          this.completeBoot();
-        }
-      }, 50);
-      
-      // Update system status
-      setTimeout(() => {
-        systemInfo.querySelector('div:last-child').textContent = 'STATUS: WIRING MODULES';
-      }, 1000);
-      
-      setTimeout(() => {
-        systemInfo.querySelector('div:last-child').textContent = 'STATUS: ONLINE';
-      }, this.bootDuration - 1000);
-    },
-
-    loadModulesSequentially() {
-      const modulesContainer = document.getElementById('boot-modules');
-      const moduleLoadTime = this.bootDuration / this.modules.length;
-      
-      const loadNextModule = () => {
-        if (this.currentModuleIndex >= this.modules.length || this.skipRequested) {
-          return;
-        }
-        
-        const moduleName = this.modules[this.currentModuleIndex];
-        const moduleItem = document.createElement('div');
-        moduleItem.className = 'boot-module-item loading';
-        moduleItem.textContent = `[LOADING] ${moduleName}...`;
-        modulesContainer.appendChild(moduleItem);
-        
-        // Scroll to bottom
-        modulesContainer.scrollTop = modulesContainer.scrollHeight;
-        
-        // Mark as loaded after short delay
-        setTimeout(() => {
-          moduleItem.className = 'boot-module-item loaded';
-          moduleItem.textContent = `[✓] ${moduleName} ONLINE`;
-        }, moduleLoadTime * 0.3);
-        
-        this.currentModuleIndex++;
-        
-        if (this.currentModuleIndex < this.modules.length) {
-          setTimeout(loadNextModule, moduleLoadTime);
-        }
-      };
-      
-      loadNextModule();
+      // Video-only boot - no overlay elements to update
+      // Boot completion is handled by video end event in startBootVideo()
+      console.log('🎬 Boot video playing with sound...');
     },
 
     completeBoot() {
@@ -238,22 +125,9 @@
       const video2 = document.getElementById('boot-video-2');
       if (video1) video1.pause();
       if (video2) video2.pause();
-
-      const statusText = document.getElementById('boot-status-text');
-      const progressBar = document.getElementById('boot-progress-bar');
-      const systemInfo = document.querySelector('.boot-system-info');
       
-      // Final updates
-      progressBar.style.width = '100%';
-      statusText.textContent = 'ALL SYSTEMS OPERATIONAL • GRACE-X READY';
-      statusText.style.color = '#00ff88';
-      systemInfo.querySelector('div:last-child').textContent = 'STATUS: READY';
-      systemInfo.querySelector('div:last-child').style.color = '#00ff88';
-      
-      // Wait a moment, then fade out
-      setTimeout(() => {
-        this.fadeOutBoot();
-      }, 800);
+      // Fade out immediately
+      this.fadeOutBoot();
     },
 
     fadeOutBoot() {
@@ -326,13 +200,6 @@
           this.completeBoot();
         }
       });
-    },
-
-    updateStatus(text) {
-      const statusText = document.getElementById('boot-status-text');
-      if (statusText) {
-        statusText.textContent = text;
-      }
     },
 
     getBuildVersion() {

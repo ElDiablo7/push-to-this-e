@@ -18,7 +18,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(135deg, #0a0e1a 0%, #1a1f35 50%, #0a0e1a 100%);
+  background: #000;
   z-index: 999999;
   display: flex;
   flex-direction: column;
@@ -27,6 +27,34 @@
   opacity: 1;
   transition: opacity 1s ease-out;
   overflow: hidden;
+}
+
+/* Full-screen video layer */
+.boot-video-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.boot-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.boot-video.boot-video-active {
+  opacity: 1;
 }
 
 #gracex-boot-screen.fade-out {
@@ -188,21 +216,23 @@
   color: #ffaa00;
 }
 
-/* Skip hint */
+/* Skip hint - minimal, bottom right */
 .boot-skip-hint {
   position: absolute;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
   font-family: 'Segoe UI', sans-serif;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.4);
-  animation: skipHintFade 2s ease-in-out infinite;
+  color: rgba(255, 255, 255, 0.5);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 8px 12px;
+  border-radius: 4px;
+  animation: skipHintFade 3s ease-in-out infinite;
 }
 
 @keyframes skipHintFade {
-  0%, 100% { opacity: 0.4; }
+  0%, 100% { opacity: 0.5; }
   50% { opacity: 0.8; }
 }
 
@@ -293,29 +323,6 @@
     right: 15px;
     font-size: 9px;
   }
-}
-
-/* Full-screen boot video layer — behind grid/particles/logo */
-.boot-video-layer {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-}
-
-.boot-video-layer .boot-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
-}
-
-.boot-video-layer .boot-video.boot-video-active {
-  opacity: 1;
-  z-index: 1;
 }
 
 /* Video support (if user adds video later) */
