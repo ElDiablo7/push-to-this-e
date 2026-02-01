@@ -32,7 +32,7 @@
     currentModuleIndex: 0,
     bootDuration: 17000, // ~17s — two boot clips with crossfade
     skipRequested: false,
-    crossfadeDone: false,
+    currentVideo: 1,
 
     init() {
       if (this.initialized) return;
@@ -56,10 +56,11 @@
       const bootScreen = document.createElement('div');
       bootScreen.id = 'gracex-boot-screen';
       bootScreen.innerHTML = `
-        <!-- Full-screen boot video (two clips, crossfade) - WITH SOUND -->
+        <!-- Full-screen boot video (three clips, crossfade) - WITH SOUND -->
         <div class="boot-video-layer" id="boot-video-layer">
           <video id="boot-video-1" class="boot-video boot-video-active" src="assets/video/boot-1.mp4" playsinline preload="auto"></video>
           <video id="boot-video-2" class="boot-video" src="assets/video/boot-2.mp4" playsinline preload="auto"></video>
+          <video id="boot-video-3" class="boot-video" src="assets/video/boot-3.mp4" playsinline preload="auto"></video>
         </div>
         
         <!-- Skip Hint (minimal, bottom corner) -->
@@ -70,44 +71,72 @@
       
       document.body.insertBefore(bootScreen, document.body.firstChild);
       
-      // Start boot video (two clips, crossfade); fallback to timer if video fails
+      // Start boot video (three clips, crossfade); fallback to timer if video fails
       this.startBootVideo();
     },
 
     startBootVideo() {
       const video1 = document.getElementById('boot-video-1');
       const video2 = document.getElementById('boot-video-2');
-      if (!video1 || !video2) return;
+      const video3 = document.getElementById('boot-video-3');
+      if (!video1 || !video2 || !video3) return;
 
       const self = this;
+      const videos = [video1, video2, video3];
+
       function fallbackNoVideo() {
         console.warn('[BOOT] Video failed, completing boot after 6s');
         setTimeout(() => self.completeBoot(), 6000);
       }
 
-      function doCrossfade() {
-        if (self.crossfadeDone) return;
-        self.crossfadeDone = true;
-        video1.classList.remove('boot-video-active');
-        video2.classList.add('boot-video-active');
-        video2.play().catch(() => {});
+      function crossfadeToNext(currentIdx) {
+        const current = videos[currentIdx - 1];
+        const next = videos[currentIdx];
+        
+        if (!next) {
+          // No more videos, complete boot
+          self.completeBoot();
+          return;
+        }
+
+        console.log(`🎬 Crossfade: video ${currentIdx} → video ${currentIdx + 1}`);
+        current.classList.remove('boot-video-active');
+        next.classList.add('boot-video-active');
+        next.play().catch(() => fallbackNoVideo());
+        self.currentVideo = currentIdx + 1;
       }
 
-      video1.addEventListener('error', fallbackNoVideo);
-      video2.addEventListener('error', fallbackNoVideo);
+      // Set up event listeners for each video
+      videos.forEach((video, idx) => {
+        const videoNum = idx + 1;
+        
+        video.addEventListener('error', fallbackNoVideo);
+        
+        video.addEventListener('ended', () => {
+          if (videoNum === 3) {
+            // Last video ended, complete boot
+            self.completeBoot();
+          } else {
+            // Crossfade to next video
+            crossfadeToNext(videoNum);
+          }
+        });
+
+        // Start crossfade slightly before video ends (smoother transition)
+        video.addEventListener('timeupdate', () => {
+          const d = video.duration;
+          if (self.currentVideo === videoNum && videoNum < 3 && isFinite(d) && d > 0) {
+            if (video.currentTime >= Math.max(0, d - 0.5)) {
+              crossfadeToNext(videoNum);
+            }
+          }
+        });
+      });
+
+      // Start first video when ready
       video1.addEventListener('canplaythrough', () => {
         video1.play().catch(() => fallbackNoVideo());
       });
-      video1.addEventListener('timeupdate', () => {
-        const d = video1.duration;
-        if (!self.crossfadeDone && isFinite(d) && d > 0 && video1.currentTime >= Math.max(0, d - 1)) {
-          doCrossfade();
-        }
-      });
-      video1.addEventListener('ended', () => {
-        if (!self.crossfadeDone) doCrossfade();
-      });
-      video2.addEventListener('ended', () => self.completeBoot());
 
       if (video1.readyState >= 3) {
         video1.play().catch(() => fallbackNoVideo());
@@ -123,8 +152,10 @@
     completeBoot() {
       const video1 = document.getElementById('boot-video-1');
       const video2 = document.getElementById('boot-video-2');
+      const video3 = document.getElementById('boot-video-3');
       if (video1) video1.pause();
       if (video2) video2.pause();
+      if (video3) video3.pause();
       
       // Fade out immediately
       this.fadeOutBoot();
