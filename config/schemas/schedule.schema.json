@@ -1,0 +1,97 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Schedule",
+  "description": "LIVE DOCUMENT - not a static PDF. Changes generate Change Events.",
+  "type": "object",
+  "required": ["id", "version", "productionId", "status"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier (UUID)"
+    },
+    "productionId": {
+      "type": "string",
+      "description": "Parent production ID"
+    },
+    "version": {
+      "type": "object",
+      "required": ["number", "label"],
+      "properties": {
+        "number": { "type": "integer" },
+        "label": { "type": "string", "description": "e.g., 'v12', 'LOCKED', 'WHITE DRAFT'" }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "provisional", "locked", "revised", "archived"],
+      "default": "draft"
+    },
+    "dateRange": {
+      "type": "object",
+      "properties": {
+        "startDate": { "type": "string", "format": "date" },
+        "endDate": { "type": "string", "format": "date" },
+        "totalDays": { "type": "integer" },
+        "shootingDays": { "type": "integer" }
+      }
+    },
+    "days": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "dayNumber": { "type": "integer" },
+          "date": { "type": "string", "format": "date" },
+          "dayType": {
+            "type": "string",
+            "enum": ["shoot", "prep", "travel", "off", "pickup", "wrap"]
+          },
+          "unit": { "type": "string" },
+          "location": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "name": { "type": "string" },
+              "type": { "type": "string" }
+            }
+          },
+          "scenes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "sceneNumber": { "type": "string" },
+                "description": { "type": "string" },
+                "pages": { "type": "number" },
+                "cast": { "type": "array", "items": { "type": "string" } },
+                "estimatedTime": { "type": "string" }
+              }
+            }
+          },
+          "notes": { "type": "string" },
+          "departmentRequirements": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "required": { "type": "boolean" },
+                "notes": { "type": "string" },
+                "specialKit": { "type": "array", "items": { "type": "string" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "createdBy": { "type": "string" },
+        "lockedBy": { "type": "string" },
+        "lockedAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

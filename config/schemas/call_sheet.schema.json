@@ -1,0 +1,232 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CallSheet",
+  "description": "Call sheet - TOP PRIORITY OBJECT in the system",
+  "type": "object",
+  "required": ["id", "version", "shootDate", "generalCall", "status"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier (UUID)"
+    },
+    "version": {
+      "type": "object",
+      "required": ["major", "minor"],
+      "properties": {
+        "major": { "type": "integer", "minimum": 1 },
+        "minor": { "type": "integer", "minimum": 0 },
+        "label": { "type": "string", "description": "e.g., 'v1.2', 'FINAL', 'REVISED'" }
+      }
+    },
+    "shootDate": {
+      "type": "string",
+      "format": "date",
+      "description": "The date this call sheet is for"
+    },
+    "dayNumber": {
+      "type": "integer",
+      "description": "Shoot day number (e.g., Day 14 of 45)"
+    },
+    "totalDays": {
+      "type": "integer",
+      "description": "Total shoot days"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "pending_approval", "approved", "dispatched", "superseded"],
+      "default": "draft"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["standard", "high", "critical"],
+      "default": "standard",
+      "description": "Visual priority - RED/HIGH during shooting days"
+    },
+    "generalCall": {
+      "type": "string",
+      "description": "General crew call time (e.g., '06:00')"
+    },
+    "location": {
+      "type": "object",
+      "required": ["primary"],
+      "properties": {
+        "primary": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "address": { "type": "string" },
+            "coordinates": {
+              "type": "object",
+              "properties": {
+                "lat": { "type": "number" },
+                "lng": { "type": "number" }
+              }
+            },
+            "parkingInstructions": { "type": "string" },
+            "accessNotes": { "type": "string" }
+          }
+        },
+        "basecamp": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "address": { "type": "string" },
+            "coordinates": {
+              "type": "object",
+              "properties": {
+                "lat": { "type": "number" },
+                "lng": { "type": "number" }
+              }
+            }
+          }
+        },
+        "hospital": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "address": { "type": "string" },
+            "distance": { "type": "string" }
+          }
+        }
+      }
+    },
+    "weather": {
+      "type": "object",
+      "properties": {
+        "forecast": { "type": "string" },
+        "temperature": { "type": "string" },
+        "sunrise": { "type": "string" },
+        "sunset": { "type": "string" },
+        "conditions": { "type": "string" }
+      }
+    },
+    "scenes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "sceneNumber": { "type": "string" },
+          "description": { "type": "string" },
+          "intExt": { "type": "string", "enum": ["INT", "EXT", "INT/EXT"] },
+          "dayNight": { "type": "string", "enum": ["DAY", "NIGHT", "DAWN", "DUSK"] },
+          "pages": { "type": "string" },
+          "location": { "type": "string" },
+          "cast": { "type": "array", "items": { "type": "string" } },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "castCall": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "castId": { "type": "string" },
+          "character": { "type": "string" },
+          "actor": { "type": "string" },
+          "pickupTime": { "type": "string" },
+          "muaCall": { "type": "string", "description": "Makeup call" },
+          "wardrobeCall": { "type": "string" },
+          "onSetCall": { "type": "string" },
+          "status": { "type": "string", "enum": ["working", "on_hold", "travel", "rehearsal"] },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "crewCall": {
+      "type": "object",
+      "description": "Department-specific call times",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "callTime": { "type": "string" },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "departmentNotes": {
+      "type": "object",
+      "description": "Department-specific overlays - each dept sees their own",
+      "properties": {
+        "camera": { "type": "string" },
+        "lighting": { "type": "string" },
+        "sound": { "type": "string" },
+        "rigging": { "type": "string" },
+        "grip": { "type": "string" },
+        "wardrobe": { "type": "string" },
+        "hmu": { "type": "string", "description": "Hair/Makeup" },
+        "sfx": { "type": "string" },
+        "stunts": { "type": "string" },
+        "transport": { "type": "string" },
+        "locations": { "type": "string" },
+        "catering": { "type": "string" },
+        "production": { "type": "string" },
+        "safety": { "type": "string" }
+      }
+    },
+    "catering": {
+      "type": "object",
+      "properties": {
+        "breakfast": { "type": "string" },
+        "lunch": { "type": "string" },
+        "wrap": { "type": "string" },
+        "headCount": { "type": "integer" },
+        "dietaryNotes": { "type": "string" }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "properties": {
+        "medic": { "type": "string" },
+        "radioChannel": { "type": "string" },
+        "emergencyContact": { "type": "string" },
+        "hazards": { "type": "array", "items": { "type": "string" } },
+        "safetyBriefingTime": { "type": "string" }
+      }
+    },
+    "advancedSchedule": {
+      "type": "array",
+      "description": "Next few days preview",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": { "type": "string", "format": "date" },
+          "location": { "type": "string" },
+          "scenes": { "type": "string" }
+        }
+      }
+    },
+    "delta": {
+      "type": "object",
+      "description": "What changed since last version",
+      "properties": {
+        "previousVersion": { "type": "string" },
+        "changes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "field": { "type": "string" },
+              "previousValue": { "type": "string" },
+              "newValue": { "type": "string" },
+              "changedAt": { "type": "string", "format": "date-time" },
+              "changedBy": { "type": "string" }
+            }
+          }
+        },
+        "summary": { "type": "string", "description": "Human-readable change summary" }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "createdBy": { "type": "string" },
+        "approvedBy": { "type": "string" },
+        "approvedAt": { "type": "string", "format": "date-time" },
+        "dispatchedAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

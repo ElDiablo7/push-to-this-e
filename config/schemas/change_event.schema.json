@@ -1,0 +1,140 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ChangeEvent",
+  "description": "Generated when schedule/location/requirements change - triggers intelligent propagation",
+  "type": "object",
+  "required": ["id", "changeType", "source", "impacts", "createdAt"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique change event ID (UUID)"
+    },
+    "changeType": {
+      "type": "string",
+      "enum": [
+        "location_change",
+        "schedule_shift",
+        "scene_added",
+        "scene_removed",
+        "scene_moved",
+        "cast_change",
+        "time_change",
+        "kit_requirement",
+        "safety_update",
+        "weather_impact"
+      ]
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["minor", "moderate", "major", "critical"],
+      "description": "How significant is this change"
+    },
+    "source": {
+      "type": "object",
+      "description": "What triggered this change",
+      "properties": {
+        "entityType": { "type": "string", "enum": ["schedule", "call_sheet", "location", "manual"] },
+        "entityId": { "type": "string" },
+        "field": { "type": "string" },
+        "previousValue": { "type": "string" },
+        "newValue": { "type": "string" },
+        "changedBy": { "type": "string" }
+      }
+    },
+    "impacts": {
+      "type": "object",
+      "description": "INTELLIGENT IMPACT ANALYSIS - what departments/assumptions are affected",
+      "properties": {
+        "affectedDepartments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "department": { "type": "string" },
+              "reason": { "type": "string" },
+              "actionRequired": { "type": "boolean" },
+              "suggestedAction": { "type": "string" }
+            }
+          }
+        },
+        "affectedCrew": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Crew member IDs directly affected"
+        },
+        "invalidatedAssumptions": {
+          "type": "array",
+          "description": "What previous plans/docs are now invalid",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": { "type": "string" },
+              "description": { "type": "string" },
+              "documentId": { "type": "string" }
+            }
+          }
+        },
+        "safetyImplications": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Any safety risks introduced by this change"
+        }
+      }
+    },
+    "autoFlags": {
+      "type": "object",
+      "description": "AUTOMATIC FLAGS based on change type - example: location change to water",
+      "properties": {
+        "wardrobe": { "type": "string" },
+        "camera": { "type": "string" },
+        "sound": { "type": "string" },
+        "safety": { "type": "string" },
+        "transport": { "type": "string" },
+        "rigging": { "type": "string" },
+        "catering": { "type": "string" },
+        "custom": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "department": { "type": "string" },
+              "flag": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "notification": {
+      "type": "object",
+      "description": "How this change should be communicated",
+      "properties": {
+        "summary": { "type": "string", "description": "Human-readable summary" },
+        "departmentSummaries": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "description": "Department-specific 'what you need to know'"
+        },
+        "dispatchEventId": { "type": "string", "description": "Linked dispatch if triggered" }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["detected", "analyzing", "ready", "dispatched", "acknowledged"],
+      "default": "detected"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "acknowledgedBy": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "crewId": { "type": "string" },
+          "acknowledgedAt": { "type": "string", "format": "date-time" }
+        }
+      }
+    }
+  }
+}

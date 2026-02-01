@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Department",
+  "description": "Department configuration - defines what each department sees and receives",
+  "type": "object",
+  "required": ["id", "name", "code"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Full department name (e.g., 'Camera Department')"
+    },
+    "code": {
+      "type": "string",
+      "description": "Short code (e.g., 'camera', 'lighting', 'hmu')"
+    },
+    "category": {
+      "type": "string",
+      "enum": ["technical", "creative", "production", "talent", "support"],
+      "description": "Department category"
+    },
+    "hierarchy": {
+      "type": "array",
+      "description": "Roles within this department, in order of seniority",
+      "items": {
+        "type": "object",
+        "properties": {
+          "role": { "type": "string" },
+          "level": { "type": "integer" },
+          "canApprove": { "type": "boolean" },
+          "canDispatch": { "type": "boolean" }
+        }
+      }
+    },
+    "documentTypes": {
+      "type": "array",
+      "description": "Document types this department works with",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string" },
+          "name": { "type": "string" },
+          "required": { "type": "boolean" },
+          "templateId": { "type": "string" }
+        }
+      },
+      "examples": [
+        { "type": "risk_assessment", "name": "Risk Assessment", "required": true },
+        { "type": "method_statement", "name": "Method Statement", "required": false },
+        { "type": "start_form", "name": "Department Start Form", "required": true }
+      ]
+    },
+    "notificationRules": {
+      "type": "object",
+      "properties": {
+        "alwaysReceive": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Event types this dept always receives"
+        },
+        "conditionalReceive": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "eventType": { "type": "string" },
+              "condition": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "relatedDepartments": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Departments that often need to coordinate with this one"
+    },
+    "uiConfig": {
+      "type": "object",
+      "description": "Department UI customisation",
+      "properties": {
+        "primaryColor": { "type": "string" },
+        "icon": { "type": "string" },
+        "dashboardWidgets": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DispatchEvent",
+  "description": "ONE-BUTTON DISPATCH - the core action that updates everyone",
+  "type": "object",
+  "required": ["id", "type", "payload", "recipients", "status", "triggeredAt"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique dispatch event ID (UUID)"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "call_sheet",
+        "schedule_change",
+        "location_change",
+        "emergency",
+        "kit_update",
+        "general_notice"
+      ],
+      "description": "Type of dispatch"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["low", "normal", "high", "critical"],
+      "default": "normal"
+    },
+    "payload": {
+      "type": "object",
+      "description": "The content being dispatched",
+      "properties": {
+        "callSheetId": { "type": "string" },
+        "scheduleId": { "type": "string" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": { "type": "string" },
+              "url": { "type": "string" },
+              "name": { "type": "string" }
+            }
+          }
+        },
+        "delta": {
+          "type": "object",
+          "description": "Change summary if this is an update",
+          "properties": {
+            "summary": { "type": "string" },
+            "changes": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "targeting": {
+      "type": "object",
+      "description": "Who receives this dispatch",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["all_active", "departments", "units", "individuals", "custom"],
+          "default": "all_active"
+        },
+        "departments": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Target specific departments"
+        },
+        "units": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Target specific units"
+        },
+        "excludeIds": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Crew member IDs to exclude"
+        },
+        "includeIds": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Additional crew member IDs to include"
+        }
+      }
+    },
+    "recipients": {
+      "type": "array",
+      "description": "Resolved list of recipients (populated by Core)",
+      "items": {
+        "type": "object",
+        "properties": {
+          "crewId": { "type": "string" },
+          "name": { "type": "string" },
+          "department": { "type": "string" },
+          "deliveryMethod": { "type": "string", "enum": ["push", "email", "sms", "app"] },
+          "deliveryStatus": {
+            "type": "string",
+            "enum": ["pending", "sent", "delivered", "failed", "read"]
+          },
+          "deliveredAt": { "type": "string", "format": "date-time" },
+          "readAt": { "type": "string", "format": "date-time" },
+          "failureReason": { "type": "string" }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "dispatching", "completed", "partial_failure", "failed"],
+      "default": "pending"
+    },
+    "stats": {
+      "type": "object",
+      "properties": {
+        "totalRecipients": { "type": "integer" },
+        "sent": { "type": "integer" },
+        "delivered": { "type": "integer" },
+        "read": { "type": "integer" },
+        "failed": { "type": "integer" }
+      }
+    },
+    "triggeredBy": {
+      "type": "string",
+      "description": "Crew member ID of the Core Operator who triggered dispatch"
+    },
+    "triggeredAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

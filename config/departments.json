@@ -1,0 +1,346 @@
+{
+  "departments": [
+    {
+      "id": "prod",
+      "name": "Production",
+      "code": "production",
+      "category": "production",
+      "hierarchy": [
+        { "role": "Executive Producer", "level": 1, "canApprove": true, "canDispatch": true },
+        { "role": "Producer", "level": 2, "canApprove": true, "canDispatch": true },
+        { "role": "Line Producer", "level": 3, "canApprove": true, "canDispatch": true },
+        { "role": "Production Manager", "level": 4, "canApprove": true, "canDispatch": true },
+        { "role": "Production Coordinator", "level": 5, "canApprove": false, "canDispatch": true },
+        { "role": "Production Assistant", "level": 6, "canApprove": false, "canDispatch": false }
+      ],
+      "documentTypes": [
+        { "type": "budget", "name": "Budget", "required": true },
+        { "type": "schedule", "name": "Master Schedule", "required": true },
+        { "type": "call_sheet", "name": "Call Sheet", "required": true }
+      ],
+      "notificationRules": {
+        "alwaysReceive": ["call_sheet", "schedule_change", "emergency", "location_change"]
+      },
+      "uiConfig": { "primaryColor": "#1a1a2e", "icon": "briefcase" }
+    },
+    {
+      "id": "ad",
+      "name": "Assistant Directors",
+      "code": "ad",
+      "category": "production",
+      "hierarchy": [
+        { "role": "1st AD", "level": 1, "canApprove": true, "canDispatch": true },
+        { "role": "2nd AD", "level": 2, "canApprove": true, "canDispatch": true },
+        { "role": "3rd AD", "level": 3, "canApprove": false, "canDispatch": true },
+        { "role": "Set PA", "level": 4, "canApprove": false, "canDispatch": false }
+      ],
+      "documentTypes": [
+        { "type": "call_sheet", "name": "Call Sheet", "required": true },
+        { "type": "movement_order", "name": "Movement Order", "required": false },
+        { "type": "day_out_of_days", "name": "Day Out of Days", "required": true }
+      ],
+      "notificationRules": {
+        "alwaysReceive": ["call_sheet", "schedule_change", "emergency", "location_change", "cast_change"]
+      },
+      "uiConfig": { "primaryColor": "#e63946", "icon": "megaphone" }
+    },
+    {
+      "id": "camera",
+      "name": "Camera Department",
+      "code": "camera",
+      "category": "technical",
+      "hierarchy": [
+        { "role": "Director of Photography", "level": 1, "canApprove": true, "canDispatch": false },
+        { "role": "Camera Operator", "level": 2, "canApprove": false, "canDispatch": false },
+        { "role": "1st AC", "level": 3, "canApprove": false, "canDispatch": false },
+        { "role": "2nd AC", "level": 4, "canApprove": false, "canDispatch": false },
+        { "role": "DIT", "level": 5, "canApprove": false, "canDispatch": false },
+        { "role": "Camera Trainee", "level": 6, "canApprove": false, "canDispatch": false }
+      ],
+      "documentTypes": [
+        { "type": "kit_list", "name": "Camera Kit List", "required": true },
+        { "type": "shot_list", "name": "Shot List", "required": false },
+        { "type": "camera_report", "name": "Camera Report", "required": true }
+      ],
+      "notificationRules": {
+        "alwaysReceive": ["call_sheet", "schedule_change", "location_change"],
+        "conditionalReceive": [
+          { "eventType": "weather_impact", "condition": "exterior_shoot" }
+        ]
+      },
+      "relatedDepartments": ["lighting", "grip", "sound"],
+      "uiConfig": { "primaryColor": "#2a9d8f", "icon": "camera" }
+    },
+    {
+      "id": "lighting",
+      "name": "Lighting Department",
+      "code": "lighting",
+      "category": "technical",
+      "hierarchy": [
+        { "role": "Gaffer", "level": 1, "canApprove": true, "canDispatch": false },
+        { "role": "Best Boy Electric", "level": 2, "canApprove": false, "canDispatch": false },
+        { "role": "Electrician", "level": 3, "canApprove": false, "canDispatch": false },
+        { "role": "Lighting Trainee", "level": 4, "canApprove": false, "canDispatch": false }
+      ],
+      "documentTypes": [
+        { "type": "lighting_plan", "name": "Lighting Plan", "required": false },
+        { "type": "kit_list", "name": "Lighting Kit List", "required": true },
+        { "type": "power_requirements", "name": "Power Requirements", "required": true }
+      ],
+      "notificationRules": {
+        "alwaysReceive": ["call_sheet", "schedule_change", "location_change"]
+      },
+      "relatedDepartments": ["camera", "grip", "rigging"],
+      "uiConfig": { "primaryColor": "#f4a261", "icon": "lightbulb" }
+    },
+    {
+      "id": "grip",
+      "name": "Grip Department",
+      "code": "grip",
+      "category": "technical",
+      "hierarchy": [
+        { "role": "Key Grip", "level": 1, "canApprove": true, "canDispatch": false },
+        { "role": "Best Boy Grip", "level": 2, "canApprove": false, "canDispatch": false },
+        { "role": "Dolly Grip", "level": 3, "canApprove": false, "canDispatch": false },
+        { "role": "Grip", "level": 4, "canApprove": false, "canDispatch": false }
+      ],
+      "documentTypes": [
+        { "type": "kit_list", "name": "Grip Kit List", "required": true },
+        { "type": "rigging_plan", "name": "Rigging Plan", "required": false }
+      ],
+      "notificationRules": {
+        "alwaysReceive": ["call_sheet", "schedule_change", "location_change"]
+      },
+      "relatedDepartments": ["camera", "lighting", "rigging"],
+      "uiConfig": { "primaryColor": "#264653", "icon": "wrench" }
+    },
+    {
+      "id": "sound",
+      "name": "Sound Department",
+      "code": "sound",
+      "category": "technical",
+      "hierarchy": [
+        { "role": "Production Sound Mixer", "level": 1, "canApprove": true, "canDispatch": false },
+        { "role": "Boom Operator", "level": 2, "canApprove": false, "canDispatch": false },
+        { "role": "Sound Utility", "level": 3, "canApprove": false, "canDispatch": false }
+      ],
+      "documentTypes": [
+        { "type": "sound_report", "name": "Sound Report", "required": true },
+        { "type": "kit_list", "name": "Sound Kit List", "required": true }
+      ],
+      "notificationRules": {
+        "alwaysReceive": ["call_sheet", "schedule_change", "location_change"]
+      },
+      "relatedDepartments": ["camera", "post"],
+      "uiConfig": { "primaryColor": "#6a4c93", "icon": "mic" }
+    },
+    {
+      "id": "wardrobe",
+      "name": "Wardrobe/Costume",
+      "code": "wardrobe",
+      "category": "creative",
+      "hierarchy": [
+        { "role": "Costume Designer", "level": 1, "canApprove": true, "canDispatch": false },
+        { "role": "Costume Supervisor", "level": 2, "canApprove": true, "canDispatch": false },
+        { "role": "Costume Standby", "level": 3, "canApprove": false, "canDispatch": false },
+        { "role": "Costume Assistant", "level": 4, "canApprove": false, "canDispatch": false }
+      ],
+      "documentTypes": [
+        { "type": "costume_breakdown", "name": "Costume Breakdown", "required": true },
+        { "type": "continuity_notes", "name": "Continuity Notes", "required": true }
+      ],
+      "notificationRules": {
+        "alwaysReceive": ["call_sheet", "schedule_change", "location_change", "cast_change"]
+      },
+      "relatedDepartments": ["hmu", "ad"],
+      "uiConfig": { "primaryColor": "#d62828", "icon": "shirt" }
+    },
+    {
+      "id": "hmu",
+      "name": "Hair & Makeup",
+      "code": "hmu",
+      "category": "creative",
+      "hierarchy": [
+        { "role": "Hair & Makeup Designer", "level": 1, "canApprove": true, "canDispatch": false },
+        { "role": "Key Makeup", "level": 2, "canApprove": false, "canDispatch": false },
+        { "role": "Key Hair", "level": 3, "canApprove": false, "canDispatch": false },
+        { "role": "Makeup Artist", "level": 4, "canApprove": false, "canDispatch": false },
+        { "role": "Hair Stylist", "level": 5, "canApprove": false, "canDispatch": false }
+      ],
+      "documentTypes": [
+        { "type": "hmu_breakdown", "name": "HMU Breakdown", "required": true },
+        { "type": "continuity_notes", "name": "Continuity Notes", "required": true }
+      ],
+      "notificationRules": {
+        "alwaysReceive": ["call_sheet", "schedule_change", "cast_change"]
+      },
+      "relatedDepartments": ["wardrobe", "ad"],
+      "uiConfig": { "primaryColor": "#ff6b6b", "icon": "scissors" }
+    },
+    {
+      "id": "sfx",
+      "name": "Special Effects",
+      "code": "sfx",
+      "category": "technical",
+      "hierarchy": [
+        { "role": "SFX Supervisor", "level": 1, "canApprove": true, "canDispatch": false },
+        { "role": "SFX Technician", "level": 2, "canApprove": false, "canDispatch": false }
+      ],
+      "documentTypes": [
+        { "type": "sfx_breakdown", "name": "SFX Breakdown", "required": true },
+        { "type": "risk_assessment", "name": "SFX Risk Assessment", "required": true },
+        { "type": "method_statement", "name": "SFX Method Statement", "required": true }
+      ],
+      "notificationRules": {
+        "alwaysReceive": ["call_sheet", "schedule_change", "location_change", "safety_update"]
+      },
+      "relatedDepartments": ["stunts", "safety"],
+      "uiConfig": { "primaryColor": "#ff9f1c", "icon": "flame" }
+    },
+    {
+      "id": "stunts",
+      "name": "Stunts",
+      "code": "stunts",
+      "category": "technical",
+      "hierarchy": [
+        { "role": "Stunt Coordinator", "level": 1, "canApprove": true, "canDispatch": false },
+        { "role": "Stunt Performer", "level": 2, "canApprove": false, "canDispatch": false },
+        { "role": "Stunt Rigger", "level": 3, "canApprove": false, "canDispatch": false }
+      ],
+      "documentTypes": [
+        { "type": "stunt_breakdown", "name": "Stunt Breakdown", "required": true },
+        { "type": "risk_assessment", "name": "Stunt Risk Assessment", "required": true },
+        { "type": "method_statement", "name": "Stunt Method Statement", "required": true }
+      ],
+      "notificationRules": {
+        "alwaysReceive": ["call_sheet", "schedule_change", "location_change", "safety_update"]
+      },
+      "relatedDepartments": ["sfx", "safety", "camera"],
+      "uiConfig": { "primaryColor": "#ef476f", "icon": "person-running" }
+    },
+    {
+      "id": "locations",
+      "name": "Locations",
+      "code": "locations",
+      "category": "production",
+      "hierarchy": [
+        { "role": "Location Manager", "level": 1, "canApprove": true, "canDispatch": false },
+        { "role": "Assistant Location Manager", "level": 2, "canApprove": false, "canDispatch": false },
+        { "role": "Location Scout", "level": 3, "canApprove": false, "canDispatch": false },
+        { "role": "Location Assistant", "level": 4, "canApprove": false, "canDispatch": false }
+      ],
+      "documentTypes": [
+        { "type": "location_agreement", "name": "Location Agreement", "required": true },
+        { "type": "location_recce", "name": "Recce Report", "required": true },
+        { "type": "parking_plan", "name": "Parking Plan", "required": true }
+      ],
+      "notificationRules": {
+        "alwaysReceive": ["call_sheet", "schedule_change", "location_change"]
+      },
+      "relatedDepartments": ["production", "transport", "safety"],
+      "uiConfig": { "primaryColor": "#06d6a0", "icon": "map-pin" }
+    },
+    {
+      "id": "transport",
+      "name": "Transport",
+      "code": "transport",
+      "category": "support",
+      "hierarchy": [
+        { "role": "Transport Captain", "level": 1, "canApprove": true, "canDispatch": false },
+        { "role": "Driver", "level": 2, "canApprove": false, "canDispatch": false }
+      ],
+      "documentTypes": [
+        { "type": "movement_order", "name": "Movement Order", "required": true },
+        { "type": "vehicle_manifest", "name": "Vehicle Manifest", "required": true }
+      ],
+      "notificationRules": {
+        "alwaysReceive": ["call_sheet", "schedule_change", "location_change"]
+      },
+      "relatedDepartments": ["locations", "production"],
+      "uiConfig": { "primaryColor": "#118ab2", "icon": "truck" }
+    },
+    {
+      "id": "catering",
+      "name": "Catering",
+      "code": "catering",
+      "category": "support",
+      "hierarchy": [
+        { "role": "Catering Manager", "level": 1, "canApprove": true, "canDispatch": false },
+        { "role": "Chef", "level": 2, "canApprove": false, "canDispatch": false },
+        { "role": "Catering Assistant", "level": 3, "canApprove": false, "canDispatch": false }
+      ],
+      "documentTypes": [
+        { "type": "catering_order", "name": "Catering Order", "required": true },
+        { "type": "dietary_requirements", "name": "Dietary Requirements", "required": true }
+      ],
+      "notificationRules": {
+        "alwaysReceive": ["call_sheet", "location_change"],
+        "conditionalReceive": [
+          { "eventType": "schedule_change", "condition": "affects_meal_times" }
+        ]
+      },
+      "uiConfig": { "primaryColor": "#ffd166", "icon": "utensils" }
+    },
+    {
+      "id": "safety",
+      "name": "Health & Safety",
+      "code": "safety",
+      "category": "support",
+      "hierarchy": [
+        { "role": "Health & Safety Supervisor", "level": 1, "canApprove": true, "canDispatch": true },
+        { "role": "Set Medic", "level": 2, "canApprove": false, "canDispatch": false },
+        { "role": "Fire Safety Officer", "level": 3, "canApprove": false, "canDispatch": false }
+      ],
+      "documentTypes": [
+        { "type": "risk_assessment", "name": "Risk Assessment", "required": true },
+        { "type": "method_statement", "name": "Method Statement", "required": true },
+        { "type": "safety_plan", "name": "Safety Plan", "required": true },
+        { "type": "incident_report", "name": "Incident Report", "required": false }
+      ],
+      "notificationRules": {
+        "alwaysReceive": ["call_sheet", "schedule_change", "location_change", "safety_update", "emergency"]
+      },
+      "relatedDepartments": ["stunts", "sfx", "rigging"],
+      "uiConfig": { "primaryColor": "#e63946", "icon": "shield-check" }
+    },
+    {
+      "id": "rigging",
+      "name": "Rigging",
+      "code": "rigging",
+      "category": "technical",
+      "hierarchy": [
+        { "role": "Rigging Gaffer", "level": 1, "canApprove": true, "canDispatch": false },
+        { "role": "Rigger", "level": 2, "canApprove": false, "canDispatch": false }
+      ],
+      "documentTypes": [
+        { "type": "rigging_plan", "name": "Rigging Plan", "required": true },
+        { "type": "load_calculations", "name": "Load Calculations", "required": true },
+        { "type": "risk_assessment", "name": "Rigging Risk Assessment", "required": true }
+      ],
+      "notificationRules": {
+        "alwaysReceive": ["call_sheet", "schedule_change", "location_change", "safety_update"]
+      },
+      "relatedDepartments": ["lighting", "grip", "safety"],
+      "uiConfig": { "primaryColor": "#495057", "icon": "link" }
+    },
+    {
+      "id": "post",
+      "name": "Post Production",
+      "code": "post",
+      "category": "creative",
+      "hierarchy": [
+        { "role": "Post Supervisor", "level": 1, "canApprove": true, "canDispatch": false },
+        { "role": "Editor", "level": 2, "canApprove": false, "canDispatch": false },
+        { "role": "Assistant Editor", "level": 3, "canApprove": false, "canDispatch": false }
+      ],
+      "documentTypes": [
+        { "type": "post_schedule", "name": "Post Schedule", "required": true }
+      ],
+      "notificationRules": {
+        "alwaysReceive": ["schedule_change"]
+      },
+      "relatedDepartments": ["camera", "sound"],
+      "uiConfig": { "primaryColor": "#7209b7", "icon": "film" }
+    }
+  ]
+}

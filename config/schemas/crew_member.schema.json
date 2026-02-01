@@ -1,0 +1,97 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CrewMember",
+  "description": "Individual crew member record - foundational unit of the crew database",
+  "type": "object",
+  "required": ["id", "name", "role", "department", "contact", "status"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier (UUID)"
+    },
+    "name": {
+      "type": "object",
+      "required": ["first", "last"],
+      "properties": {
+        "first": { "type": "string" },
+        "last": { "type": "string" },
+        "display": { "type": "string", "description": "Optional display name / nickname" }
+      }
+    },
+    "role": {
+      "type": "string",
+      "description": "Primary role (e.g., Director, 1st AD, Gaffer, Key Grip)"
+    },
+    "department": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Department(s) this person belongs to",
+      "examples": [["camera"], ["lighting", "rigging"], ["production"]]
+    },
+    "contact": {
+      "type": "object",
+      "required": ["primary"],
+      "properties": {
+        "primary": {
+          "type": "string",
+          "enum": ["app", "push", "email", "sms"],
+          "description": "Primary contact method"
+        },
+        "phone": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "pushToken": { "type": "string", "description": "FCM/APNs push token" },
+        "fallback": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["email", "sms"] },
+          "description": "Fallback contact methods if primary fails"
+        }
+      }
+    },
+    "unit": {
+      "type": "string",
+      "enum": ["main", "a_unit", "b_unit", "second_unit", "splinter"],
+      "default": "main",
+      "description": "Which unit this person is assigned to"
+    },
+    "callEligibility": {
+      "type": "object",
+      "properties": {
+        "receivesCallSheets": { "type": "boolean", "default": true },
+        "receivesScheduleChanges": { "type": "boolean", "default": true },
+        "receivesEmergencyAlerts": { "type": "boolean", "default": true },
+        "departmentOverrides": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Additional departments to receive updates from"
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "inactive", "on_hold", "wrapped"],
+      "default": "active"
+    },
+    "locationRelevance": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Location IDs this person is relevant to (optional filtering)"
+    },
+    "permissions": {
+      "type": "object",
+      "properties": {
+        "canDispatch": { "type": "boolean", "default": false },
+        "canEditCallSheets": { "type": "boolean", "default": false },
+        "canManageCrew": { "type": "boolean", "default": false },
+        "isCorePperator": { "type": "boolean", "default": false }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "lastSeen": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}
