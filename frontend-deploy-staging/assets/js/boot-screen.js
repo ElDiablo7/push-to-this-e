@@ -137,27 +137,49 @@
         });
       });
 
-      // Unmute once playback starts (browsers allow autoplay when muted)
+      // Track if we've started playing
+      let playStarted = false;
+
+      function tryPlay() {
+        if (playStarted) return;
+        console.log('[BOOT] Attempting to play video 1, readyState:', video1.readyState);
+        video1.play().then(() => {
+          playStarted = true;
+          console.log('[BOOT] Video 1 playing!');
+          // Unmute after a short delay (browser allows this after user gesture or autoplay policy)
+          setTimeout(() => { video1.muted = false; }, 100);
+        }).catch((err) => {
+          console.warn('[BOOT] Play failed:', err.message);
+          // Don't fallback immediately - might just need user interaction
+        });
+      }
+
+      // Try multiple events to catch when video is ready
+      video1.addEventListener('loadeddata', tryPlay);
+      video1.addEventListener('canplay', tryPlay);
+      video1.addEventListener('canplaythrough', tryPlay);
+      
+      // Unmute once actually playing
       video1.addEventListener('playing', () => {
-        if (!self.crossfadedFrom[1]) video1.muted = false;
+        playStarted = true;
+        setTimeout(() => { video1.muted = false; }, 100);
       }, { once: true });
 
-      // Start first video when ready (muted so autoplay is allowed)
-      video1.addEventListener('canplaythrough', () => {
-        video1.play().catch(() => fallbackNoVideo());
-      });
-
-      if (video1.readyState >= 3) {
-        video1.play().catch(() => fallbackNoVideo());
-      } else {
-        // Fallback: if video never loads (slow network, missing file), complete after 12s
-        setTimeout(() => {
-          if (self.currentVideo === 1 && video1.paused && video1.readyState < 2) {
-            console.warn('[BOOT] Video load timeout, completing boot');
-            self.completeBoot();
-          }
-        }, 12000);
+      // Try immediately if already loaded
+      if (video1.readyState >= 2) {
+        tryPlay();
       }
+
+      // Force load
+      video1.load();
+
+      // Aggressive fallback: if nothing happens after 8s, complete boot
+      setTimeout(() => {
+        if (!playStarted && video1.paused) {
+          console.warn('[BOOT] Video failed to start after 8s, completing boot');
+          self.completeBoot();
+        }
+      }, 8000);
     },
 
     startBootSequence() {
