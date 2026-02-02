@@ -49,7 +49,29 @@ The frontend should already be configured in `index.html`:
 
 ## 🔧 Configuration
 
-### Environment Variables (.env)
+### Deploying on Render (no .env file)
+
+On Render, there is **no `.env` file**. You set environment variables in the dashboard:
+
+1. Open [Render Dashboard](https://dashboard.render.com) → your Web Service
+2. Go to **Environment** (left sidebar)
+3. Click **Add Environment Variable**
+4. Add the same keys you would put in `.env` locally:
+
+| Key | Example | Required for Brain |
+|-----|---------|-------------------|
+| `LLM_PROVIDER` | `openai` | Yes |
+| `API_KEY` or `OPENAI_API_KEY` | `sk-...` | Yes (for OpenAI) |
+| `OPENAI_MODEL` | `gpt-4o-mini` | Optional |
+| `PORT` | Set by Render | No (Render sets this) |
+| `CORS_ORIGINS` | `https://yourdomain.com` | Recommended in production |
+| `NODE_ENV` | `production` | Optional |
+
+The server reads `process.env`; Render injects these at runtime. You do not need to create or upload a `.env` file.
+
+---
+
+### Environment Variables (.env) — local development
 
 | Variable | Default | Description |
 |----------|---------|-------------|

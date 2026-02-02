@@ -33,6 +33,7 @@
     bootDuration: 17000, // ~17s — two boot clips with crossfade
     skipRequested: false,
     currentVideo: 1,
+    crossfadedFrom: {}, // guard: prevent double crossfade per video
 
     init() {
       if (this.initialized) return;
@@ -58,9 +59,9 @@
       bootScreen.innerHTML = `
         <!-- Full-screen boot video (three clips, crossfade) - WITH SOUND -->
         <div class="boot-video-layer" id="boot-video-layer">
-          <video id="boot-video-1" class="boot-video boot-video-active" src="assets/video/boot-1.mp4" playsinline preload="auto"></video>
-          <video id="boot-video-2" class="boot-video" src="assets/video/boot-2.mp4" playsinline preload="auto"></video>
-          <video id="boot-video-3" class="boot-video" src="assets/video/boot-3.mp4" playsinline preload="auto"></video>
+          <video id="boot-video-1" class="boot-video boot-video-active" src="assets/video/boot-1.mp4" playsinline preload="auto" muted></video>
+          <video id="boot-video-2" class="boot-video" src="assets/video/boot-2.mp4" playsinline preload="auto" muted></video>
+          <video id="boot-video-3" class="boot-video" src="assets/video/boot-3.mp4" playsinline preload="auto" muted></video>
         </div>
         
         <!-- Skip Hint (minimal, bottom corner) -->
@@ -90,11 +91,13 @@
       }
 
       function crossfadeToNext(currentIdx) {
+        if (self.crossfadedFrom[currentIdx]) return;
+        self.crossfadedFrom[currentIdx] = true;
+
         const current = videos[currentIdx - 1];
         const next = videos[currentIdx];
         
         if (!next) {
-          // No more videos, complete boot
           self.completeBoot();
           return;
         }
@@ -102,6 +105,7 @@
         console.log(`🎬 Crossfade: video ${currentIdx} → video ${currentIdx + 1}`);
         current.classList.remove('boot-video-active');
         next.classList.add('boot-video-active');
+        next.muted = false;
         next.play().catch(() => fallbackNoVideo());
         self.currentVideo = currentIdx + 1;
       }
@@ -133,13 +137,26 @@
         });
       });
 
-      // Start first video when ready
+      // Unmute once playback starts (browsers allow autoplay when muted)
+      video1.addEventListener('playing', () => {
+        if (!self.crossfadedFrom[1]) video1.muted = false;
+      }, { once: true });
+
+      // Start first video when ready (muted so autoplay is allowed)
       video1.addEventListener('canplaythrough', () => {
         video1.play().catch(() => fallbackNoVideo());
       });
 
       if (video1.readyState >= 3) {
         video1.play().catch(() => fallbackNoVideo());
+      } else {
+        // Fallback: if video never loads (slow network, missing file), complete after 12s
+        setTimeout(() => {
+          if (self.currentVideo === 1 && video1.paused && video1.readyState < 2) {
+            console.warn('[BOOT] Video load timeout, completing boot');
+            self.completeBoot();
+          }
+        }, 12000);
       }
     },
 
