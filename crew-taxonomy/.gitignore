@@ -1,0 +1,5 @@
+node_modules/
+db/crew_taxonomy.db
+tmp/*.json
+exports/*.json
+exports/*.csv

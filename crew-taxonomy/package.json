@@ -1,0 +1,17 @@
+{
+  "name": "crew-taxonomy",
+  "version": "1.0.0",
+  "description": "Film crew roles taxonomy builder — parse, store, search, export",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "parse": "node scripts/parse_roles.js",
+    "seed": "node scripts/seed.js",
+    "export": "node scripts/export.js",
+    "init-db": "node db/init.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.6.0",
+    "express": "^4.21.0"
+  }
+}

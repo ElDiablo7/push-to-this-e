@@ -1,0 +1,82 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  margin: 0;
+  background: #f5f5f5;
+  color: #1a1a1a;
+}
+header {
+  background: #2c3e50;
+  color: #fff;
+  padding: 1rem 1.5rem;
+}
+header h1 { margin: 0 0 0.25rem 0; font-size: 1.5rem; }
+.subtitle { margin: 0; opacity: 0.9; font-size: 0.9rem; }
+main {
+  display: flex;
+  min-height: calc(100vh - 4rem);
+}
+.sidebar {
+  width: 240px;
+  padding: 1rem;
+  background: #fff;
+  border-right: 1px solid #ddd;
+}
+.sidebar label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-top: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+.sidebar label:first-of-type { margin-top: 0; }
+.sidebar select,
+.sidebar input {
+  width: 100%;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+.content {
+  flex: 1;
+  padding: 1rem;
+  overflow: auto;
+}
+.role-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.role-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  min-width: 200px;
+  max-width: 320px;
+  cursor: pointer;
+  transition: box-shadow 0.15s;
+}
+.role-card:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.role-card .role-name { display: block; margin-bottom: 0.25rem; }
+.role-card .dept { font-size: 0.85rem; color: #555; }
+.role-card .aliases { font-size: 0.8rem; color: #666; display: block; margin-top: 0.25rem; }
+.role-card .tags { display: block; margin-top: 0.25rem; }
+.role-card .tags em { font-size: 0.75rem; background: #eee; padding: 0.1rem 0.35rem; border-radius: 3px; margin-right: 0.25rem; }
+.role-detail {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  max-width: 480px;
+}
+.role-detail.hidden { display: none; }
+.role-detail h2 { margin: 0 0 0.5rem 0; font-size: 1.25rem; }
+.role-detail p { margin: 0.5rem 0; }
+.empty { color: #666; }

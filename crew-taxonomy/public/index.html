@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Crew Taxonomy — Browse & Search</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Crew Taxonomy</h1>
+    <p class="subtitle">Film crew roles — browse by department, search, view details</p>
+  </header>
+  <main>
+    <aside class="sidebar">
+      <label for="dept-select">Department</label>
+      <select id="dept-select">
+        <option value="">All departments</option>
+      </select>
+      <label for="search">Search roles</label>
+      <input type="text" id="search" placeholder="Canonical name or alias…">
+      <label for="tag-filter">Tag</label>
+      <input type="text" id="tag-filter" placeholder="e.g. on_set, post">
+    </aside>
+    <section class="content">
+      <div id="role-list" class="role-list"></div>
+      <div id="role-detail" class="role-detail hidden"></div>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
