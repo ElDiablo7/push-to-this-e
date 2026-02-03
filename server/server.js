@@ -4,10 +4,15 @@
 // ------------------------------
 
 const path = require('path');
-// Explicitly load .env from the server directory to avoid path issues
-const result = require('dotenv').config({ path: path.join(__dirname, '.env') });
-if (result.error) {
-  console.warn('Warning: .env file not found or could not be loaded:', result.error.message);
+// Load .env from server/ first, then repo root (so editing either file works)
+const serverEnv = path.join(__dirname, '.env');
+const rootEnv = path.join(__dirname, '..', '.env');
+require('dotenv').config({ path: serverEnv });
+require('dotenv').config({ path: rootEnv, override: false }); // fill in only if not already set
+if (!process.env.OPENAI_API_KEY && !process.env.API_KEY) {
+  console.warn('Warning: OPENAI_API_KEY or API_KEY not set. Add to server/.env or .env in repo root.');
+} else {
+  console.log('[ENV] Loaded — LLM_PROVIDER=%s, API key set', process.env.LLM_PROVIDER || 'openai');
 }
 
 const express = require('express');
