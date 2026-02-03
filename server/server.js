@@ -597,7 +597,7 @@ app.get('/api/providers', (req, res) => {
     },
     openrouter: {
       configured: !!process.env.OPENROUTER_API_KEY,
-      models: ['auto', 'anthropic/claude-3.5-sonnet', 'openai/gpt-4o', 'google/gemini-pro']
+      models: ['auto', 'openai/gpt-4o', 'openai/gpt-4-turbo', 'google/gemini-pro']
     },
     ollama: {
       configured: !!process.env.OLLAMA_BASE_URL,
@@ -1116,7 +1116,7 @@ async function callAnthropic(messages, temperature, max_tokens) {
 // OpenRouter API call (access to multiple models)
 async function callOpenRouter(messages, temperature, max_tokens) {
   const apiKey = process.env.OPENROUTER_API_KEY;
-  const model = process.env.OPENROUTER_MODEL || 'anthropic/claude-3.5-sonnet';
+  const model = process.env.OPENROUTER_MODEL || 'openai/gpt-4o';
   
   if (!apiKey) {
     const error = new Error('OpenRouter API key not configured');

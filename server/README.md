@@ -75,7 +75,7 @@ The server reads `process.env`; Render injects these at runtime. You do not need
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `LLM_PROVIDER` | `openai` | Provider: `openai`, `anthropic`, `openrouter`, `ollama` |
+| `LLM_PROVIDER` | `openai` | Provider: `openai` (default), `openrouter`, `ollama` |
 | `API_KEY` | - | Your API key (generic) |
 | `PORT` | `3000` | Server port |
 | `RATE_LIMIT_MAX` | `30` | Requests per minute |
@@ -83,27 +83,19 @@ The server reads `process.env`; Render injects these at runtime. You do not need
 
 ### Provider-Specific Settings
 
-#### OpenAI
+#### OpenAI (default)
 ```env
 LLM_PROVIDER=openai
-API_KEY=sk-your-key-here
+OPENAI_API_KEY=sk-your-key-here
 OPENAI_MODEL=gpt-4o-mini
 ```
 Models: `gpt-4o`, `gpt-4o-mini`, `gpt-4-turbo`, `gpt-4`, `gpt-3.5-turbo`
-
-#### Anthropic Claude
-```env
-LLM_PROVIDER=anthropic
-API_KEY=sk-ant-your-key-here
-ANTHROPIC_MODEL=claude-3-5-haiku-20241022
-```
-Models: `claude-3-5-sonnet-20241022`, `claude-3-5-haiku-20241022`, `claude-3-opus-20240229`
 
 #### OpenRouter (Multiple Providers)
 ```env
 LLM_PROVIDER=openrouter
 OPENROUTER_API_KEY=sk-or-your-key-here
-OPENROUTER_MODEL=anthropic/claude-3.5-sonnet
+OPENROUTER_MODEL=openai/gpt-4o
 ```
 Access 100+ models through one API. [Get key](https://openrouter.ai/keys)
 
