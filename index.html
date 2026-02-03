@@ -4,6 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- LANDING REDIRECT (removable: delete this script + config/landing.js, set config enabled:false) -->
+    <script src="config/landing.js"></script>
+    <script>
+      (function(){
+        var c = window.LANDING_CONFIG;
+        if (c && c.enabled && sessionStorage.getItem('gracex_bypass_landing') !== '1') {
+          window.location.replace('landing/');
+        }
+      })();
+    </script>
+
     <title>GRACE-X AI™ FILM EDITION</title>
 
     <!-- FAVICON -->

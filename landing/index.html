@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GRACE-X AI™ - Confidential</title>
+  <link rel="icon" type="image/png" href="../assets/img/gracex_main_logo.png">
+  <link rel="stylesheet" href="landing.css">
+</head>
+<body>
+  <span class="gate-badge">CONFIDENTIAL</span>
+
+  <!-- Lock Gate -->
+  <div id="landing-gate">
+    <img src="../assets/img/gracex_main_logo.png" alt="GRACE-X AI" class="gate-logo">
+    <h1 class="gate-title">GRACE-X AI™</h1>
+    <p class="gate-subtitle">Investor Pack & Strategic Valuation — Enter key to view</p>
+    <form class="gate-form" id="gate-form">
+      <input type="password" class="gate-input" id="gate-key" placeholder="Enter access key" autocomplete="off" autofocus>
+      <button type="submit" class="gate-btn">Unlock</button>
+      <div class="gate-error" id="gate-error"></div>
+    </form>
+  </div>
+
+  <!-- Investor Pack Content (shown after unlock) -->
+  <div id="landing-content">
+    <div class="landing-toolbar">
+      <img src="../assets/img/gracex_main_logo.png" alt="GRACE-X AI">
+      <div class="landing-toolbar-btns">
+        <button type="button" class="landing-btn-lock" id="btn-lock">Lock</button>
+        <a href="../index.html" class="landing-btn-app" id="btn-app">Enter Main App</a>
+      </div>
+    </div>
+    <iframe src="../INVESTOR_PACK.html" class="landing-iframe" title="GRACE-X Investor Pack"></iframe>
+  </div>
+
+  <script src="../config/landing.js"></script>
+  <script>
+    (function() {
+      var config = window.LANDING_CONFIG || { enabled: true, key: "gracex2026" };
+      var gate = document.getElementById('landing-gate');
+      var content = document.getElementById('landing-content');
+      var form = document.getElementById('gate-form');
+      var input = document.getElementById('gate-key');
+      var error = document.getElementById('gate-error');
+
+      function unlock() {
+        sessionStorage.setItem('gracex_landing_unlocked', '1');
+        gate.classList.add('hidden');
+        content.classList.add('visible');
+      }
+
+      function lock() {
+        sessionStorage.removeItem('gracex_landing_unlocked');
+        gate.classList.remove('hidden');
+        content.classList.remove('visible');
+        input.value = '';
+        error.textContent = '';
+      }
+
+      // Already unlocked this session?
+      if (sessionStorage.getItem('gracex_landing_unlocked') === '1') {
+        unlock();
+      }
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        error.textContent = '';
+        if (input.value === config.key) {
+          unlock();
+        } else {
+          error.textContent = 'Invalid key';
+          input.value = '';
+          input.focus();
+        }
+      });
+
+      document.getElementById('btn-lock').addEventListener('click', lock);
+
+      document.getElementById('btn-app').addEventListener('click', function(e) {
+        sessionStorage.setItem('gracex_bypass_landing', '1');
+      });
+    })();
+  </script>
+</body>
+</html>
