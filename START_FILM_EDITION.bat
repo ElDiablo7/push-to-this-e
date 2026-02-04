@@ -107,16 +107,15 @@ echo [OK] Backend ready at http://localhost:3000
 timeout /t 2 /nobreak >nul
 
 REM ===============================================
-REM STEP 5: Start Frontend (Port 8080)
+REM STEP 5: Open App (Backend serves everything on 3000)
 REM ===============================================
 echo.
 echo [STEP 5/5] Launching GRACE-X FILM EDITION...
 echo.
 
-timeout /t 2 /nobreak >nul
-
-echo [OK] Opening browser at http://localhost:8080
-start "" "http://localhost:8080"
+REM Backend ALREADY serves frontend - single server, single port, no CORS/ENV issues
+echo [OK] Opening browser at http://localhost:3000
+start "" "http://localhost:3000"
 timeout /t 1 /nobreak >nul
 
 echo.
@@ -124,28 +123,14 @@ echo ========================================================
 echo   🎬 GRACE-X FILM EDITION v7.0 - RUNNING
 echo ========================================================
 echo.
-echo   Backend:  http://localhost:3000 ✅
-echo   Frontend: http://localhost:8080 ✅
+echo   App:  http://localhost:3000  (Backend + Frontend)
 echo.
-echo   Core Control Panel: Ready
-echo   17 Modules Active (TradeLink removed)
-echo.
-echo   Status: FILM EDITION ACTIVE 🎬
+echo   Everything runs from ONE server - no separate processes
+echo   17 Modules Active
 echo.
 echo ========================================================
 echo.
-echo [INFO] Frontend server running in this window
-echo [INFO] Close this window to stop GRACE-X
+echo [INFO] Backend runs in its own window (GRACE-X FILM Backend)
+echo [INFO] Close THAT window to stop GRACE-X
 echo.
-echo Press Ctrl+C to shutdown servers
-echo.
-
-REM Start frontend server (blocks until stopped)
-npx -y http-server -p 8080 -c-1 --silent
-
-REM Cleanup on exit
-echo.
-echo [SHUTDOWN] Stopping GRACE-X FILM EDITION...
-taskkill /F /FI "WINDOWTITLE eq GRACE-X FILM Backend" >nul 2>nul
-echo [SHUTDOWN] Complete
 pause
