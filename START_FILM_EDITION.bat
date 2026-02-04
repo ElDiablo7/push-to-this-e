@@ -84,9 +84,27 @@ echo.
 echo [STEP 4/5] Starting backend server...
 echo.
 
-start "GRACE-X FILM Backend" /min cmd /c "cd /d %~dp0server && node server.js"
-echo [OK] Backend starting on http://localhost:3000
-timeout /t 3 /nobreak >nul
+REM Start backend in a visible window (so you see errors if it crashes)
+start "GRACE-X FILM Backend" cmd /k "cd /d %~dp0server && node server.js"
+
+REM Wait for backend to be ready (health check, up to 30 seconds)
+echo [WAIT] Waiting for backend to respond...
+set /a attempts=0
+:wait_backend
+timeout /t 2 /nobreak >nul
+set /a attempts+=1
+powershell -NoProfile -Command "try { $r = Invoke-WebRequest -Uri 'http://localhost:3000/health' -UseBasicParsing -TimeoutSec 2; exit 0 } catch { exit 1 }" >nul 2>&1
+if %ERRORLEVEL% EQU 0 goto backend_ready
+if %attempts% GEQ 15 (
+    echo [WARN] Backend did not respond after 30s. Check the Backend window for errors.
+    echo [INFO] Opening frontend anyway - start backend manually if needed.
+    goto backend_done
+)
+goto wait_backend
+:backend_ready
+echo [OK] Backend ready at http://localhost:3000
+:backend_done
+timeout /t 2 /nobreak >nul
 
 REM ===============================================
 REM STEP 5: Start Frontend (Port 8080)
