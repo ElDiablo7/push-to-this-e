@@ -1,5 +1,14 @@
 # Deploying GRACE-X to Render
 
+## Root package.json
+
+The repo has a root `package.json` so Render’s default build and start work without changing settings:
+
+- **Build:** Render runs `npm install` at root → `postinstall` runs `npm install` in `server/`.
+- **Start:** Render runs `npm start` → runs `node server.js` from `server/`.
+
+You do **not** need to set “Root Directory” to `server`; keep the service root at the repo root.
+
 ## Environment variables (no .env file on Render)
 
 Render does **not** use a `.env` file. You configure environment variables in the Render dashboard:

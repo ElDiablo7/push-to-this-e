@@ -1,0 +1,13 @@
+{
+  "name": "push-to-this-e",
+  "private": true,
+  "description": "GRACE-X Film Edition - backend serves frontend from server/",
+  "scripts": {
+    "build": "cd server && npm install",
+    "start": "cd server && node server.js",
+    "postinstall": "cd server && npm install"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
