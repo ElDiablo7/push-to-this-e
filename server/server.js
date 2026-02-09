@@ -9,11 +9,15 @@ const serverEnv = path.join(__dirname, '.env');
 const rootEnv = path.join(__dirname, '..', '.env');
 require('dotenv').config({ path: serverEnv });
 require('dotenv').config({ path: rootEnv, override: false }); // fill in only if not already set
+// Log env linkage so backend and frontend config stay in sync
+const envSource = require('fs').existsSync(serverEnv) ? 'server/.env' : (require('fs').existsSync(rootEnv) ? 'root .env' : 'none');
+console.log('[ENV] Source: %s (server + root merged)', envSource);
 if (!process.env.OPENAI_API_KEY && !process.env.API_KEY) {
   console.warn('Warning: OPENAI_API_KEY or API_KEY not set. Add to server/.env or .env in repo root.');
 } else {
-  console.log('[ENV] Loaded — LLM_PROVIDER=%s, API key set', process.env.LLM_PROVIDER || 'openai');
+  console.log('[ENV] LLM_PROVIDER=%s, API key set', process.env.LLM_PROVIDER || 'openai');
 }
+if (process.env.APP_URL) console.log('[ENV] APP_URL=%s (frontend config uses this)', process.env.APP_URL);
 
 const express = require('express');
 const cors = require('cors');
@@ -573,6 +577,7 @@ app.get('/api/info', (req, res) => {
     endpoints: [
       { method: 'GET', path: '/health', description: 'Health check' },
       { method: 'GET', path: '/api/info', description: 'API information' },
+      { method: 'GET', path: '/api/config', description: 'Frontend config (API base from env)' },
       { method: 'GET', path: '/api/providers', description: 'List available providers' },
       { method: 'POST', path: '/api/brain', description: 'Main brain endpoint' }
     ],
@@ -581,6 +586,17 @@ app.get('/api/info', (req, res) => {
       windowMs: CONFIG.rateLimitWindow,
       maxRequests: CONFIG.rateLimitMax
     }
+  });
+});
+
+// Frontend config: API base from env so frontend and backend stay in sync (Render: set APP_URL)
+app.get('/api/config', (req, res) => {
+  const apiBase = (process.env.APP_URL || '').replace(/\/$/, '');
+  res.json({
+    apiBase,
+    brainApi: apiBase ? `${apiBase}/api/brain` : '/api/brain',
+    sportApi: apiBase ? `${apiBase}/api/sport` : '/api/sport',
+    health: apiBase ? `${apiBase}/health` : '/health'
   });
 });
 
@@ -1130,7 +1146,7 @@ async function callOpenRouter(messages, temperature, max_tokens) {
     headers: {
       'Authorization': `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
-      'HTTP-Referer': process.env.APP_URL || 'http://localhost:3000',
+      'HTTP-Referer': process.env.APP_URL || '',
       'X-Title': 'GRACE-X AI'
     },
     body: JSON.stringify({

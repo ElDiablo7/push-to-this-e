@@ -59,7 +59,7 @@
             
             // Test backend connection
             try {
-                const response = await fetch('http://localhost:3000/health', {
+                const response = await fetch((window.GRACEX_API_BASE || '') + '/health', {
                     method: 'GET',
                     signal: AbortSignal.timeout(5000)
                 });
@@ -238,7 +238,7 @@
             
             // Check backend
             try {
-                const response = await fetch('http://localhost:3000/health', {
+                const response = await fetch((window.GRACEX_API_BASE || '') + '/health', {
                     signal: AbortSignal.timeout(3000)
                 });
                 health.backend = response.ok;

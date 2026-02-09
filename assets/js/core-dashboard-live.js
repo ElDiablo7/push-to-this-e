@@ -6,7 +6,7 @@
 (function() {
   'use strict';
 
-  const API_BASE = (typeof window !== 'undefined' && window.GRACEX_API_BASE) || 'http://localhost:3000';
+  const API_BASE = (typeof window !== 'undefined' && window.GRACEX_API_BASE) || '';
 
   function escapeHtml(str) {
     if (str == null) return '';

@@ -26,6 +26,7 @@ Render does **not** use a `.env` file. You configure environment variables in th
 
 ### Optional
 
+- `APP_URL` — Your Render URL (e.g. `https://yourapp.onrender.com`). Backend and frontend use this so they stay in sync; `/api/config` exposes it to the frontend.
 - `OPENAI_MODEL` — e.g. `gpt-4o-mini`
 - `CORS_ORIGINS` — e.g. `https://yourdomain.com` (for custom domain)
 - `NODE_ENV` — `production`

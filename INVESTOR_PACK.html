@@ -600,7 +600,7 @@
     document.getElementById('valuation-date').textContent = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
     async function fetchMetrics() {
       try {
-        const r = await fetch('http://localhost:3000/api/system/status');
+        const r = await fetch((window.GRACEX_API_BASE || '') + '/api/system/status');
         if (r.ok) {
           const d = await r.json();
           document.getElementById('backend-status').textContent = 'Online';

@@ -108,7 +108,7 @@ const GraceXPerformance = {
     // Preconnect to API
     const preconnect = document.createElement('link');
     preconnect.rel = 'preconnect';
-    preconnect.href = 'http://localhost:3000';
+    preconnect.href = (window.GRACEX_API_BASE || window.location.origin) || '';
     document.head.appendChild(preconnect);
   },
 

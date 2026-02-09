@@ -1871,7 +1871,7 @@ function initNetworkSettingsUI() {
     testBtn.onclick = async function() {
       if (status) status.textContent = 'Testing...';
       try {
-        const base = (api && api.value) ? api.value : (window.GRACEX_BRAIN_API || 'http://localhost:3000/api/brain');
+        const base = (api && api.value) ? api.value : (window.GRACEX_BRAIN_API || '/api/brain');
         const healthUrl = base.replace('/api/brain', '/health');
         const netUrl = base.replace('/api/brain', '/net/status');
         let ok = false;
@@ -2536,7 +2536,7 @@ async function runSpeedTest() {
   // Latency test
   const latencyStart = performance.now();
   try {
-    await fetch(window.GRACEX_BRAIN_API || 'http://localhost:3000/api/brain', { method: 'HEAD', mode: 'no-cors' });
+    await fetch(window.GRACEX_BRAIN_API || '/api/brain', { method: 'HEAD', mode: 'no-cors' });
   } catch (e) {}
   const latency = Math.round(performance.now() - latencyStart);
   if (latencyEl) latencyEl.textContent = latency + ' ms';
@@ -2630,7 +2630,7 @@ async function updateAPIStatus() {
 
   // Prefer a lightweight health ping over a full brain call
   try {
-    const base = window.GRACEX_BRAIN_API || 'http://localhost:3000/api/brain';
+    const base = window.GRACEX_BRAIN_API || '/api/brain';
     const healthUrl = base.replace('/api/brain', '/health');
     const resp = await fetch(healthUrl, { method: 'GET' });
     if (resp.ok) {

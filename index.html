@@ -169,26 +169,30 @@
     <!-- Main JS -->
     <!-- GALVANIZED RECOVERY LAYER - Ultimate Error Handling -->
     <script src="assets/js/galvanized-recovery.js?v=GALVANIZED"></script>
-    <!-- Level 5 API Configuration - ENABLED -->
+    <!-- Level 5 API Configuration - Backend and frontend talk via same origin (relative URLs) -->
     <script>
-      // Level 5 Brain API - PRODUCTION READY
-      // FIXED: Point to backend server on port 3000
-      window.GRACEX_BRAIN_API = 'http://localhost:3000/api/brain';
-      window.GRACEX_SPORT_API = 'http://localhost:3000/api/sport';
-      // Version tracking for cache-busting
+      // Same-origin: backend serves this page, so /api/* and /health resolve to same host (local + Render)
+      window.GRACEX_API_BASE = '';
+      window.GRACEX_BRAIN_API = '/api/brain';
+      window.GRACEX_SPORT_API = '/api/sport';
       window.GRACEX_VERSION = 'FILM_v7.0';
-      // Enable dev tools on localhost
       window.GRACEX_DEV_MODE = window.location.hostname === 'localhost';
-      
-      // Log configuration for debugging
+      // Optional: sync from backend env (APP_URL) so config stays linked
+      (function(){
+        fetch('/api/config', { cache: 'no-store' }).then(function(r){ return r.ok ? r.json() : null; }).then(function(c){
+          if (c && c.apiBase) {
+            window.GRACEX_API_BASE = c.apiBase;
+            window.GRACEX_BRAIN_API = c.brainApi;
+            window.GRACEX_SPORT_API = c.sportApi;
+          }
+        }).catch(function(){});
+      })();
       console.log('%c═══════════════════════════════════════════════════════════', 'color: #00d4ff');
       console.log('%c🎬 GRACE-X FILM EDITION v7.0', 'color: #00d4ff; font-weight: bold; font-size: 20px');
-      console.log('%c   AI PRO FILM PRODUCTION SUITE', 'color: #10b981; font-weight: bold;');
-      console.log('%c   Core Control Panel - Master System', 'color: #00d4ff; font-weight: bold;');
+      console.log('%c   Backend + Frontend linked (same origin)', 'color: #10b981; font-weight: bold;');
       console.log('%c═══════════════════════════════════════════════════════════', 'color: #00d4ff');
       console.log('   Backend API:', window.GRACEX_BRAIN_API);
       console.log('   Sport API:', window.GRACEX_SPORT_API);
-      console.log('   Version:', window.GRACEX_VERSION);
       console.log('   🎬 FILM EDITION ACTIVE');
     </script>
     <!-- CORE NETWORK MANAGER - Internet access through Core -->

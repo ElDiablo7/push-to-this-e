@@ -137,7 +137,7 @@
             testBtn.onclick = async function() {
                 if (status) status.textContent = 'Testing...';
                 try {
-                    const base = (api && api.value) ? api.value : (window.GRACEX_BRAIN_API || 'http://localhost:3000/api/brain');
+                    const base = (api && api.value) ? api.value : (window.GRACEX_BRAIN_API || '/api/brain');
                     const healthUrl = base.replace('/api/brain', '/health');
                     const netUrl = base.replace('/api/brain', '/net/status');
                     let ok = false;

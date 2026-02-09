@@ -546,7 +546,7 @@
       // Fetch live system status from backend
       async fetchSystemStatus() {
         try {
-          const response = await fetch('http://localhost:3000/api/system/status');
+          const response = await fetch((window.GRACEX_API_BASE || '') + '/api/system/status');
           if (!response.ok) throw new Error('Backend not responding');
           
           this.systemData = await response.json();
