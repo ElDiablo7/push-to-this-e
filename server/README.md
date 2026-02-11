@@ -73,10 +73,12 @@ The server reads `process.env`; Render injects these at runtime. You do not need
 
 ### Environment Variables (.env) — local development
 
+The server loads **both** `server/.env` and the repo **root `.env`**. **Root `.env` wins**: if the same key exists in both, the value from the root file is used. You can keep a single `.env` in the repo root and it will be used.
+
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `LLM_PROVIDER` | `openai` | Provider: `openai` (default), `openrouter`, `ollama` |
-| `API_KEY` | - | Your API key (generic) |
+| `API_KEY` or `OPENAI_API_KEY` | - | Your API key (required for Brain) |
 | `PORT` | `3000` | Server port |
 | `RATE_LIMIT_MAX` | `30` | Requests per minute |
 | `LOG_LEVEL` | `info` | Logging: `error`, `warn`, `info`, `debug` |

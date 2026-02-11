@@ -297,11 +297,12 @@
         activeModuleEl.textContent = this.formatModuleName(currentHash);
       }
 
-      // Brain status
+      // Brain status (backend.status = 'ready' | 'no_api_key')
       const brainStatusEl = document.getElementById('sys-brain-status');
       if (brainStatusEl && data.backend) {
-        brainStatusEl.textContent = data.backend.status || 'Online';
-        brainStatusEl.className = 'stat-value stat-status-good';
+        const status = data.backend.status || (data.backend.apiKeyConfigured ? 'ready' : 'no_api_key');
+        brainStatusEl.textContent = status === 'ready' ? 'Ready' : (status === 'no_api_key' ? 'No API key' : status);
+        brainStatusEl.className = status === 'ready' ? 'stat-value stat-status-good' : 'stat-value stat-status-warning';
       }
 
       // TTS status

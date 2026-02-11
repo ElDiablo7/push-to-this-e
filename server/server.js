@@ -4,14 +4,14 @@
 // ------------------------------
 
 const path = require('path');
-// Load .env from server/ first, then repo root (so editing either file works)
+// Load .env: ROOT wins (so you can keep a single .env in repo root and it always applies)
 const serverEnv = path.join(__dirname, '.env');
 const rootEnv = path.join(__dirname, '..', '.env');
 require('dotenv').config({ path: serverEnv });
-require('dotenv').config({ path: rootEnv, override: false }); // fill in only if not already set
-// Log env linkage so backend and frontend config stay in sync
-const envSource = require('fs').existsSync(serverEnv) ? 'server/.env' : (require('fs').existsSync(rootEnv) ? 'root .env' : 'none');
-console.log('[ENV] Source: %s (server + root merged)', envSource);
+require('dotenv').config({ path: rootEnv, override: true }); // root .env overwrites server so "edit in root" works
+const hasRoot = require('fs').existsSync(rootEnv);
+const hasServer = require('fs').existsSync(serverEnv);
+console.log('[ENV] Root .env: %s | Server .env: %s (root wins)', hasRoot ? 'loaded' : 'none', hasServer ? 'loaded' : 'none');
 if (!process.env.OPENAI_API_KEY && !process.env.API_KEY) {
   console.warn('Warning: OPENAI_API_KEY or API_KEY not set. Add to server/.env or .env in repo root.');
 } else {
@@ -650,7 +650,8 @@ app.get('/api/system/status', (req, res) => {
         port: PORT,
         apiVersion: API_VERSION,
         provider: process.env.LLM_PROVIDER || 'openai',
-        apiKeyConfigured: !!process.env.API_KEY
+        apiKeyConfigured: !!(process.env.OPENAI_API_KEY || process.env.API_KEY),
+        status: (process.env.OPENAI_API_KEY || process.env.API_KEY) ? 'ready' : 'no_api_key'
       },
       forge: {
         baseDir: path.join(require('os').homedir(), 'Desktop', 'FORGE_PROJECTS'),

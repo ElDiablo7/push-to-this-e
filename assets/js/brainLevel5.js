@@ -279,10 +279,8 @@
       return "Core requires an internet connection to reach the brain API. Please reconnect.";
     }
 
-    // Check if API is configured
-    const apiConfigured = BRAIN_CONFIG.apiEndpoint && 
-                          BRAIN_CONFIG.apiEndpoint !== '/api/brain' &&
-                          BRAIN_CONFIG.apiEndpoint !== '';
+    // Check if API is configured (same-origin /api/brain is valid)
+    const apiConfigured = !!(BRAIN_CONFIG.apiEndpoint && String(BRAIN_CONFIG.apiEndpoint).trim());
 
     // Try Level 5 API first if configured and healthy
     if (apiConfigured && (connectionStatus.isHealthy || connectionStatus.consecutiveFailures < 5)) {

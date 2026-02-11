@@ -169,9 +169,9 @@
     <!-- Main JS -->
     <!-- GALVANIZED RECOVERY LAYER - Ultimate Error Handling -->
     <script src="assets/js/galvanized-recovery.js?v=GALVANIZED"></script>
-    <!-- Level 5 API Configuration - Backend and frontend talk via same origin (relative URLs) -->
+    <!-- Level 5 API Configuration - Backend and frontend same origin; .env in repo root is used by backend -->
     <script>
-      // Same-origin: backend serves this page, so /api/* and /health resolve to same host (local + Render)
+      // Same-origin: backend serves this page so /api/* and /health hit same host. Put API keys in repo root .env.
       window.GRACEX_API_BASE = '';
       window.GRACEX_BRAIN_API = '/api/brain';
       window.GRACEX_SPORT_API = '/api/sport';
