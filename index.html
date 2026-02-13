@@ -172,20 +172,52 @@
     <!-- Level 5 API Configuration - Backend and frontend same origin; .env in repo root is used by backend -->
     <script>
       // Same-origin: backend serves this page so /api/* and /health hit same host. Put API keys in repo root .env.
-      window.GRACEX_API_BASE = '';
+      // FOR PRODUCTION (Render + Cloudflare):
+      // If deployed to Cloudflare, you MUST replace the empty string below with your Render Backend URL
+      // Example: window.GRACEX_API_BASE = 'https://gracex-backend.onrender.com';
+      window.GRACEX_API_BASE = 'https://push-to-this-e.onrender.com'; 
+      
       window.GRACEX_BRAIN_API = '/api/brain';
       window.GRACEX_SPORT_API = '/api/sport';
       window.GRACEX_VERSION = 'FILM_v7.0';
       window.GRACEX_DEV_MODE = window.location.hostname === 'localhost';
+      
+      // Auto-detect if running on Cloudflare/Vercel (different domain than backend)
+      if (window.GRACEX_API_BASE && !window.location.origin.includes('localhost')) {
+          // Verify we aren't already on the backend domain
+          if (!window.location.origin.includes('onrender.com')) {
+             console.log('[CONN] Detected separate frontend deployment. Using configured backend:', window.GRACEX_API_BASE);
+          }
+      }
+
       // Optional: sync from backend env (APP_URL) so config stays linked
       (function(){
-        fetch('/api/config', { cache: 'no-store' }).then(function(r){ return r.ok ? r.json() : null; }).then(function(c){
-          if (c && c.apiBase) {
-            window.GRACEX_API_BASE = c.apiBase;
-            window.GRACEX_BRAIN_API = c.brainApi;
-            window.GRACEX_SPORT_API = c.sportApi;
-          }
-        }).catch(function(){});
+        const apiBase = window.GRACEX_API_BASE || '';
+        const configUrl = apiBase ? `${apiBase}/api/config` : '/api/config';
+        
+        console.log('[CONN] Fetching config from:', configUrl);
+        
+        fetch(configUrl, { cache: 'no-store' })
+          .then(function(r){ return r.ok ? r.json() : null; })
+          .then(function(c){
+            if (c && c.apiBase) {
+               // Only override if backend explicitly tells us to
+               // window.GRACEX_API_BASE = c.apiBase; 
+            }
+            // Update endpoints based on base
+            const base = window.GRACEX_API_BASE || '';
+            window.GRACEX_BRAIN_API = base + '/api/brain';
+            window.GRACEX_SPORT_API = base + '/api/sport';
+            console.log('[CONN] Config synced. Brain API:', window.GRACEX_BRAIN_API);
+          })
+          .catch(function(e){
+             console.warn('[CONN] Config sync failed (using defaults):', e);
+             // Fallback if fetch fails but we have a base
+             if (window.GRACEX_API_BASE) {
+                window.GRACEX_BRAIN_API = window.GRACEX_API_BASE + '/api/brain';
+                window.GRACEX_SPORT_API = window.GRACEX_API_BASE + '/api/sport';
+             }
+          });
       })();
       console.log('%c═══════════════════════════════════════════════════════════', 'color: #00d4ff');
       console.log('%c🎬 GRACE-X FILM EDITION v7.0', 'color: #00d4ff; font-weight: bold; font-size: 20px');

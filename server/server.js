@@ -265,14 +265,14 @@ const CONFIG = {
   rateLimitWindow: parseInt(process.env.RATE_LIMIT_WINDOW) || 60000, // 1 minute
   rateLimitMax: parseInt(process.env.RATE_LIMIT_MAX) || 30, // 30 requests per minute
   rateLimitCleanupInterval: 300000, // Cleanup every 5 minutes
-  
+
   // Request limits
   maxBodySize: process.env.MAX_BODY_SIZE || '1mb',
   requestTimeout: parseInt(process.env.REQUEST_TIMEOUT) || 30000, // 30 seconds
-  
+
   // CORS
   corsOrigins: process.env.CORS_ORIGINS ? process.env.CORS_ORIGINS.split(',') : ['*'],
-  
+
   // Logging
   enableLogging: process.env.ENABLE_LOGGING !== 'false',
   logLevel: process.env.LOG_LEVEL || 'info'
@@ -328,17 +328,17 @@ app.use((req, res, next) => {
 // Request logging middleware
 app.use((req, res, next) => {
   if (!CONFIG.enableLogging) return next();
-  
+
   const start = Date.now();
   const { method, path, requestId } = req;
-  
+
   res.on('finish', () => {
     const duration = Date.now() - start;
     const status = res.statusCode;
     const level = status >= 500 ? 'error' : status >= 400 ? 'warn' : 'info';
     log(level, `${method} ${path} ${status} ${duration}ms`, { requestId });
   });
-  
+
   next();
 });
 
@@ -363,21 +363,21 @@ const rateLimit = new Map();
 function checkRateLimit(ip) {
   const now = Date.now();
   const userLimit = rateLimit.get(ip) || { count: 0, resetTime: now + CONFIG.rateLimitWindow };
-  
+
   if (now > userLimit.resetTime) {
     userLimit.count = 0;
     userLimit.resetTime = now + CONFIG.rateLimitWindow;
   }
-  
+
   if (userLimit.count >= CONFIG.rateLimitMax) {
     return { allowed: false, remaining: 0, resetTime: userLimit.resetTime };
   }
-  
+
   userLimit.count++;
   rateLimit.set(ip, userLimit);
-  
-  return { 
-    allowed: true, 
+
+  return {
+    allowed: true,
     remaining: CONFIG.rateLimitMax - userLimit.count,
     resetTime: userLimit.resetTime
   };
@@ -397,10 +397,10 @@ setInterval(() => {
 function rateLimitMiddleware(req, res, next) {
   const clientIp = req.ip || req.connection.remoteAddress || 'unknown';
   const result = checkRateLimit(clientIp);
-  
+
   res.setHeader('X-RateLimit-Remaining', result.remaining);
   res.setHeader('X-RateLimit-Reset', Math.ceil(result.resetTime / 1000));
-  
+
   if (!result.allowed) {
     return res.status(429).json({
       error: 'Rate limit exceeded. Please wait and try again.',
@@ -409,7 +409,7 @@ function rateLimitMiddleware(req, res, next) {
       requestId: req.requestId
     });
   }
-  
+
   next();
 }
 
@@ -423,14 +423,14 @@ function generateRequestId() {
 
 function log(level, message, meta = {}) {
   if (!CONFIG.enableLogging) return;
-  
+
   const timestamp = new Date().toISOString();
   const metaStr = Object.keys(meta).length ? ` ${JSON.stringify(meta)}` : '';
-  
+
   const levels = { error: 0, warn: 1, info: 2, debug: 3 };
   const currentLevel = levels[CONFIG.logLevel] || 2;
   const msgLevel = levels[level] || 2;
-  
+
   if (msgLevel <= currentLevel) {
     const prefix = { error: '❌', warn: '⚠️', info: '📡', debug: '🔍' }[level] || '📡';
     console.log(`${prefix} [${timestamp}] [${level.toUpperCase()}] ${message}${metaStr}`);
@@ -447,15 +447,15 @@ function validateMessages(messages) {
   if (!Array.isArray(messages)) {
     return { valid: false, error: 'Messages must be an array' };
   }
-  
+
   if (messages.length === 0) {
     return { valid: false, error: 'Messages array cannot be empty' };
   }
-  
+
   if (messages.length > 50) {
     return { valid: false, error: 'Too many messages (max 50)' };
   }
-  
+
   for (const msg of messages) {
     if (!msg.role || !['system', 'user', 'assistant'].includes(msg.role)) {
       return { valid: false, error: 'Invalid message role' };
@@ -464,7 +464,7 @@ function validateMessages(messages) {
       return { valid: false, error: 'Message content must be a string' };
     }
   }
-  
+
   return { valid: true };
 }
 
@@ -480,9 +480,11 @@ app.get('/health', (req, res) => {
     version: API_VERSION,
     timestamp: new Date().toISOString(),
     provider: process.env.LLM_PROVIDER || 'openai',
-    model: process.env.LLM_PROVIDER === 'anthropic' 
+    model: process.env.LLM_PROVIDER === 'anthropic'
       ? (process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-20250514')
-      : (process.env.OPENAI_MODEL || 'gpt-4o-mini'),
+      : process.env.LLM_PROVIDER === 'google'
+        ? (process.env.GOOGLE_MODEL || 'gemini-1.5-pro')
+        : (process.env.OPENAI_MODEL || 'gpt-4o-mini'),
     uptime: Math.floor(process.uptime())
   });
 });
@@ -499,13 +501,13 @@ app.get('/net/status', async (req, res) => {
       dns.resolve('openai.com', (err) => (err ? reject(err) : resolve()));
     });
     result.dns.openai = true;
-  } catch (_) {}
+  } catch (_) { }
   try {
     await new Promise((resolve, reject) => {
       dns.resolve('google.com', (err) => (err ? reject(err) : resolve()));
     });
     result.dns.google = true;
-  } catch (_) {}
+  } catch (_) { }
   try {
     await new Promise((resolve, reject) => {
       const reqHttps = https.get('https://www.google.com', (r) => {
@@ -518,20 +520,22 @@ app.get('/net/status', async (req, res) => {
       });
       reqHttps.on('error', reject);
     });
-  } catch (_) {}
+  } catch (_) { }
   res.json(result);
 });
 // Brain connection test endpoint
 app.get('/api/brain/test', async (req, res) => {
   try {
     const provider = process.env.LLM_PROVIDER || 'openai';
-    const model = provider === 'anthropic' 
+    const model = provider === 'anthropic'
       ? (process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-20250514')
       : (process.env.OPENAI_MODEL || 'gpt-4o-mini');
-    
-    const apiKeyConfigured = provider === 'anthropic' 
+
+    const apiKeyConfigured = provider === 'anthropic'
       ? !!(process.env.ANTHROPIC_API_KEY || process.env.API_KEY)
-      : !!(process.env.OPENAI_API_KEY || process.env.API_KEY);
+      : provider === 'google'
+        ? !!(process.env.GOOGLE_API_KEY || process.env.API_KEY)
+        : !!(process.env.OPENAI_API_KEY || process.env.API_KEY);
 
     // Quick test call
     let testResult = 'Not tested';
@@ -539,13 +543,15 @@ app.get('/api/brain/test', async (req, res) => {
       try {
         const testMessages = [{ role: 'user', content: 'Say "Brain connected" if you can read this.' }];
         let response;
-        
+
         if (provider === 'anthropic') {
           response = await callAnthropic(testMessages, 0.7, 50);
+        } else if (provider === 'google') {
+          response = await callGoogle(testMessages, 0.7, 50);
         } else {
           response = await callOpenAI(testMessages, 0.7, 50);
         }
-        
+
         testResult = 'Connected ✅';
       } catch (err) {
         testResult = `Error: ${err.message}`;
@@ -581,7 +587,7 @@ app.get('/api/info', (req, res) => {
       { method: 'GET', path: '/api/providers', description: 'List available providers' },
       { method: 'POST', path: '/api/brain', description: 'Main brain endpoint' }
     ],
-    providers: ['openai', 'anthropic', 'openrouter', 'ollama'],
+    providers: ['openai', 'anthropic', 'google', 'openrouter', 'ollama'],
     rateLimit: {
       windowMs: CONFIG.rateLimitWindow,
       maxRequests: CONFIG.rateLimitMax
@@ -611,6 +617,10 @@ app.get('/api/providers', (req, res) => {
       configured: !!process.env.ANTHROPIC_API_KEY || (process.env.LLM_PROVIDER === 'anthropic' && !!process.env.API_KEY),
       models: ['claude-sonnet-4-20250514', 'claude-3-5-sonnet-20241022', 'claude-3-5-haiku-20241022', 'claude-3-opus-20240229']
     },
+    google: {
+      configured: !!process.env.GOOGLE_API_KEY || (process.env.LLM_PROVIDER === 'google' && !!process.env.API_KEY),
+      models: ['gemini-1.5-pro', 'gemini-1.5-flash', 'gemini-pro']
+    },
     openrouter: {
       configured: !!process.env.OPENROUTER_API_KEY,
       models: ['auto', 'openai/gpt-4o', 'openai/gpt-4-turbo', 'google/gemini-pro']
@@ -620,7 +630,7 @@ app.get('/api/providers', (req, res) => {
       models: ['llama3.2', 'llama3.1', 'mistral', 'codellama', 'phi3']
     }
   };
-  
+
   res.json({
     current: process.env.LLM_PROVIDER || 'openai',
     providers
@@ -663,14 +673,14 @@ app.get('/api/system/status', (req, res) => {
         percentage: Math.round((process.memoryUsage().heapUsed / process.memoryUsage().heapTotal) * 100)
       }
     };
-    
+
     // Frontend expects heapUsed/heapTotal for compatibility
     status.memory.heapUsed = process.memoryUsage().heapUsed;
     status.memory.heapTotal = process.memoryUsage().heapTotal;
 
     console.log('[API] System status requested');
     res.json(status);
-    
+
   } catch (error) {
     console.error('[API] Status error:', error);
     res.status(500).json({ error: error.message });
@@ -930,7 +940,7 @@ app.post('/api/brain', rateLimitMiddleware, async (req, res) => {
 
   // Sanitize messages and inject system prompt
   const sanitizedMessages = [];
-  
+
   // First, add/replace the system message with our GRACE-X identity
   const existingSystem = messages.find(m => m.role === 'system');
   if (existingSystem) {
@@ -946,7 +956,7 @@ app.post('/api/brain', rateLimitMiddleware, async (req, res) => {
       content: fullSystemPrompt
     });
   }
-  
+
   // Add the rest of the messages (excluding any system messages)
   messages.filter(m => m.role !== 'system').forEach(m => {
     sanitizedMessages.push({
@@ -961,8 +971,8 @@ app.post('/api/brain', rateLimitMiddleware, async (req, res) => {
 
   // Get API provider
   const provider = requestProvider || process.env.LLM_PROVIDER || 'openai';
-  
-  log('info', `Brain request from module: ${module || 'unknown'}`, { 
+
+  log('info', `Brain request from module: ${module || 'unknown'}`, {
     requestId: req.requestId,
     provider,
     messageCount: sanitizedMessages.length
@@ -982,6 +992,9 @@ app.post('/api/brain', rateLimitMiddleware, async (req, res) => {
       case 'openrouter':
         reply = await callOpenRouter(sanitizedMessages, validTemp, validMaxTokens);
         break;
+      case 'google':
+        reply = await callGoogle(sanitizedMessages, validTemp, validMaxTokens);
+        break;
       case 'ollama':
         reply = await callOllama(sanitizedMessages, validTemp, validMaxTokens);
         break;
@@ -989,7 +1002,7 @@ app.post('/api/brain', rateLimitMiddleware, async (req, res) => {
         return res.status(400).json({
           error: `Unsupported provider: ${provider}`,
           code: 'UNSUPPORTED_PROVIDER',
-          supportedProviders: ['openai', 'anthropic', 'openrouter', 'ollama'],
+          supportedProviders: ['openai', 'anthropic', 'google', 'openrouter', 'ollama'],
           requestId: req.requestId
         });
     }
@@ -1007,7 +1020,7 @@ app.post('/api/brain', rateLimitMiddleware, async (req, res) => {
 
   } catch (error) {
     log('error', `Brain API error: ${error.message}`, { requestId: req.requestId });
-    
+
     const statusCode = error.statusCode || 500;
     res.status(statusCode).json({
       error: 'Failed to get AI response',
@@ -1026,7 +1039,7 @@ app.post('/api/brain', rateLimitMiddleware, async (req, res) => {
 async function callOpenAI(messages, temperature, max_tokens) {
   const apiKey = process.env.OPENAI_API_KEY || process.env.API_KEY;
   const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
-  
+
   if (!apiKey) {
     const error = new Error('OpenAI API key not configured');
     error.code = 'API_KEY_MISSING';
@@ -1057,7 +1070,7 @@ async function callOpenAI(messages, temperature, max_tokens) {
   }
 
   const data = await response.json();
-  
+
   if (!data.choices?.[0]?.message?.content) {
     const error = new Error('Invalid response from OpenAI API');
     error.code = 'INVALID_RESPONSE';
@@ -1072,7 +1085,7 @@ async function callOpenAI(messages, temperature, max_tokens) {
 async function callAnthropic(messages, temperature, max_tokens) {
   const apiKey = process.env.ANTHROPIC_API_KEY || process.env.API_KEY;
   const model = process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-20250514';
-  
+
   if (!apiKey) {
     const error = new Error('Anthropic API key not configured');
     error.code = 'API_KEY_MISSING';
@@ -1119,7 +1132,7 @@ async function callAnthropic(messages, temperature, max_tokens) {
   }
 
   const data = await response.json();
-  
+
   if (!data.content?.[0]?.text) {
     const error = new Error('Invalid response from Anthropic API');
     error.code = 'INVALID_RESPONSE';
@@ -1134,7 +1147,7 @@ async function callAnthropic(messages, temperature, max_tokens) {
 async function callOpenRouter(messages, temperature, max_tokens) {
   const apiKey = process.env.OPENROUTER_API_KEY;
   const model = process.env.OPENROUTER_MODEL || 'openai/gpt-4o';
-  
+
   if (!apiKey) {
     const error = new Error('OpenRouter API key not configured');
     error.code = 'API_KEY_MISSING';
@@ -1167,7 +1180,7 @@ async function callOpenRouter(messages, temperature, max_tokens) {
   }
 
   const data = await response.json();
-  
+
   if (!data.choices?.[0]?.message?.content) {
     const error = new Error('Invalid response from OpenRouter API');
     error.code = 'INVALID_RESPONSE';
@@ -1176,6 +1189,87 @@ async function callOpenRouter(messages, temperature, max_tokens) {
   }
 
   return data.choices[0].message.content;
+}
+
+// Google Gemini API call
+async function callGoogle(messages, temperature, max_tokens) {
+  const apiKey = process.env.GOOGLE_API_KEY || process.env.API_KEY;
+  const model = process.env.GOOGLE_MODEL || 'gemini-1.5-pro';
+
+  if (!apiKey) {
+    const error = new Error('Google API key not configured');
+    error.code = 'API_KEY_MISSING';
+    error.statusCode = 500;
+    throw error;
+  }
+
+  // Convert messages to Google Gemini format (simple conversion)
+  // Gemini expects: { contents: [{ role: "user"|"model", parts: [{ text: "..." }] }] }
+
+  const googleContents = [];
+  let systemInstruction = null;
+
+  for (const msg of messages) {
+    if (msg.role === 'system') {
+      systemInstruction = {
+        role: 'user',
+        parts: [{ text: `SYSTEM INSTRUCTION: ${msg.content}` }]
+      };
+    } else {
+      googleContents.push({
+        role: msg.role === 'assistant' ? 'model' : 'user',
+        parts: [{ text: msg.content }]
+      });
+    }
+  }
+
+  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
+  const body = {
+    contents: googleContents,
+    generationConfig: {
+      temperature: temperature,
+      maxOutputTokens: max_tokens
+    }
+  };
+
+  if (systemInstruction) {
+    googleContents.unshift(systemInstruction);
+  }
+
+  const response = await fetch(apiUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    const error = new Error(`Google API error: ${response.status} - ${errorData.error?.message || response.statusText}`);
+    error.code = 'GOOGLE_ERROR';
+    error.statusCode = response.status === 401 ? 401 : 502;
+    throw error;
+  }
+
+  const data = await response.json();
+
+  if (!data.candidates?.[0]?.content?.parts?.[0]?.text) {
+    // Check for safety blocks
+    if (data.promptFeedback?.blockReason) {
+      const error = new Error(`Google API blocked response: ${data.promptFeedback.blockReason}`);
+      error.code = 'CONTENT_BLOCKED';
+      error.statusCode = 400;
+      throw error;
+    }
+    const error = new Error('Invalid response from Google API');
+    error.code = 'INVALID_RESPONSE';
+    error.statusCode = 502;
+    throw error;
+  }
+
+  return data.candidates[0].content.parts[0].text;
 }
 
 // Ollama API call (local LLM)
@@ -1209,7 +1303,7 @@ async function callOllama(messages, temperature, max_tokens) {
   }
 
   const data = await response.json();
-  
+
   if (!data.message?.content) {
     const error = new Error('Invalid response from Ollama');
     error.code = 'INVALID_RESPONSE';
@@ -1240,41 +1334,41 @@ function validateForgePath(filePath) {
 app.post('/api/forge/save-file', async (req, res) => {
   try {
     const { filePath, content } = req.body;
-    
+
     if (!filePath || content === undefined) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         success: false,
-        error: 'Missing filePath or content' 
+        error: 'Missing filePath or content'
       });
     }
-    
+
     // Security check
     if (!validateForgePath(filePath)) {
-      return res.status(403).json({ 
+      return res.status(403).json({
         success: false,
-        error: 'Path outside allowed directory' 
+        error: 'Path outside allowed directory'
       });
     }
-    
+
     // Ensure directory exists
     const dir = path.dirname(filePath);
     await fs.mkdir(dir, { recursive: true });
-    
+
     // Write file
     await fs.writeFile(filePath, content, 'utf8');
-    
+
     console.log('[FORGE] ✅ File saved:', filePath);
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       path: filePath,
       message: 'File saved to desktop'
     });
-    
+
   } catch (error) {
     console.error('[FORGE] ❌ Save file error:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
-      error: error.message 
+      error: error.message
     });
   }
 });
@@ -1283,35 +1377,35 @@ app.post('/api/forge/save-file', async (req, res) => {
 app.post('/api/forge/read-file', async (req, res) => {
   try {
     const { filePath } = req.body;
-    
+
     if (!filePath) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         success: false,
-        error: 'Missing filePath' 
+        error: 'Missing filePath'
       });
     }
-    
+
     // Security check
     if (!validateForgePath(filePath)) {
-      return res.status(403).json({ 
+      return res.status(403).json({
         success: false,
-        error: 'Path outside allowed directory' 
+        error: 'Path outside allowed directory'
       });
     }
-    
+
     const content = await fs.readFile(filePath, 'utf8');
     console.log('[FORGE] ✅ File read:', filePath);
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       content,
       path: filePath
     });
-    
+
   } catch (error) {
     console.error('[FORGE] ❌ Read file error:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
-      error: error.message 
+      error: error.message
     });
   }
 });
@@ -1320,44 +1414,44 @@ app.post('/api/forge/read-file', async (req, res) => {
 app.post('/api/forge/list-directory', async (req, res) => {
   try {
     const { dirPath } = req.body;
-    
+
     if (!dirPath) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         success: false,
-        error: 'Missing dirPath' 
+        error: 'Missing dirPath'
       });
     }
-    
+
     // Security check
     if (!validateForgePath(dirPath)) {
-      return res.status(403).json({ 
+      return res.status(403).json({
         success: false,
-        error: 'Path outside allowed directory' 
+        error: 'Path outside allowed directory'
       });
     }
-    
+
     // Create directory if it doesn't exist
     await fs.mkdir(dirPath, { recursive: true });
-    
+
     const entries = await fs.readdir(dirPath, { withFileTypes: true });
     const files = entries.map(entry => ({
       name: entry.name,
       isDirectory: entry.isDirectory(),
       path: path.join(dirPath, entry.name)
     }));
-    
+
     console.log('[FORGE] ✅ Directory listed:', dirPath);
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       files,
       path: dirPath
     });
-    
+
   } catch (error) {
     console.error('[FORGE] ❌ List directory error:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
-      error: error.message 
+      error: error.message
     });
   }
 });
@@ -1366,34 +1460,34 @@ app.post('/api/forge/list-directory', async (req, res) => {
 app.post('/api/forge/delete-file', async (req, res) => {
   try {
     const { filePath } = req.body;
-    
+
     if (!filePath) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         success: false,
-        error: 'Missing filePath' 
+        error: 'Missing filePath'
       });
     }
-    
+
     // Security check
     if (!validateForgePath(filePath)) {
-      return res.status(403).json({ 
+      return res.status(403).json({
         success: false,
-        error: 'Path outside allowed directory' 
+        error: 'Path outside allowed directory'
       });
     }
-    
+
     await fs.unlink(filePath);
     console.log('[FORGE] ✅ File deleted:', filePath);
-    res.json({ 
+    res.json({
       success: true,
       path: filePath
     });
-    
+
   } catch (error) {
     console.error('[FORGE] ❌ Delete file error:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
-      error: error.message 
+      error: error.message
     });
   }
 });
@@ -1426,9 +1520,9 @@ app.post('/api/callsheets/create', (req, res) => {
       createdAt: Date.now(),
       updatedAt: Date.now()
     };
-    
+
     callSheets.push(callSheet);
-    
+
     console.log('[CALLSHEETS] ✅ Created:', callSheet.id);
     res.json({
       success: true,
@@ -1448,7 +1542,7 @@ app.get('/api/callsheets/daily/:date', (req, res) => {
   try {
     const { date } = req.params;
     const sheets = callSheets.filter(s => s.date === date);
-    
+
     res.json({
       success: true,
       date,
@@ -1467,14 +1561,14 @@ app.get('/api/callsheets/daily/:date', (req, res) => {
 app.get('/api/callsheets/:id', (req, res) => {
   try {
     const sheet = callSheets.find(s => s.id === req.params.id);
-    
+
     if (!sheet) {
       return res.status(404).json({
         success: false,
         error: 'Call sheet not found'
       });
     }
-    
+
     res.json({
       success: true,
       sheet
@@ -1492,20 +1586,20 @@ app.get('/api/callsheets/:id', (req, res) => {
 app.put('/api/callsheets/:id', (req, res) => {
   try {
     const index = callSheets.findIndex(s => s.id === req.params.id);
-    
+
     if (index === -1) {
       return res.status(404).json({
         success: false,
         error: 'Call sheet not found'
       });
     }
-    
+
     callSheets[index] = {
       ...callSheets[index],
       ...req.body,
       updatedAt: Date.now()
     };
-    
+
     console.log('[CALLSHEETS] ✅ Updated:', req.params.id);
     res.json({
       success: true,
@@ -1524,7 +1618,7 @@ app.put('/api/callsheets/:id', (req, res) => {
 app.post('/api/callsheets/crew/clockin', (req, res) => {
   try {
     const { sheetId, crewId, action } = req.body;
-    
+
     const sheet = callSheets.find(s => s.id === sheetId);
     if (!sheet) {
       return res.status(404).json({
@@ -1532,7 +1626,7 @@ app.post('/api/callsheets/crew/clockin', (req, res) => {
         error: 'Call sheet not found'
       });
     }
-    
+
     const crew = sheet.crew?.find(c => c.id === crewId);
     if (!crew) {
       return res.status(404).json({
@@ -1540,7 +1634,7 @@ app.post('/api/callsheets/crew/clockin', (req, res) => {
         error: 'Crew member not found'
       });
     }
-    
+
     if (action === 'in') {
       crew.clockIn = Date.now();
       crew.status = 'working';
@@ -1549,9 +1643,9 @@ app.post('/api/callsheets/crew/clockin', (req, res) => {
       crew.status = 'offsite';
       crew.hoursWorked = (crew.clockOut - crew.clockIn) / (1000 * 60 * 60);
     }
-    
+
     sheet.updatedAt = Date.now();
-    
+
     console.log(`[CALLSHEETS] ✅ Clock ${action}:`, crew.name);
     res.json({
       success: true,
@@ -1571,13 +1665,13 @@ app.post('/api/callsheets/sync', (req, res) => {
   try {
     const sheet = req.body;
     const existing = callSheets.findIndex(s => s.id === sheet.id);
-    
+
     if (existing !== -1) {
       callSheets[existing] = { ...sheet, synced: true };
     } else {
       callSheets.push({ ...sheet, synced: true });
     }
-    
+
     res.json({
       success: true,
       message: 'Synced successfully'
@@ -1624,9 +1718,9 @@ app.post('/api/safety/incident', (req, res) => {
       createdAt: Date.now(),
       updatedAt: Date.now()
     };
-    
+
     incidents.push(incident);
-    
+
     console.log(`[SAFETY] 🚨 Incident reported: ${incident.type} - ${incident.severity}`);
     res.json({
       success: true,
@@ -1646,21 +1740,21 @@ app.get('/api/safety/incidents/:siteId?', (req, res) => {
   try {
     const { siteId } = req.params;
     const { severity, status } = req.query;
-    
+
     let filtered = incidents;
-    
+
     if (siteId) {
       filtered = filtered.filter(i => i.siteId === siteId);
     }
-    
+
     if (severity) {
       filtered = filtered.filter(i => i.severity === severity);
     }
-    
+
     if (status) {
       filtered = filtered.filter(i => i.status === status);
     }
-    
+
     res.json({
       success: true,
       incidents: filtered,
@@ -1679,20 +1773,20 @@ app.get('/api/safety/incidents/:siteId?', (req, res) => {
 app.put('/api/safety/incident/:id', (req, res) => {
   try {
     const index = incidents.findIndex(i => i.id === req.params.id);
-    
+
     if (index === -1) {
       return res.status(404).json({
         success: false,
         error: 'Incident not found'
       });
     }
-    
+
     incidents[index] = {
       ...incidents[index],
       ...req.body,
       updatedAt: Date.now()
     };
-    
+
     console.log('[SAFETY] ✅ Incident updated:', req.params.id);
     res.json({
       success: true,
@@ -1715,9 +1809,9 @@ app.post('/api/safety/checklist', (req, res) => {
       ...req.body,
       createdAt: Date.now()
     };
-    
+
     safetyChecklists.push(checklist);
-    
+
     console.log('[SAFETY] ✅ Checklist created:', checklist.id);
     res.json({
       success: true,
@@ -1736,7 +1830,7 @@ app.post('/api/safety/checklist', (req, res) => {
 app.post('/api/safety/checklist/complete', (req, res) => {
   try {
     const { checklistId, signature, results } = req.body;
-    
+
     const checklist = safetyChecklists.find(c => c.id === checklistId);
     if (!checklist) {
       return res.status(404).json({
@@ -1744,12 +1838,12 @@ app.post('/api/safety/checklist/complete', (req, res) => {
         error: 'Checklist not found'
       });
     }
-    
+
     checklist.status = 'completed';
     checklist.completedAt = Date.now();
     checklist.signature = signature;
     checklist.results = results;
-    
+
     console.log('[SAFETY] ✅ Checklist completed:', checklistId);
     res.json({
       success: true,
@@ -1774,9 +1868,9 @@ app.post('/api/safety/risk', (req, res) => {
       status: 'active',
       createdAt: Date.now()
     };
-    
+
     risks.push(risk);
-    
+
     console.log('[SAFETY] ✅ Risk registered:', risk.id, `(score: ${risk.riskScore})`);
     res.json({
       success: true,
@@ -1800,7 +1894,7 @@ app.get('/api/safety/risks/matrix', (req, res) => {
       medium: risks.filter(r => r.status === 'active' && r.riskScore >= 11 && r.riskScore < 16),
       low: risks.filter(r => r.status === 'active' && r.riskScore <= 10)
     };
-    
+
     res.json({
       success: true,
       matrix
@@ -1823,9 +1917,9 @@ app.post('/api/safety/induction', (req, res) => {
       status: 'valid',
       createdAt: Date.now()
     };
-    
+
     inductions.push(induction);
-    
+
     console.log('[SAFETY] ✅ Induction recorded:', induction.personName);
     res.json({
       success: true,
@@ -1844,17 +1938,17 @@ app.post('/api/safety/induction', (req, res) => {
 app.get('/api/safety/compliance/:siteId?', (req, res) => {
   try {
     const { siteId } = req.params;
-    
+
     let filteredIncidents = incidents;
     let filteredChecklists = safetyChecklists;
     let filteredRisks = risks;
-    
+
     if (siteId) {
       filteredIncidents = incidents.filter(i => i.siteId === siteId);
       filteredChecklists = safetyChecklists.filter(c => c.siteId === siteId);
       filteredRisks = risks.filter(r => r.siteId === siteId);
     }
-    
+
     const status = {
       incidents: {
         total: filteredIncidents.length,
@@ -1876,20 +1970,20 @@ app.get('/api/safety/compliance/:siteId?', (req, res) => {
         valid: inductions.filter(i => i.status === 'valid').length
       }
     };
-    
+
     // Calculate compliance score
     const openIncidentsScore = Math.max(0, 100 - (status.incidents.open * 5));
-    const checklistScore = status.checklists.total > 0 
-      ? (status.checklists.completed / status.checklists.total) * 100 
+    const checklistScore = status.checklists.total > 0
+      ? (status.checklists.completed / status.checklists.total) * 100
       : 100;
     const riskScore = Math.max(0, 100 - (status.risks.critical * 20) - (status.risks.high * 10));
-    
+
     status.overallScore = Math.round((openIncidentsScore + checklistScore + riskScore) / 3);
-    status.complianceLevel = 
+    status.complianceLevel =
       status.overallScore >= 90 ? 'excellent' :
-      status.overallScore >= 75 ? 'good' :
-      status.overallScore >= 60 ? 'acceptable' : 'critical';
-    
+        status.overallScore >= 75 ? 'good' :
+          status.overallScore >= 60 ? 'acceptable' : 'critical';
+
     res.json({
       success: true,
       status
@@ -1962,7 +2056,7 @@ app.get('/api/departments/list', (req, res) => {
       { id: 'publicity', name: 'Publicity & Marketing', category: 'post_marketing' },
       { id: 'vault', name: 'Asset Vault', category: 'post_marketing' }
     ];
-    
+
     res.json({
       success: true,
       departments,
@@ -2004,12 +2098,12 @@ app.post('/api/department/:deptId/tasks', express.json(), (req, res) => {
       ...req.body,
       createdAt: new Date().toISOString()
     };
-    
+
     if (!departmentData.tasks[deptId]) {
       departmentData.tasks[deptId] = [];
     }
     departmentData.tasks[deptId].push(task);
-    
+
     res.json({ success: true, task });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -2022,11 +2116,11 @@ app.put('/api/department/:deptId/tasks/:taskId', express.json(), (req, res) => {
     const { deptId, taskId } = req.params;
     const tasks = departmentData.tasks[deptId] || [];
     const taskIndex = tasks.findIndex(t => t.id === taskId);
-    
+
     if (taskIndex === -1) {
       return res.status(404).json({ error: 'Task not found' });
     }
-    
+
     tasks[taskIndex] = { ...tasks[taskIndex], ...req.body, updatedAt: new Date().toISOString() };
     res.json({ success: true, task: tasks[taskIndex] });
   } catch (error) {
@@ -2164,7 +2258,7 @@ console.log('[API] Film Production Department endpoints initialized ✅');
 // Global error handler
 app.use((err, req, res, next) => {
   log('error', `Unhandled error: ${err.message}`, { requestId: req.requestId, stack: err.stack });
-  
+
   res.status(500).json({
     error: 'Internal server error',
     code: 'INTERNAL_ERROR',
