@@ -271,7 +271,9 @@ const CONFIG = {
   requestTimeout: parseInt(process.env.REQUEST_TIMEOUT) || 30000, // 30 seconds
 
   // CORS
-  corsOrigins: process.env.CORS_ORIGINS ? process.env.CORS_ORIGINS.split(',') : ['*'],
+  corsOrigins: process.env.CORS_ORIGINS
+    ? process.env.CORS_ORIGINS.split(',')
+    : ['https://fiml-suite.onrender.com', 'https://push-to-this-e.onrender.com', 'http://localhost:3000', '*'],
 
   // Logging
   enableLogging: process.env.ENABLE_LOGGING !== 'false',
